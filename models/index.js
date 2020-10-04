@@ -1,6 +1,6 @@
 require('dotenv').config()
 const mongoose=require("mongoose");
-mongoose.connect("",{useNewUrlParser:true, useUnifiedTopology: true},function (err) {
+mongoose.connect("mongodb+srv://admin:admin123@cluster0.6mzho.mongodb.net/harvest?retryWrites=true&w=majority",{useNewUrlParser:true, useUnifiedTopology: true},function (err) {
   if(err){console.log(err);}else{console.log("success fully connected");}
 });
 

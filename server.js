@@ -4,8 +4,7 @@ var morgan = require('morgan')
 const app=express();
 //routes
 const shopRoutes=require("./routes/shopRoutes.js")
-
-
+const userRoutes=require("./routes/userRoutes.js")
 
 
 
@@ -17,7 +16,7 @@ const version="V1.0"
 
 
 app.use(`/shop`,shopRoutes)
-
+app.use(`/user`,userRoutes)
 
 var port = process.env.PORT || 8080;
 
