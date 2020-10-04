@@ -10,21 +10,11 @@ const userSchema=new mongoose.Schema({
     category:String,
     name:String,
     count:String
-  }],
-  location: {
-    type: {
-      type: String,
-      enum: ['Point'],
-      default:'Point'
-    },
-    coordinates: {
-      type: [Number]
-    }
-  }
+  }]
 });
 
 
-userSchema.createIndex({location:'2dsphere'})
+
 const User=mongoose.model("User",userSchema);
 
 

@@ -17,7 +17,7 @@ const locationSchema=new mongoose.Schema({
 });
 
 
-userSchema.createIndex({location:'2dsphere'})
+locationSchema.index({location:'2dsphere'})
 const Location=mongoose.model("Location",locationSchema);
 
 

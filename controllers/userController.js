@@ -1,6 +1,6 @@
 const db=require("../models");
-
-
+var jwt = require('jsonwebtoken');
+var validator = require('validator');
 exports.home= async function (req,res) {
 
   res.render()
