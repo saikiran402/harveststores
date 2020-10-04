@@ -12,12 +12,14 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 app.use(morgan('dev'));
-const version="V1.0"
+const version="V1.0";
 
 
 app.use(`/shop`,shopRoutes)
 app.use(`/user`,userRoutes)
-
+app.get("/",(req,res)=>{
+  res.redirect("/shop")
+})
 var port = process.env.PORT || 8080;
 
 app.listen(port,function () {

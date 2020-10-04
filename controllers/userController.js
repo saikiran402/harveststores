@@ -1,9 +1,31 @@
 const db=require("../models");
 var jwt = require('jsonwebtoken');
 var validator = require('validator');
-exports.home= async function (req,res) {
 
-  res.render()
+exports.within= async function (req,res,next) {
+  const user=db.User.findOne(
+   {
+     userId:req.user._id,
+     location: {
+       $geoWithin: {
+          $geometry: {
+             type : "Polygon" ,
+             coordinates: [ [ [ 17.5215578,78.379194 ], [ 17.5226098,78.3788471 ], [ 17.5187472,78.3841335 ], [ 17.5211034,78.3855789 ],[17.5227589,78.3852478],[17.5227589,78.3852478] ] ]
+          }
+       }
+     }
+   }
+)
+if(user){
+  next();
+}else{
+  res.status(409).json({message:"out of bounds"})
+}
+}
+exports.getcategories= async function (req,res) {
+  const data=await db.Shop.find({});
+
+  res.status(200).json({data:data})
 }
 
 

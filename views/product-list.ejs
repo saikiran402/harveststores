@@ -1,0 +1,141 @@
+﻿<%- include("./partials/header") -%>
+        <!-- Right sidebar Ends-->
+
+        <div class="page-body">
+
+            <!-- Container-fluid starts-->
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="page-header-left">
+                                <h3>Categories
+                                    <small>Multikart Admin panel</small>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <ol class="breadcrumb pull-right">
+                                <li class="breadcrumb-item"><a href="index.html"><i data-feather="home"></i></a></li>
+                                <li class="breadcrumb-item">Physical</li>
+                                <li class="breadcrumb-item active">Categories List</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Container-fluid Ends-->
+
+            <!-- Container-fluid starts-->
+            <div class="container-fluid">
+                <div class="row products-admin ratio_asos">
+                  <%if(categories.length){%>
+                    <%for(var cat of categories){%>
+                      <div class="col-xl-3 col-sm-6">
+                          <div class="card">
+                              <div class="card-body product-box">
+                                  <div class="img-wrapper">
+                                      <div class="front">
+
+                                          <a href="/shop/getproduct?cat=<%=cat.category%>"><h3 ><%=cat.category%></h3></a>
+
+                                      </div>
+                                  </div>
+                                  <div class="product-detail">
+
+                                          <h6>Product: <%=cat.items.length%></h6>
+
+
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                    <%}%>
+
+                  <%}%>
+
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="card">
+                            <div class="card-body product-box">
+                                <div class="img-wrapper">
+                                    <div class="front">
+
+                                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Categories</button>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Container-fluid Ends-->
+
+        </div>
+        <div id="myModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+
+              <div class="modal-body">
+                <p>Add categories.</p>
+                <form  action="/shop/addCategories" method="post">
+                  <input class="form-control" type="text" name="cat" placeholder="Category name" required>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <!-- footer start-->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6 footer-copyright">
+                        <p class="mb-0">Copyright 2019 © Multikart All rights reserved.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="pull-right mb-0">Hand crafted & made with<i class="fa fa-heart"></i></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- footer end-->
+
+    </div>
+
+</div>
+
+<!-- latest jquery-->
+<script src="../assets/js/jquery-3.3.1.min.js"></script>
+
+<!-- Bootstrap js-->
+<script src="../assets/js/popper.min.js"></script>
+<script src="../assets/js/bootstrap.js"></script>
+
+<!-- feather icon js-->
+<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+
+<!-- Sidebar jquery-->
+<script src="../assets/js/sidebar-menu.js"></script>
+
+<!-- lazyload js-->
+<script src="../assets/js/lazysizes.min.js"></script>
+
+<!--right sidebar js-->
+<script src="../assets/js/chat-menu.js"></script>
+
+<!--script admin-->
+<script src="../assets/js/admin-script.js"></script>
+
+</body>
+</html>

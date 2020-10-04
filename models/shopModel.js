@@ -8,7 +8,7 @@ const shopSchema=new mongoose.Schema({
     name:String,
     description:String,
     haveQaunt:Boolean,
-    quantity:Number,
+    quantity:String,
     count:Number,
     cost:Number,
     image:String
