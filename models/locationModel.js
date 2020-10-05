@@ -1,26 +1,21 @@
-const mongoose=require("mongoose");
+const mongoose = require("mongoose");
 
-
-const locationSchema=new mongoose.Schema({
-  user:{type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+const locationSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   location: {
     type: {
       type: String,
-      enum: ['Point'],
-      default:'Point'
+      enum: ["Point"],
+      default: "Point",
     },
     coordinates: {
       type: [Number],
-      default:[]
-    }
-  }
+      default: [],
+    },
+  },
 });
 
+locationSchema.index({ location: "2dsphere" });
+const Location = mongoose.model("Location", locationSchema);
 
-locationSchema.index({location:'2dsphere'})
-const Location=mongoose.model("Location",locationSchema);
-
-
-
-
-module.exports=Location
+module.exports = Location;
