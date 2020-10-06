@@ -30,7 +30,7 @@ exports.protect = async (req, res, next) => {
       );
       if (decoded) {
         // 3) Check if user still exists
-        const currentUser = await (await db.User.findById(decoded.id)).populate('mycart.product');
+        const currentUser =await db.User.findById(decoded.id).populate('mycart.product');
         if (!currentUser) {
           return res
             .status(401)

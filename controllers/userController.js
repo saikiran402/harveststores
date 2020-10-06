@@ -168,8 +168,6 @@ exports.verifyOTP = async function (req, res, next) {
 
             user.location = locations.id;
             user.verified = true;
-            user.myorders = [];
-            user.mycart = [];
             user.save();
             var id = user._id;
             let token = jwt.sign(
@@ -242,7 +240,7 @@ exports.getAllcategories = async function (req, res) {
 };
 
 exports.getCategorySpecificProducts = async function (req, res, next) {
-  const data = await db.Product.find({ category: req.params.category, inStock: true }).populate('varient');
+  const data = await db.Product.find({ category: req.params.category,type:"product"}).populate('varient');
   res.status(200).json({ data: data })
 };
 
@@ -252,20 +250,23 @@ exports.showProduct = async function (req, res, next) {
 };
 
 exports.addToCart = async function (req, res, next) {
-
+  console.log(req.user);
+  const products = await db.Product.findOne({ _id: req.body.pid });
   var found = false;
+  if(req.user.mycart.length){
   for (var item of req.user.mycart) {
-    if (item.product == req.body.pid) {
+    if (item.product._id.toString() === req.body.pid.toString()) {
       found = true;
-      count = count + req.body.count;
-      price = price + req.body.price;
+      item.count++;
+      item.price = item.count * item.product.product_price;
     }
   };
+}
   if (!found) {
     const obj = {
       product: req.body.pid,
-      count: req.body.count,
-      price: req.body.price
+      count: 1,
+      price: products.product_price
     }
     req.user.mycart.push(obj);
   };
@@ -279,7 +280,7 @@ exports.getCartProducts = async function (req, res, next) {
     products: req.user.mycart.length,
     total: 0
   }
-  for (var cart of req.user.cart) {
+  for (var cart of req.user.mycart) {
     obj.total = obj.total + cart.price
   }
   res.status(200).json(obj)

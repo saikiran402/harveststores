@@ -34,13 +34,13 @@ router.get("/getcategory/:category", protect, getCategorySpecificProducts);
 // Get product Details
 router.get("/product/:product", protect, showProduct);
 // Get My Orders Sidebar
-router.get("/myorders", myOrders);
+router.get("/myorders",protect, myOrders);
 // Get Current Ongoing Order Details
-router.get("/order/:orderId", ongoingOrder);
+router.get("/order/:orderId",protect, ongoingOrder);
 // Get My Payment Details
-router.get("/mypayments", myPayments);
+router.get("/mypayments",protect, myPayments);
 // Add to cart
-router.route("/cart").get(getCartProducts).post(addToCart).put(updateCart);
+router.route("/cart").get(protect,getCartProducts).post(protect,addToCart).put(protect,updateCart);
 // Logout
-router.get("/logout", logout);
+router.get("/logout",protect, logout);
 module.exports = router;
