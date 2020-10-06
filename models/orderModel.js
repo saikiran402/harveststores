@@ -8,8 +8,12 @@ const orderSchema = new mongoose.Schema({
   orderId: String,
   products: [
     {
-      product_details: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
-      count: String,
+      product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Varient",
+      },
+      price: Number,
+      count: Number,
     },
   ],
   order_total: { type: String },

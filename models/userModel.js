@@ -5,21 +5,22 @@ const userSchema = new mongoose.Schema({
   name: { type: String, default: "" },
   address: { type: String, default: "" },
   verified: { type: Boolean, default: false },
+  paid: { type: Boolean },
   location: { type: mongoose.Schema.Types.ObjectId, ref: "Location" },
   myorders: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Payment",
+      ref: "Order",
     },
   ],
   mycart: [
     {
       product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Shop",
+        ref: "Varient",
       },
-
-      count: String,
+      price: Number,
+      count: Number,
     },
   ],
 });

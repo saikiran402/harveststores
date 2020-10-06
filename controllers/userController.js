@@ -2,7 +2,7 @@ const db = require("../models");
 var jwt = require("jsonwebtoken");
 var validator = require("validator");
 var http = require('http')
-
+var uniqid = require('uniqid');
 
 
 exports.sendOTP = async function (req, res, next) {
@@ -231,7 +231,7 @@ exports.within = async function (req, res, next) {
     },
   });
   if (user) {
-    res.status(200).json({ messaage: "ok" })
+    next()
   } else {
     res.status(409).json({ message: "out of bounds" });
   }
@@ -242,7 +242,7 @@ exports.getAllcategories = async function (req, res) {
 };
 
 exports.getCategorySpecificProducts = async function (req, res, next) {
-  const data = await db.Product.find({ category: req.params.category, inStock: true });
+  const data = await db.Product.find({ category: req.params.category, inStock: true }).populate('varient');
   res.status(200).json({ data: data })
 };
 
@@ -257,13 +257,15 @@ exports.addToCart = async function (req, res, next) {
   for (var item of req.user.mycart) {
     if (item.product == req.body.pid) {
       found = true;
-      count = count + req.body.count
+      count = count + req.body.count;
+      price = price + req.body.price;
     }
-  }
+  };
   if (!found) {
     const obj = {
       product: req.body.pid,
-      count: req.body.count
+      count: req.body.count,
+      price: req.body.price
     }
     req.user.mycart.push(obj);
   };
@@ -272,15 +274,51 @@ exports.addToCart = async function (req, res, next) {
 };
 
 exports.getCartProducts = async function (req, res, next) {
-  res.status(200).json(req.user.mycart)
+  var obj = {
+    cart: req.user.mycart,
+    products: req.user.mycart.length,
+    total: 0
+  }
+  for (var cart of req.user.cart) {
+    obj.total = obj.total + cart.price
+  }
+  res.status(200).json(obj)
 };
 
 
-exports.myOrders = async function (req, res, next) { };
+exports.myOrders = async function (req, res, next) {
+  if (req.body.payment_method == 'COD') {
+    var orderId = uniqid();
+    obj = {
+      status: "pending",
+      payment_method: "COD",
+      paid: false,
+      userId: req.user._id,
+      orderId: orderId,
+      products: req.body.mycart,
+      order_total: req.body.total,
+      delivery_location: req.user.locations,
+      order_created: Date.now(),
+    }
+    const data = await db.Order.create(obj)
+    req.user.myorders.push(data._id);
+    req.user.save()
+  } else {
 
-exports.ongoingOrder = async function (req, res, next) { };
+  }
+};
 
-exports.myPayments = async function (req, res, next) { };
+exports.ongoingOrder = async function (req, res, next) {
+  const orders = await db.Order.find({ userId: req.user._id, status: "pending" });
+
+  res.status(200).json(orders);
+};
+
+exports.myPayments = async function (req, res, next) {
+  const orders = await db.Order.find({ userId: req.user._id, paid: true });
+
+  res.status(200).json(orders);
+};
 
 exports.logout = async function (req, res, next) { };
 
