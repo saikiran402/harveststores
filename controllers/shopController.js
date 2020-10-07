@@ -69,7 +69,11 @@ exports.Updateproduct = async function (req, res) {
 };
 exports.deleteproduct = async function (req, res) {
   //console.log("innnnnnn");
-  const cat = await db.Product.findOneAndDelete({ _id: req.params.id });
+  const cat = await db.Product.findOne({ _id: req.params.id });
+  for (var i of cat.varient) {
+    await db.Product.findOneAndDelete({ _id: i });
+  }
+  await db.Product.findOneAndDelete({ _id: req.params.id });
   res.redirect(`/shop/getproduct?cat=${req.params.category}`)
 
 };
