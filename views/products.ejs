@@ -212,7 +212,7 @@
                                             value="<%=item.product_description%>"> -->
                                     </td>
                                     <td><button type="button" class="btn btn-xs btn-primary" data-toggle="modal"
-                                            data-original-title="test" data-target="#<%=item._id%>">Show
+                                            data-original-title="test" data-target="#<%=item._id%><%=i%>">Show
                                             Varients</button></td>
                                     <td><%=item.quantity%></td>
                                     <%if(item.inStock){%>
@@ -241,7 +241,7 @@
                                     </td>
                                 </tr>
                                 <!-- </form> -->
-                                <div class="modal fade" id="<%=item._id%>" tabindex="-1" role="dialog"
+                                <div class="modal fade" id="<%=item._id%><%=i%>" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -252,25 +252,25 @@
                                                     aria-label="Close"><span aria-hidden="true">×</span></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form id="varientSubmit">
-                                                    <input type="hidden" name="category" id="category"
+                                                <form id="modalForm<%=i%>">
+                                                    <input type="hidden" name="category" id="category<%=i%>"
                                                         value="<%=categoryId%>">
-                                                    <input type="hidden" name="product_name" id="product_name"
+                                                    <input type="hidden" name="product_name" id="product_name<%=i%>"
                                                         value="<%=item.product_name%>">
-                                                    <input type="hidden" id="product_description"
+                                                    <input type="hidden" id="product_description<%=i%>"
                                                         name="product_description"
                                                         value="<%=item.product_description%>">
-                                                    <input type="hidden" name="image" id="image"
+                                                    <input type="hidden" name="image" id="image<%=i%>"
                                                         value="<%=item.image%>">
-                                                    <input type="hidden" name="isveg" id="isveg"
+                                                    <input type="hidden" name="isveg" id="isveg<%=i%>"
                                                         value="<%=item.isveg%>">
                                                     <div class="form">
-                                                        <input type="hidden" name="product" id="product"
+                                                        <input type="hidden" name="product" id="product<%=i%>"
                                                             value="<%=item._id%>">
                                                         <div class="container">
                                                             <div class="row">
                                                                 <div class="col-5">
-                                                                    <input class="form-control" id="quantity"
+                                                                    <input class="form-control" id="quantity<%=i%>"
                                                                         name="quantity"
                                                                         placeholder="quantity with units" type="text"
                                                                         required>
@@ -279,7 +279,7 @@
                                                                     <input class="form-control"
                                                                         placeholder="price in rupees"
                                                                         name="product_price" type="text"
-                                                                        id="product_price" required>
+                                                                        id="product_price<%=i%>" required>
                                                                 </div>
                                                                 <div class="col-3">
                                                                     <!-- <button class="btn btn-xs btn-primary"
@@ -308,13 +308,13 @@
                                                     </h5>
 
                                                 </div>
-                                                <form action="/shop/updatevarient" id="newform" method="POST">
-                                                    <div id="hide">
-                                                        <%var i=0;for(var item1 of item.varient){%>
+                                                <form action="/shop/updatevarient" id="newform<%=i%>" method="POST">
+                                                    <div id="hide<%=item._id%>">
+                                                        <%var j=0;for(var item1 of item.varient){%>
 
-                                                        <input type="hidden" name="data[<%=i%>][category]"
+                                                        <input type="hidden" name="data[<%=j%>][category]"
                                                             value="<%=categoryId%>">
-                                                        <input type="hidden" name="data[<%=i%>][id]"
+                                                        <input type="hidden" name="data[<%=j%>][id]"
                                                             value="<%=item1._id%>">
                                                         <div class="container">
                                                             <div class="row">
@@ -322,13 +322,13 @@
 
 
                                                                     <input class="form-control" style="border: 0;"
-                                                                        name="data[<%=i%>][quantity]"
+                                                                        name="data[<%=j%>][quantity]"
                                                                         value="<%=item1.quantity%>" type="text"
                                                                         required>
                                                                 </div>
                                                                 <div class="col-4">
                                                                     <input class="form-control" style="border: 0;"
-                                                                        name="data[<%=i%>][product_price]"
+                                                                        name="data[<%=j%>][product_price]"
                                                                         value="<%=item1.product_price%>" type="text"
                                                                         required>
                                                                 </div>
@@ -352,13 +352,13 @@
                                                                 </div>
                                                                 <%}%>
 
-                                                        </div>
+                                                            </div>
 
 
-                                                    </div>
+                                                            </div>
                                                     
 
-                                                    <%i++;}%>
+                                                        <%j++;}%>
                                                                 <div class="modal-footer" style="margin-top: 15px;">
                                                                     <button class="btn btn-primary"
                                                                         type="submit">Save</button>
@@ -367,7 +367,7 @@
                                                                 </div>
                                                             </div>
                                                 </form>
-                                                <div class="container" id="varientProductss">
+                                                <div class="container" id="<%=item._id%>">
 
 
 
@@ -452,126 +452,136 @@
     }
 </script>
 <script>
-
-    $("#newform").submit(function (e) {
-
-        e.preventDefault(); // avoid to execute the actual submit of the form.
-
-        var form = $(this);
-        var url = form.attr('action');
-
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: form.serialize(), // serializes the form's elements.
-            success: function (data) {
-                //alert(data); // show response from the php script.
-            }
-        });
+    //alert("sdfsdf" + q);
 
 
-    });
-    jQuery(document).ready(function () {
-
-
-
-
-
-        jQuery('#varientSubmit').submit(function (oEvent) {
-
-            oEvent.preventDefault();
-            var category = jQuery("#category").val();
-            var product = jQuery("#product").val();
-            var product_name = jQuery("#product_name").val();
-            var product_description = jQuery("#product_description").val();
-            var quantity = jQuery("#quantity").val();
-            var isveg = jQuery("#isveg").val();
-            var product_price = jQuery("#product_price").val();
-            var image = jQuery("#image").val();
-
-            var data = {
-                category: category,
-                product: product,
-                product_name: product_name,
-                product_description: product_description,
-                quantity: quantity,
-                isveg: isveg,
-                product_price: product_price,
-                image: image,
-            };
-
-            $.ajax({
-                method: "POST",
-                data: data,
-                url: '/shop/addvarients',
-                success: function (res) {
-                    // console.log(res);
-                    if (res.Status == "success") {
-
-                        var a = '';
-                        document.getElementById("hide").classList.add('d-none');
-                        for (var i = 0; i < res.data.varient.length; i++) {
-                            var checked = ""
-                            if (res.data.varient[i].inStock) {
-                                checked = "checked"
-                            }
-                            a = a + '<input type="hidden" name="data[' + i + '][id]" value="' + res.data.varient[i]._id + '"><div class="row"><div class="col-4"><input class="form-control" style="border: 0;" name="data[' + i + '][quantity]" value=' + res.data.varient[i].quantity + ' type="text" required></div><div class="col-4"><input class="form-control" style="border: 0;" name="data[' + i + '][product_price]" value=' + res.data.varient[i].product_price + ' type="text" required> </div><div class="col-4"><label class="switch"><input class="xs" type="checkbox" value="' + res.data.varient[i]._id.toString() + '" onclick="slider(this.value)"' + checked + '><span class="slider round"></span></label></div></div>';
-
-                        }
-                        document.getElementById("varientProductss").innerHTML = ""
-                        document.getElementById("varientProductss").innerHTML = '   <form action="/shop/updatevarient" id="newform" method="POST">' + a + ' <div class="modal-footer" style="margin-top: 15px;"><button class="btn btn-primary"type="submit">Save</button><button class="btn btn-secondary" type="button"data-dismiss="modal">Close</button></div></form>'
-                        document.getElementById("quantity").value = '';
-                        document.getElementById("product_price").value = '';
-                    } else if (res.Status == "Error") {
-
-                    }
-                    // else{
-
-                    //      showNotifications('top','right');
-                    // }
-                },
-                error: function (err) {
-                    $('#loadingmessage').hide();
-                    showNotifications('top', 'right', res.message);
-                }
-            });
-
-        });
-
-
-
-    });
 
 
 </script>
-                <!-- latest jquery-->
-                <script src="../assets/js/jquery-3.3.1.min.js"></script>
+<script>
+    var q = <%=categories.length%>;
 
-                <!-- Bootstrap js-->
-                <script src="../assets/js/popper.min.js"></script>
-                <script src="../assets/js/bootstrap.js"></script>
+</script>
+                        <script>
 
-                <!-- feather icon js-->
-                <script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-                <script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+                            jQuery(document).ready(function () {
 
-                <!-- Sidebar jquery-->
-                <script src="../assets/js/sidebar-menu.js"></script>
+                                for (var p = 1; p <= q; ++p) {
+                                    $("#newform" + p).submit(function (e) {
 
-                <!-- Jsgrid js-->
-                <script src="../assets/js/jsgrid/jsgrid.min.js"></script>
-                <script src="../assets/js/jsgrid/griddata-sub-product.js"></script>
-                <script src="../assets/js/jsgrid/jsgrid-digital-sub.js"></script>
+                                        e.preventDefault(); // avoid to execute the actual submit of the form.
 
-                <!-- lazyload js-->
-                <script src="../assets/js/lazysizes.min.js"></script>
+                                        var form = $(this);
+                                        var url = form.attr('action');
 
-                <!--right sidebar js-->
-                <script src="../assets/js/chat-menu.js"></script>
+                                        $.ajax({
+                                            type: "POST",
+                                            url: url,
+                                            data: form.serialize(), // serializes the form's elements.
+                                            success: function (data) {
+                                                //alert(data); // show response from the php script.
+                                            }
+                                        });
 
-                <!--script admin-->
-                <script src="../assets/js/admin-script.js"></script>
 
-                </body>
+                                    })
+                                    jQuery("#modalForm" + p).submit(function (oEvent) {
+                                        var form = $(this);
+                                        var iid = form.attr('id');
+                                        var id = iid.substr(9, iid.length);
+                                        //alert(id + ' form submitted');
+                                        oEvent.preventDefault();
+                                        var category = jQuery("#category" + id).val();
+                                        var product = jQuery("#product" + id).val();
+                                        var product_name = jQuery("#product_name" + id).val();
+                                        var product_description = jQuery("#product_description" + id).val();
+                                        var quantity = jQuery("#quantity" + id).val();
+                                        var isveg = jQuery("#isveg" + id).val();
+                                        var product_price = jQuery("#product_price" + id).val();
+                                        var image = jQuery("#image" + id).val();
 
-                </html>
+                                        var data = {
+                                            category: category,
+                                            product: product,
+                                            product_name: product_name,
+                                            product_description: product_description,
+                                            quantity: quantity,
+                                            isveg: isveg,
+                                            product_price: product_price,
+                                            image: image,
+                                        };
+                                        console.log(data);
+
+                                        $.ajax({
+                                            method: "POST",
+                                            data: data,
+                                            url: '/shop/addvarients',
+                                            success: function (res) {
+                                                // console.log(res);
+                                                if (res.Status == "success") {
+
+                                                    var a = '';
+
+                                                    var product
+                                                    for (var i = 0; i < res.data.varient.length; i++) {
+                                                        product = res.data.varient[i].product
+                                                        var checked = ""; if
+                                                            (res.data.varient[i].inStock) { checked = "checked" }; a = a
+                                                                + '<input type="hidden" name="data[' + i + '][id]" value="' + res.data.varient[i]._id
+                                                                + '"><div class="row"><div class="col-4"><input class="form-control" style="border: 0;" name="data['
+                                                                + i + '][quantity]" value=' + res.data.varient[i].quantity
+                                                                + ' type="text" required></div><div class="col-4"><input class="form-control" style="border: 0;" name="data['
+                                                                + i + '][product_price]" value=' + res.data.varient[i].product_price
+                                                                + ' type="text" required> </div><div class="col-4"><label class="switch"><input class="xs" type="checkbox" value="'
+                                                                + res.data.varient[i]._id.toString() + '" onclick="slider(this.value)"' + checked
+                                                                + '><span class="slider round"></span></label></div></div>';
+                                                    }
+                                                    //alert(product)
+                                                    document.getElementById("hide" + product).classList.add('d-none');
+                                                    document.getElementById(product).innerHTML = ""
+                                                    document.getElementById(product).innerHTML = '   <form action="/shop/updatevarient" id="newform" method="POST">'
+                                                        + a
+                                                        + ' <div class="modal-footer" style="margin-top: 15px;"><button class="btn btn-primary"type="submit">Save</button><button class="btn btn-secondary" type="button"data-dismiss="modal">Close</button></div></form>'
+                                                    document.getElementById("quantity" + id).value = '';
+                                                    document.getElementById("product_price" + id).value = '';
+                                                } else if (res.Status == "Error") { } //
+                                                else { // showNotifications('top','right'); // } }, error: function (err) {
+                                                    $('#loadingmessage').hide(); showNotifications('top', 'right', res.message);
+                                                }
+                                            }
+                                        });
+                                    });
+                                }
+                            });
+                        </script>
+                        <!-- latest jquery-->
+                        <script src="../assets/js/jquery-3.3.1.min.js"></script>
+
+                        <!-- Bootstrap js-->
+                        <script src="../assets/js/popper.min.js"></script>
+                        <script src="../assets/js/bootstrap.js"></script>
+
+                        <!-- feather icon js-->
+                        <script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+                        <script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+
+                        <!-- Sidebar jquery-->
+                        <script src="../assets/js/sidebar-menu.js"></script>
+
+                        <!-- Jsgrid js-->
+                        <script src="../assets/js/jsgrid/jsgrid.min.js"></script>
+                        <script src="../assets/js/jsgrid/griddata-sub-product.js"></script>
+                        <script src="../assets/js/jsgrid/jsgrid-digital-sub.js"></script>
+
+                        <!-- lazyload js-->
+                        <script src="../assets/js/lazysizes.min.js"></script>
+
+                        <!--right sidebar js-->
+                        <script src="../assets/js/chat-menu.js"></script>
+
+                        <!--script admin-->
+                        <script src="../assets/js/admin-script.js"></script>
+
+                        </body>
+
+                        </html>
