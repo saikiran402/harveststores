@@ -68,7 +68,7 @@ exports.sendOTP = async function (req, res, next) {
 
         }
       } else {
-        const user1 = await db.User.create({ phone: req.body.phone, verified: false });
+        const user1 = await db.User.create({ phone: req.body.phone, verified: false, mycart: [], myorders: [] });
         const location = await db.Location.create({ userId: user1._id, location: req.body.location });
         const user = db.Location.findOne({
           userId: user1._id,
@@ -168,12 +168,14 @@ exports.verifyOTP = async function (req, res, next) {
 
             user.location = locations.id;
             user.verified = true;
-            user.save();
+
             var id = user._id;
             let token = jwt.sign(
               { id },
               process.env.SECRET_KEY,
             );
+            user.token = token;
+            user.save();
             return res.status(200).json({
 
               user: user,
@@ -240,7 +242,7 @@ exports.getAllcategories = async function (req, res) {
 };
 
 exports.getCategorySpecificProducts = async function (req, res, next) {
-  const data = await db.Product.find({ category: req.params.category,type:"product"}).populate('varient');
+  const data = await db.Product.find({ category: req.params.category, type: "product" }).populate('varient');
   res.status(200).json({ data: data })
 };
 
@@ -253,15 +255,15 @@ exports.addToCart = async function (req, res, next) {
   console.log(req.user);
   const products = await db.Product.findOne({ _id: req.body.pid });
   var found = false;
-  if(req.user.mycart.length){
-  for (var item of req.user.mycart) {
-    if (item.product._id.toString() === req.body.pid.toString()) {
-      found = true;
-      item.count++;
-      item.price = item.count * item.product.product_price;
-    }
-  };
-}
+  if (req.user.mycart.length) {
+    for (var item of req.user.mycart) {
+      if (item.product._id.toString() === req.body.pid.toString()) {
+        found = true;
+        item.count++;
+        item.price = item.count * item.product.product_price;
+      }
+    };
+  }
   if (!found) {
     const obj = {
       product: req.body.pid,
