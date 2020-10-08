@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
-  status: { type: String, enum: ["pending", "taken", "packed", "delivered"] },
+  status: { type: String, enum: ["pending", "Packed", "Delivered"] },
   payment_method: { type: String, enum: ["COD", "ONLINE"] },
   Instructions: { type: String, default: "Please collect Cash" },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

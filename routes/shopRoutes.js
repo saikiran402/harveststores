@@ -5,7 +5,7 @@ const {
   addCategories, createadmin, admin, deleteadmin,
   getProduct, getpending, setmytaken, getmytaken,
   addproduct, addvarients, updatevarient, delivered,
-  update, Updateproduct, deleteproduct, updatevarientNew
+  update, Updateproduct, deleteproduct, updatevarientNew,getpendingforadmin,adminpacked
 } = require("../controllers/shopController.js");
 
 router.route("/").get(home);
@@ -25,6 +25,10 @@ router.route("/getpending").get(getpending);
 router.route("/settaken/:id").get(setmytaken);
 router.route("/getmytaken").get(getmytaken);
 router.route("/delivered/:id").get(delivered);
+
+// For Web Portal
+router.route("/orders").get(getpendingforadmin);
+router.route("/packed/:id").get(adminpacked);
 
 //create admin
 router.route("/createadmin").post(createadmin);

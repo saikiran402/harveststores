@@ -145,20 +145,44 @@ exports.deleteadmin = async function (req, res) {
 exports.getpending = async function (req, res) {
   const data = await db.Order.find({ status: "pending" });
   return res.status(200).json({ data: data });
-
-
 };
+
+
+exports.getpendingforadmin = async function (req, res) {
+  const data = await db.Order.find({ status: "pending" });
+  console.log(data)
+  res.render('showOrders', { data: data, msg: "" })
+};
+
+
 exports.setmytaken = async function (req, res) {
-  const data = await db.Order.findOneAndUpdate({ _id: req.params.id }, { delivered_by: req.user._id, delivered_contact: req.user.phone });
+  const data = await db.Order.findOneAndUpdate({ _id: req.params.id }, { delivered_by: req.user._id,status: "Packed", delivered_contact: req.user.phone });
   return res.status(200).json({ message: "done" })
 };
 exports.getmytaken = async function (req, res) {
-  const data = await db.Order.find({ status: "taken", delivered_by: req.user._id });
+  const data = await db.Order.find({ status: "Packed", delivered_by: req.user._id });
   return res.status(200).json({ data: data });
 
 
 };
 exports.delivered = async function (req, res) {
-  const data = await db.Order.findOneAndUpdate({ _id: req.params.id }, { status: "delivered" });
+  const data = await db.Order.findOneAndUpdate({ _id: req.params.id }, { status: "Delivered" });
   return res.status(200).json({ message: "done" })
+};
+
+
+
+
+// For Admin GUI
+
+exports.getpendingforadmin = async function (req, res) {
+  const data = await db.Order.find({ status: { $ne: "Delivered" } });
+  console.log(data)
+  res.render('showOrders', { data: data, msg: "" })
+};
+
+
+exports.adminpacked = async function (req, res) {
+  const datas = await db.Order.findOneAndUpdate({ _id: req.params.id }, { delivered_by: "5f7f456a0c49aa0736557a5a",status: "Packed", delivered_contact:  "9949944524",     });
+  res.redirect('/shop/orders')
 };

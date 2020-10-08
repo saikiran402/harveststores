@@ -103,7 +103,7 @@ exports.sendOTP = async function (req, res, next) {
           coordinates: [req.body.latitude, req.body.longitude]
         };
 
-        const location = await db.Location.create({ userId: user1._id, location: location });
+        const locations = await db.Location.create({ userId: user1._id, location: location });
         const user = db.Location.findOne({
           userId: user1._id,
           location: {
