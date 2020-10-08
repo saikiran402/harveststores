@@ -5,7 +5,9 @@ const userSchema = new mongoose.Schema({
   name: { type: String, default: "" },
   address: { type: String, default: "" },
   verified: { type: Boolean, default: false },
+  status: { type: Boolean, default: true },
   paid: { type: Boolean },
+  isAdmin: { type: Boolean, default: false },
   location: { type: mongoose.Schema.Types.ObjectId, ref: "Location" },
   myorders: [
     {
@@ -13,6 +15,7 @@ const userSchema = new mongoose.Schema({
       ref: "Order",
     },
   ],
+  token: { type: String, default: "" },
   mycart: [
     {
       product: {

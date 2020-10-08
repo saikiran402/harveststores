@@ -1,4 +1,4 @@
-﻿<%- include("./partials/header") -%>
+<%- include("./partials/header") -%>
 <!-- Right sidebar Ends-->
 
 <div class="page-body">
@@ -22,10 +22,7 @@
                         <li class="breadcrumb-item">Physical</li>
                         <li class="breadcrumb-item active">Categories List</li>
                     </ol>
-                    <div>
-                        <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal">Add
-                            Categories</button>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -35,32 +32,58 @@
     <!-- Container-fluid starts-->
     <div class="container-fluid">
         <div class="row products-admin ratio_asos">
-            <%if(categories.length){%>
-            <%for(var cat of categories){%>
-            <div class="col-xl-3 col-sm-6">
-                <div class="card">
-                    <div class="card-body product-box">
-                        <div class="img-wrapper">
-                            <div class="front">
 
-                                <a href="/shop/getproduct?cat=<%=cat._id%>">
-                                    <img src="<%=cat.image%>" height="100px;">
-                                    <!-- <h3><%=cat.image%></h3> -->
-                                </a>
-
-                            </div>
-                        </div>
-                        <div><br>
-                            <h6><b>Category</b>: <%=cat.category%></h6>
-                            <h6><b>Category Description</b>: <%=cat.category_description%></h6>
-                        </div>
-                    </div>
+            <form action="/shop/createadmin" method="post">
+                <div class="form-group">
+                    <h3 style="color: red;"><%=msg%></h3>
                 </div>
+                <div class="form-group">
+                    <label class="mb-1">Phone Number
+                        :</label>
+                    <input class="form-control" name="phone" placeholder="Enter phone number" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label class="mb-1">Name
+                        :</label>
+                    <input class="form-control" name="name" placeholder="Enter name" type="text" required>
+                </div>
+                <button class="btn btn-primary" type="submit">Save</button>
+            </form>
+            <%if(data.length){%>
+
+
+            <div class="container-fluid" style="margin-top: 15px;;">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Delete</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%var i=1;for(var cat of data){%>
+
+                        <tr>
+                            <th scope="row"><%=i%></th>
+                            <td><%=cat.name%></td>
+                            <td><%=cat.phone%></td>
+                            <td><a href="/shop/deleteadmin/<%=cat._id%>"><i class="fa fa-trash text-red"></i></a></td>
+
+                        </tr>
+                        <%i++}%>
+                    </tbody>
+                </table>
+
+
+
             </div>
             <%}%>
-            <%}%>
-
-            <!-- <div class="col-xl-3 col-sm-6">
+        </div>
+        <!-- <div class="col-xl-3 col-sm-6">
                 <div class="card">
                     <div class="card-body product-box">
                         <div class="img-wrapper">
@@ -76,35 +99,12 @@
                 </div>
             </div> -->
 
-        </div>
-    </div>
-    <!-- Container-fluid Ends-->
-
-</div>
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-
-            <div class="modal-body">
-                <p>Add categories.</p>
-                <form action="/shop/addCategories" method="post">
-                    <input class="form-control" type="text" name="category" placeholder="Category name" required>
-                    <input class="form-control" type="text" name="category_description"
-                        placeholder="Category Description" required>
-                    <input class="form-control" type="text" name="image" placeholder="Image url">
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-default">Submit</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-
     </div>
 </div>
+<!-- Container-fluid Ends-->
+
+</div>
+
 <!-- footer start-->
 <footer class="footer">
     <div class="container-fluid">

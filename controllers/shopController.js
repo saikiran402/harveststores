@@ -29,7 +29,7 @@ exports.getProduct = async function (req, res) {
   try {
 
     const cat = await db.Product.find({ category: req.query.cat, type: 'product' }).populate('varient');
-    // console.log(cat[0].varient);
+    console.log(cat);
     res.render("products", { categories: cat, categoryId: req.query.cat });
   } catch (err) {
     res.status(500).json({ message: "error" });
@@ -112,4 +112,53 @@ exports.updatevarientNew = async function (req, res) {
   console.log(req.body);
 
 
+};
+
+exports.createadmin = async function (req, res) {
+  const user = await db.User.find({ phone: req.body.phone, isAdmin: true });
+  //console.log(user);
+
+  if (user.length) {
+    const data = await db.User.find({ isAdmin: true })
+    res.render('addAdmin', { data: data, msg: "Phone number already exist" })
+  } else {
+    const data = await db.User.create({ phone: req.body.phone, name: req.body.name, isAdmin: true, mycart: [], myorders: [], verified: true });
+    // const data1 = await db.User.find({ isAdmin: true })
+    // console.log(data1);
+
+    res.redirect('/shop/admin')
+  }
+
+};
+exports.admin = async function (req, res) {
+  const data = await db.User.find({ isAdmin: true })
+  res.render('addAdmin', { data: data, msg: "" })
+
+
+};
+exports.deleteadmin = async function (req, res) {
+  await db.User.findOneAndDelete({ _id: req.params.id })
+  res.redirect('/shop/admin')
+
+
+};
+exports.getpending = async function (req, res) {
+  const data = await db.Order.find({ status: "pending" });
+  return res.status(200).json({ data: data });
+
+
+};
+exports.setmytaken = async function (req, res) {
+  const data = await db.Order.findOneAndUpdate({ _id: req.params.id }, { delivered_by: req.user._id, delivered_contact: req.user.phone });
+  return res.status(200).json({ message: "done" })
+};
+exports.getmytaken = async function (req, res) {
+  const data = await db.Order.find({ status: "taken", delivered_by: req.user._id });
+  return res.status(200).json({ data: data });
+
+
+};
+exports.delivered = async function (req, res) {
+  const data = await db.Order.findOneAndUpdate({ _id: req.params.id }, { status: "delivered" });
+  return res.status(200).json({ message: "done" })
 };

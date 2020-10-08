@@ -30,11 +30,18 @@ exports.protect = async (req, res, next) => {
       );
       if (decoded) {
         // 3) Check if user still exists
-        const currentUser =await db.User.findById(decoded.id).populate('mycart.product');
+        const currentUser = await db.User.findById(decoded.id).populate('mycart.product');
         if (!currentUser) {
           return res
             .status(401)
             .json("The user belonging to this token no longer exist.");
+        }
+        if (!currentUser.status) {
+          if (!currentUser) {
+            return res
+              .status(401)
+              .json("The user belonging to this token no longer exist.");
+          }
         }
         // GRANT ACCESS TO PROTECTED ROUTE
         req.user = currentUser;

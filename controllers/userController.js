@@ -12,6 +12,35 @@ exports.sendOTP = async function (req, res, next) {
     if (validator.isMobilePhone(req.body.phone)) {
 
       const user2 = await db.User.findOne({ phone: req.body.phone });
+      if (user2.isAdmin) {
+        var options = {
+          method: "GET",
+          hostname: "2factor.in",
+          port: null,
+          path: `/API/V1/${process.env.AUTH_KEY}/SMS/${req.body.phone}/AUTOGEN/OTPHARV`,
+          headers: {},
+        };
+
+        var req_in = http.request(options, function (res_in) {
+          var chunks = [];
+          res_in.on("data", function (chunk) {
+            chunks.push(chunk);
+          });
+
+          res_in.on("end", function () {
+            var body = Buffer.concat(chunks);
+            const OTPresponse = JSON.parse(body.toString());
+            if (OTPresponse.Status === "Success") {
+              res.status(200).json(OTPresponse);
+            } else {
+              res.status(400).json(OTPresponse.Details);
+            }
+          });
+        });
+        req_in.write("{}");
+        req_in.end();
+
+      }
       if (user2 != null) {
         if (user2.phone === req.body.phone) {
           const user = db.Location.findOne({
@@ -69,7 +98,12 @@ exports.sendOTP = async function (req, res, next) {
         }
       } else {
         const user1 = await db.User.create({ phone: req.body.phone, verified: false, mycart: [], myorders: [] });
-        const location = await db.Location.create({ userId: user1._id, location: req.body.location });
+        const location = {
+          type: 'Point',
+          coordinates: [req.body.latitude, req.body.longitude]
+        };
+
+        const location = await db.Location.create({ userId: user1._id, location: location });
         const user = db.Location.findOne({
           userId: user1._id,
           location: {
@@ -164,24 +198,42 @@ exports.verifyOTP = async function (req, res, next) {
           try {
 
             let user = await db.User.findOne({ phone: req.body.phone });
-            let locations = await db.Location.findOne({ userId: user._id });
+            if (user.isAdmin) {
+              var id = user._id;
+              let token = jwt.sign(
+                { id },
+                process.env.SECRET_KEY,
+              );
+              user.token = token;
+              user.save();
+              return res.status(200).json({
 
-            user.location = locations.id;
-            user.verified = true;
+                user: user,
+                token: token,
+                isAdmin: true,
+                OTPresponse: OTPresponse,
+              });
+            } else {
+              let locations = await db.Location.findOne({ userId: user._id });
 
-            var id = user._id;
-            let token = jwt.sign(
-              { id },
-              process.env.SECRET_KEY,
-            );
-            user.token = token;
-            user.save();
-            return res.status(200).json({
+              user.location = locations.id;
+              user.verified = true;
 
-              user: user,
-              token: token,
-              OTPresponse: OTPresponse,
-            });
+              var id = user._id;
+              let token = jwt.sign(
+                { id },
+                process.env.SECRET_KEY,
+              );
+              user.token = token;
+              user.save();
+              return res.status(200).json({
+
+                user: user,
+                token: token,
+                isAdmin: false,
+                OTPresponse: OTPresponse,
+              });
+            }
           } catch (error) {
             if (error.code == 11000) {
               error.message = "error encountered";
@@ -257,7 +309,7 @@ exports.addToCart = async function (req, res, next) {
   var found = false;
   if (req.user.mycart.length) {
     for (var item of req.user.mycart) {
-      if (item.product._id.toString() === req.body.pid.toString()) {
+      if (item.product._id.toString() == req.body.pid.toString()) {
         found = true;
         item.count++;
         item.price = item.count * item.product.product_price;
@@ -279,18 +331,38 @@ exports.addToCart = async function (req, res, next) {
 exports.getCartProducts = async function (req, res, next) {
   var obj = {
     cart: req.user.mycart,
-    products: req.user.mycart.length,
+    products: 0,
     total: 0
   }
   for (var cart of req.user.mycart) {
-    obj.total = obj.total + cart.price
+    if (cart.product.inStock) {
+      obj.products = obj.products + 1;
+      obj.total = obj.total + cart.price
+    }
+
   }
   res.status(200).json(obj)
 };
 
 
-exports.myOrders = async function (req, res, next) {
-  if (req.body.payment_method == 'COD') {
+exports.placeOrders = async function (req, res, next) {
+  const user = await db.User.findOne({ _id: req.user._id }).populate('mycart.product', 'location');
+  //console.log(user.mycart[0].product);
+
+  if (req.params.payment_method == 'false') {
+    var total = 0
+    var cart = [];
+    for (var item of user.mycart) {
+      //console.log(item.product.inStock);
+
+      if (item.product.inStock.toString() == 'true') {
+        total = total + item.price;
+        cart.push(item);
+      }
+
+    }
+    //console.log(cart, total);
+
     var orderId = uniqid();
     obj = {
       status: "pending",
@@ -298,16 +370,18 @@ exports.myOrders = async function (req, res, next) {
       paid: false,
       userId: req.user._id,
       orderId: orderId,
-      products: req.body.mycart,
-      order_total: req.body.total,
-      delivery_location: req.user.locations,
+      products: cart,
+      order_total: total,
+      delivery_location: user.location,
       order_created: Date.now(),
     }
     const data = await db.Order.create(obj)
     req.user.myorders.push(data._id);
-    req.user.save()
+    //req.user.mycart = [];
+    req.user.save();
+    res.status(200).json({ message: data })
   } else {
-
+    res.status(200).json({ message: 'Order placed succesfuly' })
   }
 };
 
@@ -323,6 +397,20 @@ exports.myPayments = async function (req, res, next) {
   res.status(200).json(orders);
 };
 
-exports.logout = async function (req, res, next) { };
+exports.logout = async function (req, res, next) {
+  await db.User.findOneAndUpdate({ _id: req.user._id }, { status: false, token: "" });
+  res.status(200).json({ message: "logged out" });
+};
 
-exports.updateCart = async function (req, res, next) { };
+exports.updateCart = async function (req, res, next) {
+  if (req.user.mycart.length) {
+    for (var item of req.user.mycart) {
+      if (item.product._id.toString() == req.body.pid.toString()) {
+        item.count--;
+        item.price = item.count * item.product.product_price;
+      }
+    };
+  }
+  req.user.save();
+  return res.status(200).json({ message: "done" })
+};
