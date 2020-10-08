@@ -10,7 +10,7 @@ const orderSchema = new mongoose.Schema({
     {
       product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Varient",
+        ref: "Product",
       },
       price: Number,
       count: Number,

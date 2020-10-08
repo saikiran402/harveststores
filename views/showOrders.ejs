@@ -69,8 +69,8 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="page-header-left">
-                        <h3>Product List
-                            <small>Harvest Admin</small>
+                        <h3>Ongoing Orders
+                            <small>Harvest Stores</small>
                         </h3>
                     </div>
                 </div>
@@ -92,27 +92,10 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Products</h5>
+                        <h5>Live Orders</h5>
                     </div>
                     <div class="card-body">
-                        <div class="btn-popup pull-right">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-original-title="test"
-                                data-target="#exampleModal">Add Products</button>
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title f-w-600" id="exampleModalLabel">Add Product </h5>
-                                            <button class="close" type="button" data-dismiss="modal"
-                                                aria-label="Close"><span aria-hidden="true">×</span></button>
-                                        </div>
-                               
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                    
                         <table class="table table-hover">
                             <thead>
@@ -138,27 +121,35 @@
                                         <tr>
                                             <th scope="row"><%=i%></th>
     
-                                            <td><input type="text" style="border: 0;" name="orderId"
-                                                value="<%=item.orderId%>">
+                                            <td>
+                                               <%=item.orderId%>
                                         </td>
-    
-                                            <td><input type="text" style="border: 0;" name="products"
+    <%if(item.products.length){%>
+                                            <td>
+                                                <input type="text" style="border: 0;" name="products" data-placement="left" data-toggle="tooltip" data-html="true" title="
+                                                <%item.products.forEach(list=>{%>
+                                                <%=list.product.product_name%><br>
+                                                <%});%>
+                                                
+                                                "
                                                     value="<%=item.products.length%>">
                                             </td>
-                                           
+                                           <%}else{%>
+
+                                            <td><input type="text" style="border: 0;" name="products" data-toggle="tooltip" data-html="true" title="Check App for More Data"
+                                                value="0">
+                                        </td>
+                                            <%}%>
                                         
-                                            <td><input type="text" style="border: 0;" name="order_total"
-                                                value="<%=item.order_total%>">
+                                            <td>
+                                                <%=item.order_total%>
                                             </td>
                                            
-                                            <td><input type="text" style="border: 0;" name="status"
-                                                value="<%=item.status%>">
+                                            <td><%=item.status%>
                                             </td>
-                                            <td><input type="text" style="border: 0;" name="delivery_location"
-                                                value="<%=item.delivery_location%>">
+                                            <td><%=item.delivery_location%>
                                             </td>
-                                            <td><input type="text" style="border: 0;" name="payment_method"
-                                                value="<%=item.payment_method%>">
+                                            <td><%=item.payment_method%>
                                             </td>
                                             <%if(item.status === "pending"){%>
                                             <form action="/shop/packed/<%=item._id%>">

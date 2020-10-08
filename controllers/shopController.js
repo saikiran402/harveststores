@@ -176,8 +176,8 @@ exports.delivered = async function (req, res) {
 // For Admin GUI
 
 exports.getpendingforadmin = async function (req, res) {
-  const data = await db.Order.find({ status: { $ne: "Delivered" } });
-  console.log(data)
+  const data = await db.Order.find({ status: { $ne: "Delivered" } }).populate('products.product');
+  console.log(data[11].products[0])
   res.render('showOrders', { data: data, msg: "" })
 };
 
