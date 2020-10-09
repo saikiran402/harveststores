@@ -12,36 +12,37 @@ exports.sendOTP = async function (req, res, next) {
     if (validator.isMobilePhone(req.body.phone)) {
 
       const user2 = await db.User.findOne({ phone: req.body.phone });
-      if (user2.isAdmin) {
-        var options = {
-          method: "GET",
-          hostname: "2factor.in",
-          port: null,
-          path: `/API/V1/${process.env.AUTH_KEY}/SMS/${req.body.phone}/AUTOGEN/OTPHARV`,
-          headers: {},
-        };
-
-        var req_in = http.request(options, function (res_in) {
-          var chunks = [];
-          res_in.on("data", function (chunk) {
-            chunks.push(chunk);
-          });
-
-          res_in.on("end", function () {
-            var body = Buffer.concat(chunks);
-            const OTPresponse = JSON.parse(body.toString());
-            if (OTPresponse.Status === "Success") {
-              res.status(200).json(OTPresponse);
-            } else {
-              res.status(400).json(OTPresponse.Details);
-            }
-          });
-        });
-        req_in.write("{}");
-        req_in.end();
-
-      }
+    
       if (user2 != null) {
+        if (user2.isAdmin) {
+          var options = {
+            method: "GET",
+            hostname: "2factor.in",
+            port: null,
+            path: `/API/V1/${process.env.AUTH_KEY}/SMS/${req.body.phone}/AUTOGEN/OTPHARV`,
+            headers: {},
+          };
+  
+          var req_in = http.request(options, function (res_in) {
+            var chunks = [];
+            res_in.on("data", function (chunk) {
+              chunks.push(chunk);
+            });
+  
+            res_in.on("end", function () {
+              var body = Buffer.concat(chunks);
+              const OTPresponse = JSON.parse(body.toString());
+              if (OTPresponse.Status === "Success") {
+                res.status(200).json(OTPresponse);
+              } else {
+                res.status(400).json(OTPresponse.Details);
+              }
+            });
+          });
+          req_in.write("{}");
+          req_in.end();
+  
+        }
         if (user2.phone === req.body.phone) {
           const user = db.Location.findOne({
             userId: user2._id,
