@@ -99,12 +99,9 @@ exports.sendOTP = async function (req, res, next) {
         }
       } else {
         const user1 = await db.User.create({ phone: req.body.phone, verified: false, mycart: [], myorders: [] });
-        const location = {
-          type: 'Point',
-          coordinates: [req.body.latitude, req.body.longitude]
-        };
+        
 
-        const locations = await db.Location.create({ userId: user1._id, location: location });
+        const locations = await db.Location.create({ userId: user1._id, location: req.body.location });
         const user = db.Location.findOne({
           userId: user1._id,
           location: {
