@@ -6,7 +6,8 @@ const app = express();
 const shopRoutes = require("./routes/shopRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
 const { protect } = require("./middleware/auth.js");
-
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -17,7 +18,8 @@ const version = "V1.0";
 app.use(`/shop`, shopRoutes);
 app.use(`/user`, userRoutes);
 app.get("/", (req, res) => {
-  res.redirect("/shop");
+  res.render('Login_v1/index', { msg: "" })
+  //res.redirect("/shop");
 });
 var port = process.env.PORT || 3200;
 

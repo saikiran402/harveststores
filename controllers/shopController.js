@@ -1,10 +1,43 @@
 const db = require("../models");
+require("dotenv").config();
+//const { promisify } = require("util");
+const jwt = require("jsonwebtoken");
 var cloudinary = require('cloudinary').v2;
 cloudinary.config({
   cloud_name: 'sample',
   api_key: '874837483274837',
   api_secret: 'a676b67565c6767a6767d6767f676fe1'
 });
+exports.validate = async function (req, res) {
+  console.log(req.body);
+  const cat = await db.User.findOne({ phone: req.body.Phone, isAdmin: true });
+  if (cat) {
+    if (req.body.password == "123@789") {
+      var id = req.body.password;
+      const token = await jwt.sign({ id }, process.env.SECRET_KEY, {
+        expiresIn: process.env.JWT_EXPIRES_IN
+      });
+
+
+
+
+      await res.cookie('jwt', token, {
+        expires: new Date(
+          Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+        ),
+        httpOnly: true,
+        secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
+      });
+      res.redirect('/shop/home')
+    } else {
+      res.render('Login_v1/index', { msg: "This Incident will be reported" });
+    }
+  } else {
+    res.render('Login_v1/index', { msg: "invalid credentials" });
+  }
+}
+
+
 exports.home = async function (req, res) {
   const cat = await db.Category.find({});
   res.render("product-list", { categories: cat });
@@ -156,7 +189,7 @@ exports.getpendingforadmin = async function (req, res) {
 
 
 exports.setmytaken = async function (req, res) {
-  const data = await db.Order.findOneAndUpdate({ _id: req.params.id }, { delivered_by: req.user._id,status: "Packed", delivered_contact: req.user.phone });
+  const data = await db.Order.findOneAndUpdate({ _id: req.params.id }, { delivered_by: req.user._id, status: "Packed", delivered_contact: req.user.phone });
   return res.status(200).json({ message: "done" })
 };
 exports.getmytaken = async function (req, res) {
@@ -183,6 +216,6 @@ exports.getpendingforadmin = async function (req, res) {
 
 
 exports.adminpacked = async function (req, res) {
-  const datas = await db.Order.findOneAndUpdate({ _id: req.params.id }, { delivered_by: "5f7f456a0c49aa0736557a5a",status: "Packed", delivered_contact:  "9949944524",     });
+  const datas = await db.Order.findOneAndUpdate({ _id: req.params.id }, { delivered_by: "5f7f456a0c49aa0736557a5a", status: "Packed", delivered_contact: "9949944524", });
   res.redirect('/shop/orders')
 };
