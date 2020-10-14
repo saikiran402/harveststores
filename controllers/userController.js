@@ -256,31 +256,268 @@ exports.verifyOTP = async function (req, res, next) {
 
 //==============================>logged function
 exports.updateLocation = async function (req, res, next) {
-  const location = await db.Location.findByIdAndUpdate({ userId: user1._id }, { locations: req.body.location });
+  const location = await db.Location.findOneAndUpdate({userId:req.user._id}, { location: req.body.location });
   res.status(200).json({ message: "updated" })
 }
 exports.within = async function (req, res, next) {
-  const user = db.Location.findOne({
+  console.log("Im In")
+  const user = await db.Location.findOne({
     userId: req.user._id,
     location: {
       $geoWithin: {
-        $geometry: {
-          type: "Polygon",
-          coordinates: [
+        $geometry: 
+        {
+          "coordinates": [
             [
-              [17.5215578, 78.379194],
-              [17.5226098, 78.3788471],
-              [17.5187472, 78.3841335],
-              [17.5211034, 78.3855789],
-              [17.5227589, 78.3852478],
-              [17.5227589, 78.3852478],
-            ],
+              [
+                78.3846295,
+                17.5242577
+              ],
+              [
+                78.3844149,
+                17.5237769
+              ],
+              [
+                78.3842754,
+                17.5234137
+              ],
+              [
+                78.3840609,
+                17.5228203
+              ],
+              [
+                78.3839804,
+                17.5225799
+              ],
+              [
+                78.3837175,
+                17.5226464
+              ],
+              [
+                78.3832455,
+                17.5225645
+              ],
+              [
+                78.3829021,
+                17.5224673
+              ],
+              [
+                78.3827412,
+                17.5220479
+              ],
+              [
+                78.3826017,
+                17.5216284
+              ],
+              [
+                78.3822745,
+                17.5217665
+              ],
+              [
+                78.3821887,
+                17.5215517
+              ],
+              [
+                78.3817703,
+                17.5214442
+              ],
+              [
+                78.3813196,
+                17.5215772
+              ],
+              [
+                78.3812016,
+                17.521521
+              ],
+              [
+                78.3809441,
+                17.5212754
+              ],
+              [
+                78.3808744,
+                17.5211219
+              ],
+              [
+                78.380692,
+                17.5211424
+              ],
+              [
+                78.3805203,
+                17.5210452
+              ],
+              [
+                78.3804613,
+                17.5207025
+              ],
+              [
+                78.3804882,
+                17.5204518
+              ],
+              [
+                78.3805096,
+                17.5201756
+              ],
+              [
+                78.3803594,
+                17.5196538
+              ],
+              [
+                78.380236,
+                17.5192957
+              ],
+              [
+                78.380236,
+                17.5191422
+              ],
+              [
+                78.3805525,
+                17.5190143
+              ],
+              [
+                78.3806491,
+                17.5189171
+              ],
+              [
+                78.3805794,
+                17.5187432
+              ],
+              [
+                78.3806813,
+                17.5186562
+              ],
+              [
+                78.3805847,
+                17.5184925
+              ],
+              [
+                78.380574,
+                17.5183186
+              ],
+              [
+                78.3804131,
+                17.5180782
+              ],
+              [
+                78.3803058,
+                17.5179094
+              ],
+              [
+                78.3801931,
+                17.5177815
+              ],
+              [
+                78.3801395,
+                17.5177303
+              ],
+              [
+                78.3807725,
+                17.5172648
+              ],
+              [
+                78.3814484,
+                17.5169374
+              ],
+              [
+                78.382076,
+                17.5163798
+              ],
+              [
+                78.3826795,
+                17.5168632
+              ],
+              [
+                78.382878,
+                17.5171983
+              ],
+              [
+                78.382878,
+                17.5171983
+              ],
+              [
+                78.3835727,
+                17.5171011
+              ],
+              [
+                78.384313,
+                17.5170499
+              ],
+              [
+                78.3846778,
+                17.5173876
+              ],
+              [
+                78.385359,
+                17.517541
+              ],
+              [
+                78.3854449,
+                17.5179452
+              ],
+              [
+                78.3857185,
+                17.518692
+              ],
+              [
+                78.3857936,
+                17.5189785
+              ],
+              [
+                78.3858472,
+                17.5195208
+              ],
+              [
+                78.3860457,
+                17.5200784
+              ],
+              [
+                78.3867002,
+                17.5209429
+              ],
+              [
+                78.3875048,
+                17.5218484
+              ],
+              [
+                78.387773,
+                17.5221757
+              ],
+              [
+                78.3872795,
+                17.522984
+              ],
+              [
+                78.3870488,
+                17.523337
+              ],
+              [
+                78.3868182,
+                17.5237206
+              ],
+              [
+                78.3859438,
+                17.5239866
+              ],
+              [
+                78.3856487,
+                17.5240838
+              ],
+              [
+                78.3852088,
+                17.5242219
+              ],
+              [
+                78.3846295,
+                17.5242577
+              ]
+            ]
           ],
-        },
+          "type": "Polygon"
+        }
       },
     },
   });
   if (user) {
+    console.log(user);
     next()
   } else {
     res.status(409).json({ message: "out of bounds" });
@@ -330,6 +567,8 @@ exports.getCartProducts = async function (req, res, next) {
   var obj = {
     cart: req.user.mycart,
     products: 0,
+    credits:req.user.credits,
+    amountDue:req.user.amountDue,
     total: 0
   }
   for (var cart of req.user.mycart) {
@@ -339,6 +578,15 @@ exports.getCartProducts = async function (req, res, next) {
     }
 
   }
+  total1 = (obj.total - req.user.credits) + req.user.amountDue;
+    if(total1>=0){
+      obj.total=total1;
+      
+    }else{
+      obj.total=0;
+      
+    }
+  //obj.total = (obj.total - req.user.credits) + req.user.amountDue;
   res.status(200).json(obj)
 };
 
@@ -359,6 +607,16 @@ exports.placeOrders = async function (req, res, next) {
       }
 
     }
+    total1 = (total - req.user.credits) + req.user.amountDue;
+    if(total1>=0){
+      total=total1;
+      req.user.credits=0
+      req.user.save();
+    }else{
+      total=0;
+      req.user.credits=Number(total1);
+      req.user.save()
+    }
     //console.log(cart, total);
 
     var orderId = uniqid();
@@ -374,6 +632,7 @@ exports.placeOrders = async function (req, res, next) {
       order_created: Date.now(),
     }
     const data = await db.Order.create(obj)
+    req.user.credits = 0;
     req.user.myorders.push(data._id);
     //req.user.mycart = [];
     req.user.save();

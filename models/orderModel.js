@@ -21,6 +21,7 @@ const orderSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Order",
   },
+  amountDue:{type:Number},
   delivered_contact: { type: String },
   delivery_location: { type: mongoose.Schema.Types.ObjectId, ref: "Location" },
   order_created: { type: Date, default: Date.now() },

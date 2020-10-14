@@ -26,7 +26,7 @@ router.route("/sendOTP").post(multipartMiddleware, sendOTP);
 router.route("/resendOTP").post(sendOTP);
 router.route("/verifyOTP").post(multipartMiddleware, verifyOTP);
 
-//router.get("/onstart", protect, within);
+router.get("/onstart", protect, within);
 // Get all categories for home page
 router.get("/getcategories", protect, within, getAllcategories);
 // Get Category Specific products for ctegory sepecified

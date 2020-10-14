@@ -2,6 +2,7 @@ const db = require("../models");
 require("dotenv").config();
 //const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
+const e = require("express");
 var cloudinary = require('cloudinary').v2;
 cloudinary.config({
   cloud_name: 'sample',
@@ -199,7 +200,17 @@ exports.getmytaken = async function (req, res) {
 
 };
 exports.delivered = async function (req, res) {
-  const data = await db.Order.findOneAndUpdate({ _id: req.params.id }, { status: "Delivered" });
+  const data = await db.Order.findOne({ _id: req.params.id });
+  data.status = "Delivered";
+  if(Number(data.order_total) - req.body.amount_paid > 0){
+    data.amountDue = Number(data.order_total) - req.body.amount_paid
+    req.user.amountDue = req.user.amountDue + data.amountDue;
+  }else{
+    data.credits = req.body.amount_paid - Number(data.order_total)
+    req.user.credits =  req.user.credits + data.credits
+  }
+  data.save()
+  req.user.save();
   return res.status(200).json({ message: "done" })
 };
 

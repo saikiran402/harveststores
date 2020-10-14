@@ -26,6 +26,9 @@ const userSchema = new mongoose.Schema({
       count: Number,
     }
   ],
+  amountDue:{type:Number,default:0},
+  credits:{type:Number,default:0}
+  
 });
 
 const User = mongoose.model("User", userSchema);
