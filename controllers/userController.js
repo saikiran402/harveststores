@@ -256,11 +256,14 @@ exports.verifyOTP = async function (req, res, next) {
 
 //==============================>logged function
 exports.updateLocation = async function (req, res, next) {
-  const location = await db.Location.findOneAndUpdate({userId:req.user._id}, { location: req.body.location });
+  console.log(req.body);
+  var lo = {type:"Point",coordinates:[req.body.longitude,req.body.latitude]}
+  const location = await db.Location.findOneAndUpdate({userId:req.user._id}, { location: lo });
   res.status(200).json({ message: "updated" })
 }
 exports.within = async function (req, res, next) {
-  console.log("Im In")
+  console.log(req.user._id)
+
   const user = await db.Location.findOne({
     userId: req.user._id,
     location: {
@@ -662,12 +665,27 @@ exports.logout = async function (req, res, next) {
 exports.updateCart = async function (req, res, next) {
   if (req.user.mycart.length) {
     for (var item of req.user.mycart) {
-      if (item.product._id.toString() == req.body.pid.toString()) {
+      if (item.product._id.toString() == req.body.pid.toString() && item.count > 0) {
         item.count--;
         item.price = item.count * item.product.product_price;
+      }else{
+        req.user.mycart.filter(function(el) { return el.product._id != req.body.pid; });
       }
     };
   }
   req.user.save();
   return res.status(200).json({ message: "done" })
+};
+
+exports.removeCart = async function (req, res, next) {
+  var user = await db.User.findByIdAndUpdate(req.user._id,{$pull:{mycart:{product:req.body.pid}}});
+  user.save();
+  return res.status(200).json({ message: "done" })
+
+};
+
+
+exports.getproducts = async function (req, res, next) {
+  var a = await db.Product.find({});
+  return res.status(200).json(a)
 };

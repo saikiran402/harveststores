@@ -10,6 +10,7 @@ const {
 } = require("../controllers/shopController.js");
 
 
+
 router.route("/validate").post(validate);
 router.route("/home").get(home);
 router.route("/update/:id").get(protectweb, update);

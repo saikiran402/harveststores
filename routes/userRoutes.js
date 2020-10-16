@@ -16,7 +16,7 @@ const {
   logout,
   addToCart,
   getCartProducts,
-  updateCart, updateLocation
+  updateCart, updateLocation,getproducts,removeCart
 } = require("../controllers/userController.js");
 
 //Authentication
@@ -29,6 +29,8 @@ router.route("/verifyOTP").post(multipartMiddleware, verifyOTP);
 router.get("/onstart", protect, within);
 // Get all categories for home page
 router.get("/getcategories", protect, within, getAllcategories);
+// get Home screen Products
+router.get("/getproducts", protect, within, getproducts);
 // Get Category Specific products for ctegory sepecified
 router.get("/getcategory/:category", protect, getCategorySpecificProducts);
 // Get product Details
@@ -40,7 +42,8 @@ router.get("/order/:orderId", protect, ongoingOrder);
 // Get My Payment Details
 router.get("/mypayments", protect, myPayments);
 // Add to cart
-router.route("/cart").get(protect, getCartProducts).post(protect, addToCart).put(protect, updateCart);
+router.route("/cart").get(protect, getCartProducts).post(protect, addToCart).put(protect, updateCart).delete(protect,removeCart);
 // Logout
 router.get("/logout", protect, logout);
+
 module.exports = router;
