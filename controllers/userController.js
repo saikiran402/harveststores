@@ -605,7 +605,7 @@ exports.placeOrders = async function (req, res, next) {
     for (var item of user.mycart) {
       //console.log(item.product.inStock);
 
-      if (item.product.inStock.toString() == 'true') {
+      if (item.product.inStock) {
         total = total + item.price;
         cart.push(item);
       }
@@ -640,7 +640,7 @@ exports.placeOrders = async function (req, res, next) {
     req.user.name = req.body.name;
     req.user.address = req.body.address;
     req.user.myorders.push(data._id);
-    //req.user.mycart = [];
+    req.user.mycart = [];
     req.user.save();
     res.status(200).json({ message: data })
   } else {
