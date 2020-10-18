@@ -637,6 +637,8 @@ exports.placeOrders = async function (req, res, next) {
     }
     const data = await db.Order.create(obj)
     req.user.credits = 0;
+    req.user.name = req.body.name;
+    req.user.address = req.body.address;
     req.user.myorders.push(data._id);
     //req.user.mycart = [];
     req.user.save();
