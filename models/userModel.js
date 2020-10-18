@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   phone: { type: String, default: "" },
   name: { type: String, default: "" },
+  registrationToken:{type:String},
   address: { type: String, default: "" },
   verified: { type: Boolean, default: false },
   status: { type: Boolean, default: true },

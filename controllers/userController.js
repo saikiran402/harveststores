@@ -203,6 +203,7 @@ exports.verifyOTP = async function (req, res, next) {
                 process.env.SECRET_KEY,
               );
               user.token = token;
+              user.registrationToken = req.body.registrationToken;
               user.save();
               return res.status(200).json({
 

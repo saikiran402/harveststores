@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "harveststores-6e6a5",
+  "private_key_id": "775a3875836e237f0d170f6d23f800738cb7c53e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDivwWxbplhD0Yb\ngZPLn+f2VubJmqB0GYD8XltWhx6/IBwaUiowVsxWIdTExt9mDG8a3bjZJlxEvhlb\naT+4kb0xWrggpMkp+OawlyZPPwQfvQDKFPvSfKH7aZCxxLUwxqawbD+PFEA3WzF6\n3VGKjgFJHD1nzt6hzIaSeE/2ttLljAMinH5LcEvyk6p05DJadzRSkXQPd/LYlvGJ\n1fG+T1DxjikvUT6tnzWCoRwbLKH6BQlXUD2OrEewqt5n6b21Ycc1Jgk5dQN+hyMB\nOdNbvguiPj7i+iJnWcVmmFxHQTxGLvh1vLhUbTP/jymCu45ndAdfdPoku7iwOJho\nib3HmSUJAgMBAAECggEAA53lSEB9AkvltQRpzpqWM0GNIu2BlcQ8pOfCqfLE8Wqk\n3oNHNEPacFjg7zAQPBwtQ4QknHHYf6ms/++B8ctv/fUtl0zGZZqg8PwXsi0rYYEF\ncys2DPZdXvMpjiAWwcvI2vN+ixzhrkbDrLfwKTL9I8tNsGCB7zPEARaRM/Y2QmB1\nB3ik5r95tG4z8kop1h3DZPEAFuBUCp+tEM99nRrc6VsPCfUZPUpg4S1NH/F9/8yF\nwOmanbT8YeUMCff9dlmBJ3DI59RMUFbbOVtkd79TnHzGa9BMLq8NvN0WcnY4jWBZ\nTVWjvUajMk6iPUIbohk1QIQT506gIoO/Hzm8xnIE1wKBgQD9LgeT+2GQgGYATlG5\nwhT3JKwRbUuxTuZMZlas+jrnNCNyMitUzx+xFjlaYPDOlKlb9YQY/XDyyJ8UlqVs\nJoVV+UDcrVu1B4fCCSqBwIsuW5ytHZNliDw0C+3UChZ9FY/ZIcnOwixQAFZ9vdGe\nA5ZaHb6oUn7/LY/61SpkVePOHwKBgQDlRZ09dokVLjQBOi1h1331PNG+59kUK+SO\nZEPT7gboS2lUEuKaKPkWi0QiCj5J6rILm3BLO5fcp18bqf7mpUbUcbqXt0WnWc5J\ni8o0Z9SNC+S7hxJ673LykkIVer19X043SEHlVszBDnh6XEkB6hze3ZXsjgDx4ean\nUBQUAXXX1wKBgCr8QK8gVB1Ln4XXxkpqqFKZuFkxHFPbWICKM5ck2RFeKdJ+sBqz\nG+deJZixstDwLpz9X1M63I1sAI5nUWi+VY8WRavyBwsCX0tTcRMclMTnKv+9cMQh\nUE9p4xRILi9IlObBtNjU4N8oX4bzzn4sj793I2LCtusuWi61OIBWkNnzAoGBANwC\nHm6BlfAuQxc+ZZgzOpqff0KrpyL1L8D4NCJlkllNLEjSSoLWeJiKkZn8rGMwBSSg\nR3TaPdMvBVQ9n+5igYKRlBXMd9mskwj+TM5XKJ8k35yYdEJmDq75bNLB0p5BW4Qv\nIZTa42cK5M++SQy+RHAUwK6cYgm61iSN8oZ0FEpHAoGAZwVUebQtw7xsxU2qzsoX\njT27dErhDnEHOEVdJgta/SVeix/Zkj6vldXHA/kgBlV/aK+77wZP7JgX6Zq3oSX+\ndPI0PfwJTrk00FW1Fpu9oTeBS+JLDacfYfy76fGtyPJya3wkvGm+v4Q+LdLcEDhR\nZZNJTiM/CuZunJQZevlFUlw=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-yhbgv@harveststores-6e6a5.iam.gserviceaccount.com",
+  "client_id": "102820331821952601463",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-yhbgv%40harveststores-6e6a5.iam.gserviceaccount.com"
+}

@@ -2,6 +2,17 @@ const express = require("express");
 const bodyParser = require("body-parser");
 var morgan = require("morgan");
 const app = express();
+
+
+var admin = require("firebase-admin");
+
+var serviceAccount = require("./firebase.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://harveststores-6e6a5.firebaseio.com"
+});
+
 //routes
 const shopRoutes = require("./routes/shopRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
