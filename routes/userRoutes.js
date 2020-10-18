@@ -36,7 +36,7 @@ router.get("/getcategory/:category", protect, getCategorySpecificProducts);
 // Get product Details
 router.get("/product/:product", protect, showProduct);
 // Get My Orders Sidebar
-router.get("/placeorder/:payment_method", protect, placeOrders);
+router.post("/placeorder/:payment_method", protect, placeOrders);
 // Get Current Ongoing Order Details
 router.get("/order/:orderId", protect, ongoingOrder);
 // Get My Payment Details
