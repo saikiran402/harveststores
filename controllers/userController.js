@@ -3,7 +3,15 @@ var jwt = require("jsonwebtoken");
 var validator = require("validator");
 var http = require('http')
 var uniqid = require('uniqid');
+var admin = require("firebase-admin");
 
+var serviceAccount = require("../firebase.json");
+const { title } = require("process");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://harveststores-6e6a5.firebaseio.com"
+});
 
 exports.sendOTP = async function (req, res, next) {
   try {
@@ -164,7 +172,6 @@ exports.sendOTP = async function (req, res, next) {
 exports.verifyOTP = async function (req, res, next) {
   try {
     console.log(req.body);
-
     var options = {
       method: "GET",
       hostname: "2factor.in",
@@ -215,7 +222,7 @@ exports.verifyOTP = async function (req, res, next) {
             } else {
               let locations = await db.Location.findOne({ userId: user._id });
 
-              user.location = locations.id;
+              user.location = locations._id;
               user.verified = true;
 
               var id = user._id;
@@ -249,6 +256,7 @@ exports.verifyOTP = async function (req, res, next) {
     req_in.write("{}");
     req_in.end();
   } catch (error) {
+    console.log(error);
     res.status(400).json(error.stack)
 
   }
@@ -545,6 +553,7 @@ exports.showProduct = async function (req, res, next) {
 exports.addToCart = async function (req, res, next) {
   console.log(req.user);
   const products = await db.Product.findOne({ _id: req.body.pid });
+  if(products){
   var found = false;
   if (req.user.mycart.length) {
     for (var item of req.user.mycart) {
@@ -565,6 +574,9 @@ exports.addToCart = async function (req, res, next) {
   };
   req.user.save();
   res.status(200).json({ message: "added successfully" })
+}else{
+
+}
 };
 
 exports.getCartProducts = async function (req, res, next) {
@@ -596,8 +608,8 @@ exports.getCartProducts = async function (req, res, next) {
 
 
 exports.placeOrders = async function (req, res, next) {
-  const user = await db.User.findOne({ _id: req.user._id }).populate('mycart.product', 'location');
-  //console.log(user.mycart[0].product);
+  const user = await db.User.findOne({ _id: req.user._id }).populate('mycart.product location');
+  console.log(user.mycart);
 
   if (req.params.payment_method == 'false') {
     var total = 0
@@ -615,11 +627,11 @@ exports.placeOrders = async function (req, res, next) {
     if(total1>=0){
       total=total1;
       req.user.credits=0
-      req.user.save();
+      
     }else{
       total=0;
       req.user.credits=Number(total1);
-      req.user.save()
+      
     }
     //console.log(cart, total);
 
@@ -635,19 +647,43 @@ exports.placeOrders = async function (req, res, next) {
       delivery_location: user.location,
       order_created: Date.now(),
     }
-    const data = await db.Order.create(obj)
+    const data = await db.Order.create(obj);
+    //console.log(data);
     req.user.credits = 0;
     req.user.name = req.body.name;
     req.user.address = req.body.address;
     req.user.myorders.push(data._id);
     req.user.mycart = [];
     req.user.save();
+    //sendFcm(req.user.registrationToken,"Harvest Stores","Order Placed Successfully");
     res.status(200).json({ message: data })
   } else {
     res.status(200).json({ message: 'Order placed succesfuly' })
   }
 };
-
+async function sendFcm(token,title,body){
+  const payload_from={
+    notification:{
+      title:title,
+      body:body,
+      icon:'ic_notification',
+      sound:'default',
+      priority:'normal'
+    },
+    data:{
+      title:title,
+      body:body,
+      icon:'ic_notification',
+      sound:'default',
+      priority:'normal'
+    }
+  };
+  const options={
+    priority:'normal',
+    timeToLive:60*60*24
+  };
+  await admin.messaging().sendToDevice(token,payload_from,options)
+}
 exports.ongoingOrder = async function (req, res, next) {
   const orders = await db.Order.find({ userId: req.user._id, status: "pending" });
 

@@ -78,6 +78,8 @@ exports.addproduct = async function (req, res) {
   // const data = await cloudinary.uploader.upload(req.body.photo);
   // req.body.image = data.url;
   const cat = await db.Product.create(req.body);
+  cat.varient.push(cat._id);
+  cat.save()
 
   res.redirect(`/shop/getproduct?cat=${req.body.category}`);
 };
@@ -190,7 +192,8 @@ exports.getpendingforadmin = async function (req, res) {
 
 
 exports.setmytaken = async function (req, res) {
-  const data = await db.Order.findOneAndUpdate({ _id: req.params.id }, { delivered_by: req.user._id, status: "Packed", delivered_contact: req.user.phone });
+  const data = await db.Order.findOneAndUpdate({ _id: req.params.id }, { delivered_by: req.user._id, status: "Packed", delivered_contact: req.user.phone }).populate('userId');
+  sendFcm(data.userId.registrationToken,"Harvest Stores","Order Packed Successfully");
   return res.status(200).json({ message: "done" })
 };
 exports.getmytaken = async function (req, res) {
@@ -202,15 +205,23 @@ exports.getmytaken = async function (req, res) {
 exports.delivered = async function (req, res) {
   const data = await db.Order.findOne({ _id: req.params.id });
   data.status = "Delivered";
+  var token
   if(Number(data.order_total) - req.body.amount_paid > 0){
     data.amountDue = Number(data.order_total) - req.body.amount_paid
-    req.user.amountDue = req.user.amountDue + data.amountDue;
+    const user=await db.User.findOne({_id:data.userId})
+    user.amountDue = req.user.amountDue + data.amountDue;
+    token=user.registrationToken;
+    user.save();
   }else{
     data.credits = req.body.amount_paid - Number(data.order_total)
-    req.user.credits =  req.user.credits + data.credits
+    const user=await db.User.findOne({_id:data.userId})
+    user.credits =  req.user.credits + data.credits
+    token=user.registrationToken;
+    user.save()
   }
   data.save()
-  req.user.save();
+  
+  sendFcm(token,"Harvest Stores","Order Delivered Successfully");
   return res.status(200).json({ message: "done" })
 };
 
@@ -227,6 +238,31 @@ exports.getpendingforadmin = async function (req, res) {
 
 
 exports.adminpacked = async function (req, res) {
-  const datas = await db.Order.findOneAndUpdate({ _id: req.params.id }, { delivered_by: "5f7f456a0c49aa0736557a5a", status: "Packed", delivered_contact: "9949944524", });
+  const datas = await db.Order.findOneAndUpdate({ _id: req.params.id }, { delivered_by: "5f7f456a0c49aa0736557a5a", status: "Packed", delivered_contact: "9949944524", }).populate('userId');
+  sendFcm(datas.userId.registrationToken,"Harvest Stores","Order Placed Successfully");
   res.redirect('/shop/orders')
 };
+
+async function sendFcm(token,title,body){
+  const payload_from={
+    notification:{
+      title:title,
+      body:body,
+      icon:'ic_notification',
+      sound:'default',
+      priority:'normal'
+    },
+    data:{
+      title:title,
+      body:body,
+      icon:'ic_notification',
+      sound:'default',
+      priority:'normal'
+    }
+  };
+  const options={
+    priority:'normal',
+    timeToLive:60*60*24
+  };
+  await admin.messaging().sendToDevice(token,payload_from,options)
+}
