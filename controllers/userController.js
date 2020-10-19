@@ -672,7 +672,7 @@ exports.updateCart = async function (req, res, next) {
         item.count--;
         item.price = item.count * item.product.product_price;
       }else{
-        req.user.mycart.filter(function(el) { return el.product._id != req.body.pid; });
+       req.user.mycart =  req.user.mycart.filter(function(el) { return el.product._id != req.body.pid; });
       }
     };
   }
