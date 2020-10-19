@@ -685,9 +685,8 @@ async function sendFcm(token,title,body){
   await admin.messaging().sendToDevice(token,payload_from,options)
 }
 exports.ongoingOrder = async function (req, res, next) {
-  const orders = await db.Order.find({ userId: req.user._id, status: "pending" });
-
-  res.status(200).json(orders);
+  const order = await db.Order.findOne({ userId: req.user._id, _id:req.params.orderId }).populate({path:'products.product',select:'product_name quantity product_price'});
+  res.status(200).json(order);
 };
 
 exports.myPayments = async function (req, res, next) {
@@ -723,8 +722,12 @@ exports.removeCart = async function (req, res, next) {
 
 };
 
-
 exports.getproducts = async function (req, res, next) {
   var a = await db.Product.find({});
   return res.status(200).json(a)
+};
+
+exports.getmyOrders = async function (req, res, next) {
+  var orders = await db.User.findOne({_id:req.user._id},'myorders').populate('myorders');
+  return res.status(200).json(orders)
 };

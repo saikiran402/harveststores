@@ -16,7 +16,7 @@ const {
   logout,
   addToCart,
   getCartProducts,
-  updateCart, updateLocation,getproducts,removeCart
+  updateCart, updateLocation,getproducts,removeCart,getmyOrders
 } = require("../controllers/userController.js");
 
 //Authentication
@@ -37,6 +37,8 @@ router.get("/getcategory/:category", protect, getCategorySpecificProducts);
 router.get("/product/:product", protect, showProduct);
 // Get My Orders Sidebar
 router.post("/placeorder/:payment_method", protect, placeOrders);
+// Get all Orders
+router.get("/myorder", protect, getmyOrders);
 // Get Current Ongoing Order Details
 router.get("/order/:orderId", protect, ongoingOrder);
 // Get My Payment Details
