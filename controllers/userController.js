@@ -813,9 +813,11 @@ exports.addToCart = async function (req, res, next) {
 };
 
 exports.getCartProducts = async function (req, res, next) {
+  console.log(req.user.mycart);
   var obj = {
     cart: req.user.mycart,
     products: 0,
+    totalBefore: 0,
     credits:req.user.credits,
     amountDue:req.user.amountDue,
     total: 0
@@ -823,6 +825,7 @@ exports.getCartProducts = async function (req, res, next) {
   for (var cart of req.user.mycart) {
     if (cart.product.inStock) {
       obj.products = obj.products + 1;
+      obj.totalBefore = obj.total + cart.price;
       obj.total = obj.total + cart.price
     }
 
@@ -833,7 +836,6 @@ exports.getCartProducts = async function (req, res, next) {
       
     }else{
       obj.total=0;
-      
     }
   //obj.total = (obj.total - req.user.credits) + req.user.amountDue;
   res.status(200).json(obj)
@@ -935,12 +937,17 @@ exports.logout = async function (req, res, next) {
 
 exports.updateCart = async function (req, res, next) {
   if (req.user.mycart.length) {
+    console.log(req.user.mycart);
     for (var item of req.user.mycart) {
-      if (item.product._id.toString() == req.body.pid.toString() && item.count > 0) {
-        item.count--;
+ console.log(item)
+      if (item.product._id.toString() === req.body.pid.toString()) {
+        if(item.count>1){
+        item.count = item.count - 1;
         item.price = item.count * item.product.product_price;
-      }else{
-       req.user.mycart =  req.user.mycart.filter(function(el) { return el.product._id != req.body.pid; });
+        item.save();
+        }else{
+          req.user.mycart =  req.user.mycart.filter(function(el) { return el.product._id != req.body.pid; });
+        }
       }
     };
   }

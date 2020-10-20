@@ -44,7 +44,7 @@ router.get("/order/:orderId", protect, ongoingOrder);
 // Get My Payment Details
 router.get("/mypayments", protect, myPayments);
 // Add to cart
-router.route("/cart").get(protect, getCartProducts).post(protect, addToCart).put(protect, updateCart).delete(protect,removeCart);
+router.route("/cart").get(protect,within, getCartProducts).post(protect, addToCart).put(protect, updateCart).delete(protect,removeCart);
 // Logout
 router.get("/logout", protect, logout);
 
