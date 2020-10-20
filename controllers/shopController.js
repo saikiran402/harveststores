@@ -99,7 +99,7 @@ exports.update = async function (req, res) {
 
 exports.Updateproduct = async function (req, res) {
   //console.log("innnnnnn");
-  const cat = await db.Product.findOneAndUpdate({ _id: req.body.id }, { product_name: req.body.product_name, product_description: req.body.product_description, product_price: req.body.product_price });
+  const cat = await db.Product.findOneAndUpdate({ _id: req.body.id }, { product_name: req.body.product_name, product_description: req.body.product_description, product_price: req.body.product_price,image:req.body.image });
   res.redirect(`/shop/getproduct?cat=${req.body.category}`)
 
 };

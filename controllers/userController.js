@@ -920,7 +920,7 @@ async function sendFcm(token,title,body){
   await admin.messaging().sendToDevice(token,payload_from,options)
 }
 exports.ongoingOrder = async function (req, res, next) {
-  const order = await db.Order.findOne({ userId: req.user._id, _id:req.params.orderId }).populate({path:'products.product',select:'product_name quantity product_price'});
+  const order = await db.Order.findOne({ userId: req.user._id, _id:req.params.orderId }).populate({path:'products.product',select:'product_name quantity product_price image'});
   res.status(200).json(order);
 };
 
@@ -968,6 +968,6 @@ exports.getproducts = async function (req, res, next) {
 };
 
 exports.getmyOrders = async function (req, res, next) {
-  var orders = await db.User.findOne({_id:req.user._id},'myorders').populate('myorders');
+  var orders = await db.User.findOne({_id:req.user._id},'myorders').populate('myorders').populate('myorders.products.product');
   return res.status(200).json(orders)
 };
