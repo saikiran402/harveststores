@@ -16,6 +16,7 @@ const {
   logout,
   addToCart,
   getCartProducts,
+  banner,
   updateCart, updateLocation,getproducts,removeCart,getmyOrders
 } = require("../controllers/userController.js");
 
@@ -47,5 +48,7 @@ router.get("/mypayments", protect, myPayments);
 router.route("/cart").get(protect,within, getCartProducts).post(protect, addToCart).put(protect, updateCart).delete(protect,removeCart);
 // Logout
 router.get("/logout", protect, logout);
+// Logout
+router.get("/banner", protect, banner);
 
 module.exports = router;

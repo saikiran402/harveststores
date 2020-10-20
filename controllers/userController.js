@@ -434,7 +434,6 @@ exports.verifyOTP = async function (req, res, next) {
           //     DOB: req.body.DOB
           // };
           try {
-
             let user = await db.User.findOne({ phone: req.body.phone });
             if (user.isAdmin) {
               var id = user._id;
@@ -970,4 +969,10 @@ exports.getproducts = async function (req, res, next) {
 exports.getmyOrders = async function (req, res, next) {
   var orders = await db.User.findOne({_id:req.user._id},'myorders').populate('myorders').populate('myorders.products.product');
   return res.status(200).json(orders)
+};
+
+
+exports.banner = async function (req, res, next) {
+  var b = await db.Banner.find({});
+  return res.status(200).json(b)
 };
