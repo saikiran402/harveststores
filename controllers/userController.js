@@ -919,7 +919,7 @@ async function sendFcm(token,title,body){
   await admin.messaging().sendToDevice(token,payload_from,options)
 }
 exports.ongoingOrder = async function (req, res, next) {
-  const order = await db.Order.findOne({ userId: req.user._id, _id:req.params.orderId }).populate({path:'products.product',select:'product_name quantity product_price image'});
+  const order = await db.Order.findOne({ userId: req.user._id, _id:req.params.orderId },'order_created status payment_method orderId products order_total delivered_by delivered_contact').populate({path:'products.product',select:'product_name quantity product_price image'}).populate({path:'delivered_by',select:'phone name'});
   res.status(200).json(order);
 };
 

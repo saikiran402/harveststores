@@ -19,7 +19,7 @@ const orderSchema = new mongoose.Schema({
   order_total: { type: String },
   delivered_by: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Order",
+    ref: "User",
   },
   amountDue:{type:Number},
   delivered_contact: { type: String },
