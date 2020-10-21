@@ -129,7 +129,7 @@
                                                 <input type="text" style="border: 0;" name="products" data-placement="left" data-toggle="tooltip" data-html="true" title="
                                                 <%item.products.forEach(list=>{%>
                                                    
-                                                <%=list.product.product_name%><br>
+                                                <%=list.product.product_name%> - <%=list.product.quantity%> X <%=list.count%><br>
                                                 <%});%>
                                       
                                                 "
@@ -148,8 +148,14 @@
                                            
                                             <td><%=item.status%>
                                             </td>
-                                            <td><%=item.delivery_location%>
-                                            </td>
+                                            <%if(item.delivery_location.location.coordinates){%>
+                                            <td>
+                                                <a href="https://www.google.com/maps/@<%=item.delivery_location.location.coordinates[1]%>,<%=item.delivery_location.location.coordinates[0]%>,19.01z" target="blank">show Location
+                                            </td></a>
+                                            <%}else{%>
+                                                <td>Not Found
+                                                </td>
+                                                <%}%>
                                             <td><%=item.payment_method%>
                                             </td>
                                             <%if(item.status === "pending"){%>
@@ -192,10 +198,10 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6 footer-copyright">
-                        <p class="mb-0">Copyright 2019 © Multikart All rights reserved.</p>
+                        <p class="mb-0">Copyright 2020 Harvest Stores All rights reserved.</p>
                     </div>
                     <div class="col-md-6">
-                        <p class="pull-right mb-0">Hand crafted & made with<i class="fa fa-heart"></i></p>
+                        <p class="pull-right mb-0">Hand crafted & made with<i class="fa fa-heart"> MindWorkers</i></p>
                     </div>
                 </div>
             </div>

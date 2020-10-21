@@ -184,11 +184,11 @@ exports.getpending = async function (req, res) {
 };
 
 
-exports.getpendingforadmin = async function (req, res) {
-  const data = await db.Order.find({ status: "pending" });
-  console.log(data)
-  res.render('showOrders', { data: data, msg: "" })
-};
+// exports.getpendingforadmin = async function (req, res) {
+//   const data = await db.Order.find({ status: "pending" }).populate('delivery_location');
+//   console.log(data)
+//   res.render('showOrders', { data: data, msg: "" })
+// };
 
 
 exports.setmytaken = async function (req, res) {
@@ -231,7 +231,7 @@ exports.delivered = async function (req, res) {
 // For Admin GUI
 
 exports.getpendingforadmin = async function (req, res) {
-  const data = await db.Order.find({ status: { $ne: "Delivered" } }).populate('products.product');
+  const data = await db.Order.find({ status: { $ne: "Delivered" } }).populate('products.product').populate('delivery_location');
   console.log(data[11].products[0])
   res.render('showOrders', { data: data, msg: "" })
 };
