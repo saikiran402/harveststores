@@ -53,7 +53,7 @@ exports.addCategories = async function (req, res) {
       image: req.body.image,
     };
     const cat = await db.Category.create(obj);
-    res.redirect("/shop");
+    res.redirect("/shop/home");
   } catch (err) {
     res.status(500).json({ message: "error" });
   }
