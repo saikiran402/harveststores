@@ -4,9 +4,9 @@ var morgan = require("morgan");
 const app = express();
 
 
-// var admin = require("firebase-admin");
+var admin = require("firebase-admin");
 
-// var serviceAccount = require("./firebase.json");
+var serviceAccount = require("./firebase.json");
 
 // admin.initializeApp({
 //   credential: admin.credential.cert(serviceAccount),
@@ -39,7 +39,29 @@ app.get("/demo", async(req, res) => {
   //   i.varient.push(i._id);
   //   i.save()
   // }
-  res.status(200).json({message:"Huhuuu"});
+  var t='dTEJ6LCASZe-i2NfVRQ73r:APA91bFhoCiEvVuC0A2ALfgoZCqfVyRWgue1sKBosi-oqc5JHArXw_atZYIIW3PuKtM9Jn_RFFsITXbhtcEBs47oGAbIryuzUY6iWEMOZv4cA6yYkWD4Nq-JLpI7NDIXJaqXz6e-bpZd';
+  const payload_from={
+    notification:{
+      title:"title",
+      body:"body",
+      icon:'ic_notification',
+      sound:'default',
+      priority:'normal'
+    },
+    data:{
+      title:"title",
+      body:"body",
+      icon:'ic_notification',
+      sound:'default',
+      priority:'normal'
+    }
+  };
+  const options={
+    priority:'normal',
+    timeToLive:60*60*24
+  };
+ var a = await admin.messaging().sendToDevice(t,payload_from,options)
+  res.status(200).json({message:a});
 });
 var port = process.env.PORT || 3200;
 

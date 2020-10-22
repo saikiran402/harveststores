@@ -161,11 +161,11 @@
                                             <%if(item.status === "pending"){%>
                                             <form action="/shop/packed/<%=item._id%>">
                                             <td>
-                                                <button class="btn btn-success btn-xs">Order Packed</button>
+                                                <button class="btn btn-xs" style="background-color: #;">Order Packed</button>
                                             </td>
                                         </form>
                                             <%}else if(item.status === "Packed"){%>
-                                                <form action="/shop/packed/<%=item._id%>" method="POST">
+                                                <form action="/shop/delivered/<%=item._id%>" >
                                                     <td>
                                                         <button class="btn btn-success btn-xs">Mark as Delivered</button>
                                                     </td>

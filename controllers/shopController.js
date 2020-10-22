@@ -206,30 +206,28 @@ exports.setmytaken = async function (req, res) {
 exports.getmytaken = async function (req, res) {
   const data = await db.Order.find({ status: "Packed", delivered_by: req.user._id });
   return res.status(200).json({ data: data });
-
-
 };
 exports.delivered = async function (req, res) {
   const data = await db.Order.findOne({ _id: req.params.id });
   data.status = "Delivered";
   var token
-  if(Number(data.order_total) - req.body.amount_paid > 0){
-    data.amountDue = Number(data.order_total) - req.body.amount_paid
+  // if(Number(data.order_total) - req.body.amount_paid > 0){
+  //   data.amountDue = Number(data.order_total) - req.body.amount_paid
     const user=await db.User.findOne({_id:data.userId})
-    user.amountDue = req.user.amountDue + data.amountDue;
+    // user.amountDue = req.user.amountDue + data.amountDue;
     token=user.registrationToken;
     user.save();
-  }else{
-    data.credits = req.body.amount_paid - Number(data.order_total)
-    const user=await db.User.findOne({_id:data.userId})
-    user.credits =  req.user.credits + data.credits
-    token=user.registrationToken;
-    user.save()
-  }
+  // }else{
+  //   data.credits = req.body.amount_paid - Number(data.order_total)
+  //   const user=await db.User.findOne({_id:data.userId})
+  //   user.credits =  req.user.credits + data.credits
+  //   token=user.registrationToken;
+  //   user.save()
+  // }
   data.save()
   
-  sendFcm(token,"Harvest Stores","Order Delivered Successfully");
-  return res.status(200).json({ message: "done" })
+  sendFcm(token,"Harvest Stores","Order Delivered Successfully please leave feedbacl");
+  res.redirect('/shop/orders')
 };
 
 
@@ -246,7 +244,8 @@ exports.getpendingforadmin = async function (req, res) {
 
 exports.adminpacked = async function (req, res) {
   const datas = await db.Order.findOneAndUpdate({ _id: req.params.id }, { delivered_by: "5f7f456a0c49aa0736557a5a", status: "Packed", delivered_contact: "9949944524", }).populate('userId');
-  sendFcm(datas.userId.registrationToken,"Harvest Stores","Order Placed Successfully");
+  console.log(datas)
+  sendFcm(datas.userId.registrationToken,"Harvest Stores","Order Packed and out for Delivery");
   res.redirect('/shop/orders')
 };
 
@@ -271,5 +270,6 @@ async function sendFcm(token,title,body){
     priority:'normal',
     timeToLive:60*60*24
   };
-  await admin.messaging().sendToDevice(token,payload_from,options)
+ var a = await admin.messaging().sendToDevice(token,payload_from,options)
+ console.log(a)
 }

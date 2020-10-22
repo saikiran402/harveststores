@@ -576,6 +576,7 @@ exports.getCartProducts = async function (req, res, next) {
     amountDue:req.user.amountDue,
     total: 0
   }
+  if(req.user.mycart.length > 0){
   for (var cart of req.user.mycart) {
     if (cart.product.inStock) {
       obj.products = obj.products + 1;
@@ -584,7 +585,7 @@ exports.getCartProducts = async function (req, res, next) {
     }
 
   }
-  total1 = (obj.total - req.user.credits) + req.user.amountDue;
+  var total1 = (obj.total - req.user.credits) + req.user.amountDue;
     if(total1>=0){
       obj.total=total1;
       
@@ -593,6 +594,17 @@ exports.getCartProducts = async function (req, res, next) {
     }
   //obj.total = (obj.total - req.user.credits) + req.user.amountDue;
   res.status(200).json(obj)
+  }else{
+    var obj = {
+      cart: req.user.mycart,
+      products: 0,
+      totalBefore: 0,
+      credits:req.user.credits,
+      amountDue:req.user.amountDue,
+      total: 0
+    }
+    res.status(200).json(obj)
+  }
 };
 
 
@@ -674,7 +686,7 @@ async function sendFcm(token,title,body){
   await admin.messaging().sendToDevice(token,payload_from,options)
 }
 exports.ongoingOrder = async function (req, res, next) {
-  const order = await db.Order.findOne({ userId: req.user._id, _id:req.params.orderId },'order_created status payment_method orderId products order_total delivered_by delivered_contact').populate({path:'products.product',select:'product_name quantity product_price image'}).populate({path:'delivered_by',select:'phone name'});
+  const order = await db.Order.findOne({ userId: req.user._id, _id:req.params.orderId }).populate({path:'products.product',select:'product_name quantity product_price image'}).populate({path:'delivered_by',select:'phone name'});
   res.status(200).json(order);
 };
 
@@ -723,7 +735,7 @@ exports.getproducts = async function (req, res, next) {
 
 exports.getmyOrders = async function (req, res, next) {
   var orders = await db.User.findOne({_id:req.user._id},'myorders').populate('myorders').populate('myorders.products.product');
-  return res.status(200).json(orders)
+  return res.status(200).json(orders.myorders.reverse())
 };
 
 
