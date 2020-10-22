@@ -735,7 +735,8 @@ exports.getproducts = async function (req, res, next) {
 
 exports.getmyOrders = async function (req, res, next) {
   var orders = await db.User.findOne({_id:req.user._id},'myorders').populate('myorders').populate('myorders.products.product');
-  return res.status(200).json(orders.myorders.reverse())
+  orders.myorders.reverse()
+  return res.status(200).json(orders)
 };
 
 
