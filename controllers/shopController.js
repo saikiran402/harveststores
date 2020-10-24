@@ -186,7 +186,7 @@ exports.deleteadmin = async function (req, res) {
 
 };
 exports.getpending = async function (req, res) {
-  const data = await db.Order.find({ status: "pending" });
+  const data = await db.Order.find({ $or: [ { status: "pending" }, { status: "Packed" } ] });
   return res.status(200).json({ data: data });
 };
 
@@ -200,13 +200,39 @@ exports.getpending = async function (req, res) {
 
 exports.setmytaken = async function (req, res) {
   const data = await db.Order.findOneAndUpdate({ _id: req.params.id }, { delivered_by: req.user._id, status: "Packed", delivered_contact: req.user.phone }).populate('userId');
-  sendFcm(data.userId.registrationToken,"Harvest Stores","Order Packed Successfully");
+  sendFcm(data.userId.registrationToken,"Harvest Stores","Order Packed and out for Delivery");
   return res.status(200).json({ message: "done" })
 };
 exports.getmytaken = async function (req, res) {
   const data = await db.Order.find({ status: "Packed", delivered_by: req.user._id });
   return res.status(200).json({ data: data });
 };
+
+exports.deliveredApp = async function (req, res) {
+  const data = await db.Order.findOne({ _id: req.params.id });
+  data.status = "Delivered";
+  var token
+  if(Number(data.order_total) - req.body.amount_paid > 0){
+    data.amountDue = Number(data.order_total) - req.body.amount_paid
+    const user=await db.User.findOne({_id:data.userId})
+    user.amountDue = req.user.amountDue + data.amountDue;
+    token=user.registrationToken;
+    user.save();
+  }else{
+    data.credits = req.body.amount_paid - Number(data.order_total)
+    const user=await db.User.findOne({_id:data.userId})
+    user.credits =  req.user.credits + data.credits
+    token=user.registrationToken;
+    user.save()
+  }
+  data.save()
+  
+  sendFcm(token,"Harvest Stores","Order Delivered Successfully please leave feedbacl");
+  return res.status(200).json({ message: "Updated Succefuly" })
+};
+
+
+
 exports.delivered = async function (req, res) {
   const data = await db.Order.findOne({ _id: req.params.id });
   data.status = "Delivered";

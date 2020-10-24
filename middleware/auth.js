@@ -70,7 +70,7 @@ exports.protect = async (req, res, next) => {
 
 exports.protectweb = async (req, res, next) => {
   try {
-    if (req.headers["user-agent"].substring(0, 7).toLowerCase() != "postmann") {
+
       // 1) Getting token and check it's there
       let token;
       if (
@@ -102,10 +102,7 @@ exports.protectweb = async (req, res, next) => {
         return res.render('Login_v1/index', { msg: "Un Authorized Please Login Again" });
 
       }
-    } else {
-      return res.render('Login_v1/index', { msg: "unauthorized requestinvalid credentials" });
-
-    }
+   
   } catch (err) {
     console.log(err.stack.split("\n")[0]);
     console.log(err.stack.split("\n")[1]);
