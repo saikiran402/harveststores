@@ -13,7 +13,10 @@ const productSchema = new mongoose.Schema({
   inStock: { type: Boolean, default: true },
   quantity: String,
   isveg: {type:Boolean,default:true},
+  original_price:{ type: Number },
   product_price: { type: Number },
+  percent_off: { type: Number },
+  you_save: { type: Number },
   varient: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product",

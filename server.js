@@ -82,7 +82,8 @@ app.get('/adddata', async function(req,res){
         product_description: data[4],
         quantity: data[5],
         isveg: Boolean(data[6]),
-        product_price: Number(data[7])
+        product_price: Number(data[7]),
+        original_price: Number(data[8])
       });
     })
     .on("end", function() {
@@ -100,6 +101,46 @@ app.get('/adddata', async function(req,res){
   return res.status(200).json({message:"Done"})
 });
 
+app.get('/setmrp',async function(req,res){
+ var pro = await db.Product.find({});
+ if(pro){
+   pro.forEach(list=>{
+    list.original_price = list.product_price;
+    list.save();
+   });
+ }
+ return res.status(200).json({message:"Updated Succesfully"})
+});
+
+function relDiff(a, b) {
+  return  100 * Math.abs( ( a - b ) / ( (a+b)/2 ) );
+ }
+app.get('/calculatepercentage',async function(req,res){
+  var pro = await db.Product.find({});
+  if(pro){
+    pro.forEach(list=>{
+     var diff =  relDiff(list.original_price,list.product_price)
+     list.percent_off = diff.toFixed();
+     list.save();
+    });
+  }
+  return res.status(200).json({message:"Calculated Succesfully"})
+ });
+
+ app.get('/calculatesave',async function(req,res){
+  var pro = await db.Product.find({});
+  if(pro){
+    pro.forEach(list=>{
+     list.you_save=list.original_price - list.product_price;
+     list.save();
+    });
+  }
+  return res.status(200).json({message:"Calculated Succesfully"})
+ });
+
+
+
+ 
 var port = process.env.PORT || 3200;
 
 app.listen(port, function () {

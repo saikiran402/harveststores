@@ -9,7 +9,9 @@ var cloudinary = require('cloudinary').v2;
 var admin = require("firebase-admin");
 
 
-
+function relDiff(a, b) {
+  return  100 * Math.abs( ( a - b ) / ( (a+b)/2 ) );
+ }
 
 cloudinary.config({
   cloud_name: 'sample',
@@ -81,7 +83,10 @@ exports.addproduct = async function (req, res) {
   //console.log(req.body);
 
   req.body.type = "product"
-  req.body.varient = []
+  req.body.varient = [],
+  req.body.you_save=req.body.original_price - req.body.product_price;
+  var diff =  relDiff(Number(req.body.original_price),Number(req.body.product_price))
+  req.body.percent_off = diff.toFixed();
   // const data = await cloudinary.uploader.upload(req.body.photo);
   // req.body.image = data.url;
   const cat = await db.Product.create(req.body);
@@ -106,10 +111,21 @@ exports.update = async function (req, res) {
 
 exports.Updateproduct = async function (req, res) {
   //console.log("innnnnnn");
-  const cat = await db.Product.findOneAndUpdate({ _id: req.body.id }, { product_name: req.body.product_name, product_description: req.body.product_description, product_price: req.body.product_price,image:req.body.image });
+  const cat = await db.Product.findOne({ _id: req.body.id }); 
+  cat.product_name = req.body.product_name;
+  cat.product_description= req.body.product_description;
+  cat.product_price=req.body.product_price;
+  cat.image=req.body.image;
+  cat.original_price=req.body.original_price;
+  cat.you_save=req.body.original_price - req.body.product_price;
+  var diff =  relDiff(cat.original_price,cat.product_price)
+  cat.percent_off = diff.toFixed();
+  cat.save();
   res.redirect(`/shop/getproduct?cat=${req.body.category}`)
 
 };
+
+
 exports.deleteproduct = async function (req, res) {
   //console.log("innnnnnn");
   const cat = await db.Product.findOne({ _id: req.params.id });

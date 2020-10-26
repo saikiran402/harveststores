@@ -130,9 +130,15 @@
                                                             required>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="validationCustom01" class="mb-1">Price
+                                                        <label for="validationCustom01" class="mb-1">Harvest Price
                                                             :</label>
                                                         <input class="form-control" name="product_price" type="text"
+                                                            required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="validationCustom01" class="mb-1">Original Price
+                                                            :</label>
+                                                        <input class="form-control" name="original_price" type="text"
                                                             required>
                                                     </div>
                                                     <!-- <div class="form-group">
@@ -179,14 +185,17 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">S no</th>
+                                   
                                     <th scope="col">Image</th>
                                     <th scope="col">Product Name</th>
                                     <th scope="col">Product Description</th>
                                     <th scope="col">Varients</th>
                                     <th scope="col">Quantity</th>
                                     <th scope="col">Stock</th>
-                                    <th scope="col">Price</th>
+                                    <th scope="col">Harvest Price</th>
+                                    <th scope="col">Original Price</th>
+                                    <th scope="col">% Off</th>
+                                    <th scope="col">Savings</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -197,7 +206,7 @@
                                     <input type="hidden" name="category" value="<%=item.category%>">
                                     <input type="hidden" name="id" value="<%=item._id%>">
                                     <tr>
-                                        <th scope="row"><%=i%></th>
+                                   
 
                                         <td><img class="rounded-circle" style="width: 70px;" src="<%=item.image%>">
                                             <input type="text" name="image" value="<%=item.image%>">
@@ -234,7 +243,13 @@
                                         </td>
                                         <%}%>
                                           
-                                            <td><input type="text" style="border: 0; width: 35px;" name="product_price" value="<%=item.product_price%>">
+                                            <td>₹<input type="text" style="border: 0; width: 35px;" name="product_price" value="<%=item.product_price%>">
+                                        </td>
+                                        <td>₹<input type="text" style="border: 0; width: 35px;" name="original_price" value="<%=item.original_price%>">
+                                        </td>
+                                        <td><span><%=item.percent_off%>%</span>
+                                        </td>
+                                        <td><span><%=item.you_save%></span>
                                         </td>
                                         <td><input type="submit" class="btn btn-xs btn-info">&nbsp;&nbsp;<a
                                                 href='/shop/deleteproduct/<%=item._id%>/<%=item.category%>'><i
@@ -406,7 +421,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6 footer-copyright">
-                        <p class="mb-0">Copyright 2019 © Multikart All rights reserved.</p>
+                        <p class="mb-0">Copyright 2019 © Harvest Stores All rights reserved.</p>
                     </div>
                     <div class="col-md-6">
                         <p class="pull-right mb-0">Hand crafted & made with<i class="fa fa-heart"></i></p>
