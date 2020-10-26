@@ -229,16 +229,16 @@ exports.deliveredApp = async function (req, res) {
   const data = await db.Order.findOne({ _id: req.params.id });
   data.status = "Delivered";
   var token
-  if(Number(data.order_total) - req.body.amount_paid > 0){
+  if(Number(data.order_total) > Number(req.body.amount_paid)){
     data.amountDue = Number(data.order_total) - req.body.amount_paid
     const user=await db.User.findOne({_id:data.userId})
     user.amountDue = req.user.amountDue + data.amountDue;
     token=user.registrationToken;
     user.save();
   }else{
-    data.credits = req.body.amount_paid - Number(data.order_total)
+    data.credits = req.body.amount_paid - Number(data.order_total);
     const user=await db.User.findOne({_id:data.userId})
-    user.credits =  req.user.credits + data.credits
+    user.credits =  user.credits + data.credits
     token=user.registrationToken;
     user.save()
   }
