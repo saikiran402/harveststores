@@ -20,3 +20,4 @@ module.exports.Location = require("./locationModel.js");
 module.exports.Category = require("./categoryModel.js");
 module.exports.Varient = require("./varientModel.js");
 module.exports.Banner = require("./banner.js");
+module.exports.Sample = require("./sample.js");

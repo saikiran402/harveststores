@@ -725,7 +725,7 @@ exports.removeCart = async function (req, res, next) {
 };
 
 exports.getproducts = async function (req, res, next) {
-  var a = await db.Product.find({});
+  var a = await db.Product.find({type:"product"});
   return res.status(200).json(a)
 };
 

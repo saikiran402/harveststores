@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const productSchema = new mongoose.Schema({
+const SampleSchema = new mongoose.Schema({
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
@@ -8,8 +8,9 @@ const productSchema = new mongoose.Schema({
   product: String,
   type: String,
   image: { type: String, default: "http://google.com" }, // Deafault image to be replaced
-  product_name: {type:String,unique:true},
+  product_name: String,
   product_description: String,
+  unit: { type: String, enum: ["grams", "kilo", "liter", "dozen","Piece"] },
   inStock: { type: Boolean, default: true },
   quantity: String,
   isveg: {type:Boolean,default:true},
@@ -20,6 +21,6 @@ const productSchema = new mongoose.Schema({
   }]
 });
 
-const Product = mongoose.model("Product", productSchema);
+const Sample = mongoose.model("Sample", SampleSchema);
 
-module.exports = Product;
+module.exports = Sample;

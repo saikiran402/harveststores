@@ -3,7 +3,8 @@ const bodyParser = require("body-parser");
 var morgan = require("morgan");
 const app = express();
 moment = require("moment");
-
+const fs = require("fs");
+const fastcsv = require("fast-csv");
 var admin = require("firebase-admin");
 
 var serviceAccount = require("./firebase.json");
@@ -64,6 +65,41 @@ app.get("/demo", async(req, res) => {
  var a = await admin.messaging().sendToDevice(t,payload_from,options)
   res.status(200).json({message:a});
 });
+
+
+app.get('/adddata', async function(req,res){
+  let stream = fs.createReadStream("sample.csv");
+  let csvData = [];
+  
+  let csvStream = fastcsv
+    .parse()
+    .on("data", function(data) {
+      csvData.push({
+        category: data[0],
+        type: data[1],
+        image: data[2],
+        product_name: data[3],
+        product_description: data[4],
+        quantity: data[5],
+        isveg: Boolean(data[6]),
+        product_price: Number(data[7])
+      });
+    })
+    .on("end", function() {
+      // remove the first line: header
+      csvData.shift();
+      console.log(csvData);
+      db.Product.insertMany(csvData, (err, res) => {
+          if (err) throw err;
+          console.log(`Inserted: ${csvData.length} rows`);
+        });
+      // save to the MongoDB database collection
+    });
+  
+  stream.pipe(csvStream);
+  return res.status(200).json({message:"Done"})
+});
+
 var port = process.env.PORT || 3200;
 
 app.listen(port, function () {
