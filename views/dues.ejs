@@ -1,0 +1,237 @@
+<%- include("./partials/header") -%>
+<!-- Right sidebar Ends-->
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #2196F3;
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+</style>
+<div class="page-body">
+
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="page-header-left">
+                        <h3>Ongoing Orders
+                            <small>Harvest Stores</small>
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <ol class="breadcrumb pull-right">
+                        <li class="breadcrumb-item"><a href="/shop"><i data-feather="home"></i></a></li>
+                        <!-- <li class="breadcrumb-item">Physical</li> -->
+                        <li class="breadcrumb-item active">Product</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid Ends-->
+
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Live Orders</h5>
+                    </div>
+                    <div class="card-body">
+                        
+                   
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">S no</th>
+                                    <th scope="col">orderId</th>
+                                    <th scope="col">products</th>
+                              
+                                    <th scope="col">order_total</th>
+                         
+                                    <th scope="col">status</th>
+                                    <th scope="col">User Details</th>
+                                    <th scope="col">payment_method</th>
+                                    <th scope="col">Amount due</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                
+                                <%var i=1;for(var item of dues){%>
+                                   
+                                       
+                                        <tr>
+                                            <th scope="row"><%=i%></th>
+    
+                                            <td>
+                                               <%=item.orderId%>
+                                        </td>
+    <%if(item.products.length){%>
+                                            <td>
+                                                <input type="text" style="border: 0;" name="products" data-placement="left" data-toggle="tooltip" data-html="true" title="
+                                                <%item.products.forEach(list=>{%>
+                                                   
+                                                <%=list.product.product_name%> - <%=list.product.quantity%> X <%=list.count%><br>
+                                                <%});%>
+                                      
+                                                "
+                                                    value="<%=item.products.length%>">
+                                            </td>
+                                           <%}else{%>
+
+                                            <td><input type="text" style="border: 0;" name="products" data-toggle="tooltip" data-html="true" title="Check App for More Data"
+                                                value="0">
+                                        </td>
+                                            <%}%>
+                                        
+                                            <td>
+                                                ₹<%=item.order_total%>.00
+                                            </td>
+                                           
+                                            <td><%=item.status%>
+                                            </td>
+                                            <td><%=item.userId.name%> | <%=item.userId.phone%></td>
+                                            <td><%=item.payment_method%>
+                                            </td>
+                                           <td>
+                                            ₹<%=item.amountDue%>.00<br> on <%=moment(item.order_created).format("MMM Do YY");%>
+
+                                           </td>
+                                     
+                                        </tr>
+                            
+                                <%i++}%>
+
+
+
+                            </tbody>
+                        </table>
+
+                    
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Container-fluid Ends-->
+        </div>
+        
+    
+        <!-- footer start-->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6 footer-copyright">
+                        <p class="mb-0">Copyright 2020 Harvest Stores All rights reserved.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="pull-right mb-0">Hand crafted & made with<i class="fa fa-heart"> MindWorkers</i></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- footer end-->
+    </div>
+
+</div>
+<script src="/assets/js/plugins/jquery/dist/jquery.min.js"></script>
+<script src="/assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!--   Optional JS   -->
+<!--   Argon JS   -->
+<script src="/assets/js/argon-dashboard.min.js?v=1.1.1"></script>
+<script src="/assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+
+
+
+
+                     
+                        <!-- latest jquery-->
+                        <script src="../assets/js/jquery-3.3.1.min.js"></script>
+
+                        <!-- Bootstrap js-->
+                        <script src="../assets/js/popper.min.js"></script>
+                        <script src="../assets/js/bootstrap.js"></script>
+
+                        <!-- feather icon js-->
+                        <script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+                        <script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+
+                        <!-- Sidebar jquery-->
+                        <script src="../assets/js/sidebar-menu.js"></script>
+
+                        <!-- Jsgrid js-->
+                        <script src="../assets/js/jsgrid/jsgrid.min.js"></script>
+                        <script src="../assets/js/jsgrid/griddata-sub-product.js"></script>
+                        <script src="../assets/js/jsgrid/jsgrid-digital-sub.js"></script>
+
+                        <!-- lazyload js-->
+                        <script src="../assets/js/lazysizes.min.js"></script>
+
+                        <!--right sidebar js-->
+                        <script src="../assets/js/chat-menu.js"></script>
+
+                        <!--script admin-->
+                        <script src="../assets/js/admin-script.js"></script>
+
+                        </body>
+
+                        </html>

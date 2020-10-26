@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 var morgan = require("morgan");
 const app = express();
-
+moment = require("moment");
 
 var admin = require("firebase-admin");
 
@@ -25,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use(morgan("dev"));
+app.locals.moment = moment;
 const version = "V1.0";
 
 app.use(`/shop`, shopRoutes);

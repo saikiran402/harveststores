@@ -263,7 +263,7 @@ exports.delivered = async function (req, res) {
 
 exports.getpendingforadmin = async function (req, res) {
   const data = await db.Order.find({ status: { $ne: "Delivered" } }).populate('products.product').populate('delivery_location');
-  console.log(data[11].products[0])
+
   res.render('showOrders', { data: data, msg: "" })
 };
 
@@ -299,3 +299,10 @@ async function sendFcm(token,title,body){
  var a = await admin.messaging().sendToDevice(token,payload_from,options)
  console.log(a)
 }
+
+
+
+exports.showDues = async function (req, res) {
+  const dues = await db.Order.find({amountDue:{ $gt:0}}).populate('products.product').populate('delivery_location').populate('userId');
+  res.render("dues", { dues:dues });
+};

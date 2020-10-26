@@ -16,11 +16,9 @@ admin.initializeApp({
 exports.sendOTP = async function (req, res, next) {
   try {
     console.log(req.body);
-
     if (validator.isMobilePhone(req.body.phone)) {
 
       const user2 = await db.User.findOne({ phone: req.body.phone });
-    
       if (user2 != null) {
         if (user2.isAdmin) {
           var options = {
@@ -49,7 +47,6 @@ exports.sendOTP = async function (req, res, next) {
           });
           req_in.write("{}");
           req_in.end();
-  
         }
 
       
@@ -160,7 +157,6 @@ exports.verifyOTP = async function (req, res, next) {
 
     var req_in = http.request(options, function (res_in) {
       var chunks = [];
-
       res_in.on("data", function (chunk) {
         chunks.push(chunk);
       });
@@ -686,7 +682,7 @@ async function sendFcm(token,title,body){
   await admin.messaging().sendToDevice(token,payload_from,options)
 }
 exports.ongoingOrder = async function (req, res, next) {
-  const order = await db.Order.findOne({ userId: req.user._id, _id:req.params.orderId },'order_created status payment_method orderId products order_total delivered_by delivered_contact').populate({path:'products.product',select:'product_name quantity product_price image'}).populate({path:'delivered_by',select:'phone name'});
+  const order = await db.Order.findOne({ _id:req.params.orderId },'order_created status payment_method orderId products order_total delivered_by delivered_contact').populate({path:'products.product',select:'product_name quantity product_price image'}).populate({path:'delivered_by',select:'phone name'});
   res.status(200).json(order);
 };
 
