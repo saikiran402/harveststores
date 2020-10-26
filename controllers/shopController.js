@@ -84,7 +84,7 @@ exports.addproduct = async function (req, res) {
 
   req.body.type = "product"
   req.body.varient = [],
-  req.body.you_save=(req.body.original_price - req.body.product_price).toFixed(2);
+  req.body.you_save=(req.body.original_price - req.body.product_price).toFixed();
   var diff =  relDiff(Number(req.body.original_price),Number(req.body.product_price))
   req.body.percent_off = diff.toFixed();
   // const data = await cloudinary.uploader.upload(req.body.photo);
@@ -203,7 +203,7 @@ exports.deleteadmin = async function (req, res) {
 };
 exports.getpending = async function (req, res) {
   const data = await db.Order.find({ $or: [ { status: "pending" }, { status: "Packed" } ] });
-  return res.status(200).json({ data: data });
+  return res.status(200).json({ data: data.reverse() });
 };
 
 
