@@ -225,6 +225,7 @@ exports.getmytaken = async function (req, res) {
 };
 
 exports.deliveredApp = async function (req, res) {
+  console.log(req.body)
   const data = await db.Order.findOne({ _id: req.params.id });
   data.status = "Delivered";
   var token
