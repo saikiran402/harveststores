@@ -17,7 +17,7 @@ const {
   addToCart,
   getCartProducts,
   banner,
-  updateCart, updateLocation,getproducts,removeCart,getmyOrders
+  updateCart, updateLocation,getproducts,removeCart,getmyOrders,ongoingOrderapp
 } = require("../controllers/userController.js");
 
 //Authentication
@@ -42,6 +42,9 @@ router.post("/placeorder/:payment_method", protect, placeOrders);
 router.get("/myorder", protect, getmyOrders);
 // Get Current Ongoing Order Details
 router.get("/order/:orderId", protect, ongoingOrder);
+router.get("/orders/:orderId", protect, ongoingOrderapp);
+
+
 // Get My Payment Details
 router.get("/mypayments", protect, myPayments);
 // Add to cart

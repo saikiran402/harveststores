@@ -686,6 +686,11 @@ exports.ongoingOrder = async function (req, res, next) {
   res.status(200).json(order);
 };
 
+exports.ongoingOrderapp = async function (req, res, next) {
+  const order = await db.Order.findOne({ _id:req.params.orderId },'order_created status payment_method orderId products order_total delivered_by delivered_contact delivery_location').populate({path:'products.product',select:'product_name quantity product_price image userId'}).populate({path:'delivered_by',select:'phone name'}).populate({path:'delivery_location',select:'location'});
+  res.status(200).json(order);
+};
+
 exports.myPayments = async function (req, res, next) {
   const orders = await db.Order.find({ userId: req.user._id, paid: true });
 
