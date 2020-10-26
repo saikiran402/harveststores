@@ -131,7 +131,7 @@ app.get('/calculatepercentage',async function(req,res){
   var pro = await db.Product.find({});
   if(pro){
     pro.forEach(list=>{
-     list.you_save=list.original_price - list.product_price;
+     list.you_save=(list.original_price - list.product_price).toFixed(2);
      list.save();
     });
   }

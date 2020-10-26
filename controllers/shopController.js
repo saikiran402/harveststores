@@ -84,7 +84,7 @@ exports.addproduct = async function (req, res) {
 
   req.body.type = "product"
   req.body.varient = [],
-  req.body.you_save=req.body.original_price - req.body.product_price;
+  req.body.you_save=(req.body.original_price - req.body.product_price).toFixed(2);
   var diff =  relDiff(Number(req.body.original_price),Number(req.body.product_price))
   req.body.percent_off = diff.toFixed();
   // const data = await cloudinary.uploader.upload(req.body.photo);
@@ -117,7 +117,7 @@ exports.Updateproduct = async function (req, res) {
   cat.product_price=req.body.product_price;
   cat.image=req.body.image;
   cat.original_price=req.body.original_price;
-  cat.you_save=req.body.original_price - req.body.product_price;
+  cat.you_save=(req.body.original_price - req.body.product_price).toFixed(2);
   var diff =  relDiff(cat.original_price,cat.product_price)
   cat.percent_off = diff.toFixed();
   cat.save();
