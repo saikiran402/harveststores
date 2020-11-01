@@ -17,6 +17,7 @@ const productSchema = new mongoose.Schema({
   product_price: { type: Number },
   percent_off: { type: Number },
   you_save: { type: Number },
+  count:{type:Number,default:0},
   varient: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product",

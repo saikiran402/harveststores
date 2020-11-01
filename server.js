@@ -6,9 +6,9 @@ moment = require("moment");
 const fs = require("fs");
 const fastcsv = require("fast-csv");
 var admin = require("firebase-admin");
-
+const {ObjectId} = require('mongodb');
 var serviceAccount = require("./firebase.json");
-
+const Blob = require("cross-blob");
 // admin.initializeApp({
 //   credential: admin.credential.cert(serviceAccount),
 //   databaseURL: "https://harveststores-6e6a5.firebaseio.com"
@@ -68,7 +68,7 @@ app.get("/demo", async(req, res) => {
 
 
 app.get('/adddata', async function(req,res){
-  let stream = fs.createReadStream("sample.csv");
+  let stream = fs.createReadStream("choco.csv");
   let csvData = [];
   
   let csvStream = fastcsv
@@ -138,9 +138,35 @@ app.get('/calculatepercentage',async function(req,res){
   return res.status(200).json({message:"Calculated Succesfully"})
  });
 
+ app.get('/init',async function(req,res){
+  var pro = await db.Category.find({});
+  if(pro){
+    pro.forEach(list=>{
+     list.order = 0;
+     list.save();
+    });
+  }
+  return res.status(200).json({message:"Init Succesfully"})
+ });
 
 
+app.get('/remove',async function(req,res){
+
+  var a = await db.Product.find({});
+  a.forEach(list=>{
+    
+    list.count = 0;
+    list.save();
+    
+  })
+  return res.status(200).json({message:"Done"});
+});
+
+app.get('/generate', async function(req,res){
+  await db.Product.find({ category:'5f9da187736122db93a83561' }).remove().exec();
  
+  return res.status(200).json({message:"Done"});
+});
 var port = process.env.PORT || 3200;
 
 app.listen(port, function () {

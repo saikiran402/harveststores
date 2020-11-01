@@ -1,0 +1,85 @@
+[
+  {
+    "id": "eight",
+    "title": "5 ft.Green Cypress Spiral Tree",
+    "price": 109,
+    "category": "Household",
+    "image": "https://images.homedepot-static.com/productImages/d0a3b69b-cc12-4b60-b861-9ff98ee06d11/svn/nearly-natural-artificial-flowers-5325-64_145.jpg",
+    "availability": "In Stock",
+    "fulldescription": "Designed to look real without the maintenance",
+    "description": "Beautiful spiral calls attention in any room\nStandard pot fits easily inside a decorative planter"
+  },
+  {
+    "id": "nine",
+    "title": "7.5 ft. Swiss Mountain Black Spruce Twinkly Rainbow Christmas Tree with 600 RGB LED Technology Lights",
+    "price": 548,
+    "category": "Christmas",
+    "image": "https://images.homedepot-static.com/productImages/e4c446ba-88b1-4e81-a79e-90512045788f/svn/home-decorators-collection-pre-lit-christmas-trees-tg76p4969p10-e4_400.jpg",
+    "availability": "In Stock",
+    "fulldescription": "7.5 ft. artificial tree, prestrung with multi-colored LED lights",
+    "description": "1417 tips, 1050 LED bulbs, remote and EZ connect lighting\nHinged, metal branches allow for easy assembly and storage"
+  },
+  {
+    "id": "ten",
+    "title": "8.9 ft. W Harvest Pumpkin Halloween Inflatable",
+    "price": 29,
+    "category": "Halloween",
+    "image": "https://images.homedepot-static.com/productImages/31bf6dbd-dcb9-4749-ade7-aa8b573c4285/svn/gemmy-halloween-inflatables-74717-64_145.jpg",
+    "availability": "In Stock",
+    "fulldescription": "Illuminated with energy-efficient LED lights",
+    "description": "For indoor or outdoor use,Simply plug it in and stake to ground"
+  },
+  {
+    "id": "eleven",
+    "title": "18 in. x 18 in. x 5 in. Harvest Pumpkin Toss Pillow",
+    "price": 18,
+    "category": "Halloween",
+    "image": "https://images.homedepot-static.com/productImages/d133d68e-392c-4d27-a3f8-dd10b1c8f01b/svn/jordan-manufacturing-indoor-fall-decorations-9950pk1-508dpt-c3_145.jpg",
+    "availability": "In Stock",
+    "fulldescription": "Illuminated with energy-efficient LED lights",
+    "description": "For indoor or outdoor use ,Simply plug it in and stake to ground"
+  },
+  {
+    "id": "twelve",
+    "title": "13 in. Gold LED Star and Snowflake Projection Christmas Tree Topper",
+    "price": 43,
+    "category": "Christmas",
+    "image": "https://images.homedepot-static.com/productImages/044d208e-9cc7-4380-ada9-59ac4e02956c/svn/phillips-christmas-tree-toppers-636330-125-64_145.jpg",
+    "availability": "In Stock",
+    "fulldescription": "Festive projections add fun element to Christmas scene",
+    "description": "Features stunning gold lead finish and Complements any tree with a finishing touch"
+  },
+  {
+    "id": "thirteen",
+    "title": "Brushed Gold Flowing Leaves Wall Decor",
+    "price": 134,
+    "category": "Decor",
+    "image": "hhttps://images.homedepot-static.com/productImages/55380bdb-a672-4710-b29c-45fad8396fc1/svn/metallic-stratton-home-decor-wall-sculptures-shd0106-64_145.jpg",
+    "availability": "In Stock",
+    "fulldescription": "Delicate brushed gold leaves",
+    "description": "Hand painted design, Lovely with other botanicals or as a stand alone accent"
+  },
+  {
+    "id": "fourteen",
+    "title": "Contemporary Metal Brown Wall Candle Sconces with Antique Patina Medallions (Set of 2)",
+    "price": 134,
+    "category": "Decor",
+    "image": "https://images.homedepot-static.com/productImages/0df3e666-2bcb-4c40-8860-eb3e3fe1fce1/svn/brown-tan-danya-b-candle-holders-qba636-64_145.jpg",
+    "availability": "In Stock",
+    "fulldescription": "Bronze-tone frames with gold tone circle frame embellishments",
+    "description": "Glass vase removes to protect the flame and for easy cleaning. Candles recommended are 2 inches wide x 6 inches high"
+  },
+  {
+    "id": "fifteen",
+    "title": "Knoxville Metal Wall Decor",
+    "price": 53,
+    "category": "Decor",
+    "image": "https://images.homedepot-static.com/productImages/0df3e666-2bcb-4c40-8860-eb3e3fe1fce1/svn/brown-tan-danya-b-candle-holders-qba636-64_145.jpg",
+    "availability": "In Stock",
+    "fulldescription": "Overall Measurement:47.24' W X 1.18' D X 22.75' H",
+    "description": "Geometric Design, Textured for added depth of style"
+  }
+
+
+  
+]

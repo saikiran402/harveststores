@@ -231,7 +231,6 @@ exports.verifyOTP = async function (req, res, next) {
   }
 };
 
-
 //==============================>logged function
 exports.updateLocation = async function (req, res, next) {
   console.log(req.body);
@@ -574,12 +573,13 @@ exports.getCartProducts = async function (req, res, next) {
   }
   if(req.user.mycart.length > 0){
   for (var cart of req.user.mycart) {
+    if(cart.product != null){
     if (cart.product.inStock) {
       obj.products = obj.products + 1;
       obj.totalBefore = obj.total + cart.price;
       obj.total = obj.total + cart.price
     }
-
+  }
   }
   var total1 = (obj.total - req.user.credits) + req.user.amountDue;
     if(total1>=0){
@@ -731,6 +731,20 @@ exports.removeCart = async function (req, res, next) {
 
 exports.getproducts = async function (req, res, next) {
   var a = await db.Product.find({type:"product"});
+  found = false;
+  a.forEach(product=>{
+    product.__v = 0;
+    req.user.mycart.forEach(cart=>{
+      console.log(product._id.toString(),cart.product._id.toString())
+      if(product._id.toString() == cart.product._id.toString() ){
+        console.log("Im in")
+        product.__v = cart.count;
+        product.save()
+        found = true;
+      }
+    })
+    found = false;
+  })
   return res.status(200).json(a)
 };
 
