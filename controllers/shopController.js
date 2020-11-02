@@ -126,6 +126,23 @@ exports.Updateproduct = async function (req, res) {
 };
 
 
+exports.Updatecategory = async function (req, res) {
+  //console.log("innnnnnn");
+  const cat = await db.Product.findOne({ _id: req.body.id }); 
+  cat.product_name = req.body.product_name;
+  cat.product_description= req.body.product_description;
+  cat.product_price=req.body.product_price;
+  cat.image=req.body.image;
+  cat.original_price=req.body.original_price;
+  cat.you_save=(req.body.original_price - req.body.product_price).toFixed(2);
+  var diff =  relDiff(cat.original_price,cat.product_price)
+  cat.percent_off = diff.toFixed();
+  cat.save();
+  res.redirect(`/shop/getproduct?cat=${req.body.category}`)
+
+};
+
+
 exports.deleteproduct = async function (req, res) {
   //console.log("innnnnnn");
   const cat = await db.Product.findOne({ _id: req.params.id });

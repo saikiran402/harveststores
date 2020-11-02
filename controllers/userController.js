@@ -524,30 +524,27 @@ exports.getAllcategories = async function (req, res) {
 
 exports.getCategorySpecificProducts = async function (req, res, next) {
   const data = await db.Product.find({ category: req.params.category, type: "product" }).populate('varient');
-
+  //console.log(data);
+  //console.log(req.user.mycart);
     for(var list of data){
-      isName = false;
-      found = false;
-    req.user.mycart.forEach(cart=>{
-      if(list.product_name == cart.product.product_name){
-        isName = true;
+      for(var cart of req.user.mycart){
+      
         if(list._id.toString() == cart.product._id.toString()){
-          list.count = cart.count;
-          found = true;
+            list.count = cart.count;       
         }
+        for(var varient of list.varient){
+          
+            if(varient._id.toString() == cart.product._id.toString()){
+              varient.count = cart.count;
+            }
+          
+        }
+        
       }
-      if(isName && !found){
-        list.varient.forEach(varient =>{
-          if(varient._id.toString() == cart.product._id.toString()){
-            list.count = cart.count;
-            found = true;
-          }
-        })
-      }
-      found=false; 
-      isName = false;  
-    })
+      
     }
+
+  
   res.status(200).json({ data: data })
 };
 
@@ -586,7 +583,7 @@ exports.addToCart = async function (req, res, next) {
 };
 
 exports.getCartProducts = async function (req, res, next) {
-  console.log(req.user.mycart);
+  
   var obj = {
     cart: req.user.mycart,
     products: 0,
