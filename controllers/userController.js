@@ -524,6 +524,30 @@ exports.getAllcategories = async function (req, res) {
 
 exports.getCategorySpecificProducts = async function (req, res, next) {
   const data = await db.Product.find({ category: req.params.category, type: "product" }).populate('varient');
+
+    for(var list of data){
+      isName = false;
+      found = false;
+    req.user.mycart.forEach(cart=>{
+      if(list.product_name == cart.product.product_name){
+        isName = true;
+        if(list._id.toString() == cart.product._id.toString()){
+          list.count = cart.count;
+          found = true;
+        }
+      }
+      if(isName && !found){
+        list.varient.forEach(varient =>{
+          if(varient._id.toString() == cart.product._id.toString()){
+            list.count = cart.count;
+            found = true;
+          }
+        })
+      }
+      found=false; 
+      isName = false;  
+    })
+    }
   res.status(200).json({ data: data })
 };
 
@@ -602,7 +626,6 @@ exports.getCartProducts = async function (req, res, next) {
     res.status(200).json(obj)
   }
 };
-
 
 exports.placeOrders = async function (req, res, next) {
   const user = await db.User.findOne({ _id: req.user._id }).populate('mycart.product location');
