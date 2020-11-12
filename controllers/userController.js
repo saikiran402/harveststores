@@ -750,21 +750,21 @@ exports.removeCart = async function (req, res, next) {
 };
 
 exports.getproducts = async function (req, res, next) {
-  var a = await db.Product.find({type:"product"}).populate('varient');;
+  var a = await db.Product.find({type:"product"}).populate('varient');
   found = false;
   a.forEach(product=>{
     product.__v = 0;
     req.user.mycart.forEach(cart=>{
-      console.log(product._id.toString(),cart.product._id.toString())
+
       if(product._id.toString() == cart.product._id.toString() ){
-        console.log("Im in")
         product.__v = cart.count;
         product.save()
         found = true;
       }
-    })
+
     found = false;
   })
+      })
   return res.status(200).json(a)
 };
 
