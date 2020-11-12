@@ -750,7 +750,7 @@ exports.removeCart = async function (req, res, next) {
 };
 
 exports.getproducts = async function (req, res, next) {
-  var a = await db.Product.find({type:"product"});
+  var a = await db.Product.find({type:"product"}).populate('varient');;
   found = false;
   a.forEach(product=>{
     product.__v = 0;
