@@ -766,7 +766,7 @@ exports.getproducts = async function (req, res, next) {
   //   found = false;
   // })
   // return res.status(200).json(a)
-  const data = await db.Product.find({ category: req.params.category, type: "product" }).populate('varient');
+  const data = await db.Product.find({ type: "product" }).populate('varient');
   //console.log(data);
   //console.log(req.user.mycart);
     for(var list of data){
