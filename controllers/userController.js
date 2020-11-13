@@ -750,22 +750,43 @@ exports.removeCart = async function (req, res, next) {
 };
 
 exports.getproducts = async function (req, res, next) {
-  var a = await db.Product.find({type:"product"}).populate('varient');
-  found = false;
-  a.forEach(product=>{
-    product.__v = 0;
-    req.user.mycart.forEach(cart=>{
-
-      if(product._id.toString() == cart.product._id.toString() ){
-        product.__v = cart.count;
-        product.save()
-        found = true;
+  // var a = await db.Product.find({type:"product"});
+  // found = false;
+  // a.forEach(product=>{
+  //   product.__v = 0;
+  //   req.user.mycart.forEach(cart=>{
+  //     console.log(product._id.toString(),cart.product._id.toString())
+  //     if(product._id.toString() == cart.product._id.toString() ){
+  //       console.log("Im in")
+  //       product.__v = cart.count;
+  //       product.save()
+  //       found = true;
+  //     }
+  //   })
+  //   found = false;
+  // })
+  // return res.status(200).json(a)
+  const data = await db.Product.find({ category: req.params.category, type: "product" }).populate('varient');
+  //console.log(data);
+  //console.log(req.user.mycart);
+    for(var list of data){
+      for(var cart of req.user.mycart){
+      
+        if(list._id.toString() == cart.product._id.toString()){
+            list.count = cart.count;       
+        }
+        for(var varient of list.varient){
+          
+            if(varient._id.toString() == cart.product._id.toString()){
+              varient.count = cart.count;
+            }
+          
+        }
+        
       }
-
-    found = false;
-  })
-      })
-  return res.status(200).json(a)
+      
+    }
+     return res.status(200).json(data)
 };
 
 exports.getmyOrders = async function (req, res, next) {
