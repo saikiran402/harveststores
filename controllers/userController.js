@@ -605,7 +605,6 @@ exports.getCartProducts = async function (req, res, next) {
   var total1 = (obj.total - req.user.credits) + req.user.amountDue;
     if(total1>=0){
       obj.total=total1;
-      
     }else{
       obj.total=0;
     }
@@ -640,16 +639,25 @@ exports.placeOrders = async function (req, res, next) {
       }
 
     }
-    total1 = (total - req.user.credits) + req.user.amountDue;
-    if(total1>=0){
+    total1 = total + req.user.amountDue;
+    if(req.user.credits > total1){
+      req.user.credits = req.user.credits - total1;
+      total1 = 0;
       total=total1;
-      req.user.credits=0
-      
+      req.user.amountDue = 0;
     }else{
-      total=0;
-      req.user.credits=Number(total1);
-      
+      total1 = total1 - req.user.credits;
+      req.user.credits = 0;
+      total=total1;
     }
+    // if(total1>=0){
+    //   total=total1;
+    //   req.user.credits=0
+      
+    // }else{
+    //   total=0;
+    //   req.user.credits=Number(total1);
+    // }
     //console.log(cart, total);
 
     var orderId = uniqid();
@@ -666,7 +674,8 @@ exports.placeOrders = async function (req, res, next) {
     }
     const data = await db.Order.create(obj);
     //console.log(data);
-    req.user.credits = 0;
+    // req.user.credits = 0;
+    // req.user.amountDue = 0;
     req.user.name = req.body.name;
     req.user.address = req.body.address;
     req.user.myorders.push(data._id);
