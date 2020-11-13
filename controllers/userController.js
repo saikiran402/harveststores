@@ -648,6 +648,7 @@ exports.placeOrders = async function (req, res, next) {
     }else{
       total1 = total1 - req.user.credits;
       req.user.credits = 0;
+      req.user.amountDue = 0;
       total=total1;
     }
     // if(total1>=0){
