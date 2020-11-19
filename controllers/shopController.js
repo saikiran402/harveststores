@@ -9,6 +9,10 @@ var cloudinary = require('cloudinary').v2;
 var admin = require("firebase-admin");
 
 
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
 function relDiff(a, b) {
   return  100 * Math.abs( ( a - b ) / ( (a+b)/2 ) );
  }
@@ -334,7 +338,37 @@ async function sendFcm(token,title,body){
  console.log(a)
 }
 
+exports.searchProducts = async function (req, res) {
+  var search = req.query.query;
+  const regex = new RegExp(escapeRegex(search), 'gi');
+  var newItem = {  name: search }
+  var product = await db.Product.find({product_name: regex});
+  res.render("searched", {categories:product});
 
+};
+
+exports.searchAPI = async function (req, res) {
+  var search = req.query.query;
+  const regex = new RegExp(escapeRegex(search), 'gi');
+  var newItem = {  name: search }
+  var product = await db.Product.find({product_name: regex}).populate('varient');
+  return res.status(200).json(product);
+
+};
+
+exports.searchProductss = async function (req, res) {
+  console.log("hh")
+    var product = await db.Product.find({}).populate('varient').limit(50);
+  res.render("searched", {categories:product,res:product});
+
+  };
+
+  exports.searchProductsss = async function (req, res) {
+    console.log("asas")
+    var product = await db.Product.find({}).populate('varient').limit(50);
+ return res.status(200).json(product);
+
+  };
 
 exports.showDues = async function (req, res) {
   const dues = await db.Order.find({amountDue:{ $gt:0}}).populate('products.product').populate('delivery_location').populate('userId');

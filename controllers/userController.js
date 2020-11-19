@@ -13,6 +13,11 @@ admin.initializeApp({
   databaseURL: "https://harveststores-6e6a5.firebaseio.com"
 });
 
+
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
 exports.sendOTP = async function (req, res, next) {
   try {
     console.log(req.body);
@@ -48,10 +53,8 @@ exports.sendOTP = async function (req, res, next) {
           req_in.write("{}");
           req_in.end();
         }
-
-      
   
-            var options = {
+        var options = {
               method: "GET",
               hostname: "2factor.in",
               port: null,
@@ -776,12 +779,15 @@ exports.getproducts = async function (req, res, next) {
   //   found = false;
   // })
   // return res.status(200).json(a)
-  const data = await db.Product.find({ type: "product" }).populate('varient');
+  console.log("in ",req.user.mycart.length)
+  
   //console.log(data);
   //console.log(req.user.mycart);
-    for(var list of data){
+    if(req.user.mycart.length > 0){
+      console.log("ins")
+      const data = await db.Product.find({ type: "product" }).populate('varient');
       for(var cart of req.user.mycart){
-      
+        for(var list of data){
         if(list._id.toString() == cart.product._id.toString()){
             list.count = cart.count;       
         }
@@ -796,8 +802,17 @@ exports.getproducts = async function (req, res, next) {
       }
       
     }
-     return res.status(200).json(data)
+  }else{
+    console.log("insss")
+    const data = await db.Product.find({ type: "product" }).lean();
+    console.log("insss")
+    return res.status(200).json(data)
+  }
+     
 };
+
+
+
 
 exports.getmyOrders = async function (req, res, next) {
   var orders = await db.User.findOne({_id:req.user._id},'myorders').populate('myorders').populate('myorders.products.product');

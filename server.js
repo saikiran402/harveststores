@@ -38,18 +38,18 @@ const version = "V1.0";
 // or use es6 import statements
 // import * as Tracing from '@sentry/tracing';
 
-Sentry.init({
-  dsn: "https://fb01474a091247e89364a9ea0ea80fe9@o471689.ingest.sentry.io/5504019",
+// Sentry.init({
+//   dsn: "https://fb01474a091247e89364a9ea0ea80fe9@o471689.ingest.sentry.io/5504019",
 
-  // We recommend adjusting this value in production, or using tracesSampler
-  // for finer control
-  tracesSampleRate: 1.0,
-});
+//   // We recommend adjusting this value in production, or using tracesSampler
+//   // for finer control
+//   tracesSampleRate: 1.0,
+// });
 
-const transaction = Sentry.startTransaction({
-  op: "test",
-  name: "My First Test Transaction",
-});
+// const transaction = Sentry.startTransaction({
+//   op: "test",
+//   name: "My First Test Transaction",
+// });
 
 // setTimeout(() => {
 //   try {
@@ -100,7 +100,7 @@ app.get("/demo", async(req, res) => {
 
 
 app.get('/adddata', async function(req,res){
-  let stream = fs.createReadStream("choco.csv");
+  let stream = fs.createReadStream("./final/breakfast/breakfast.csv");
   let csvData = [];
   
   let csvStream = fastcsv
@@ -131,6 +131,12 @@ app.get('/adddata', async function(req,res){
   
   stream.pipe(csvStream);
   return res.status(200).json({message:"Done"})
+});
+
+app.get('/generate', async function(req,res){
+  await db.Product.find({ category:'5f9d981b7c6f5cdacc565aa5' }).remove().exec();
+ 
+  return res.status(200).json({message:"Done"});
 });
 
 app.get('/setmrp',async function(req,res){
@@ -194,11 +200,7 @@ app.get('/remove',async function(req,res){
   return res.status(200).json({message:"Done"});
 });
 
-app.get('/generate', async function(req,res){
-  await db.Product.find({ category:'5f9da187736122db93a83561' }).remove().exec();
- 
-  return res.status(200).json({message:"Done"});
-});
+
 
 
 // app.get('/addtovarient',async function(req,res){

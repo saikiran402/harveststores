@@ -1,0 +1,423 @@
+<%- include("./partials/header") -%>
+<!-- Right sidebar Ends-->
+<style>
+
+    .offcanvas .page-wrapper .page-body-wrapper .page-body:before {
+        content: '';
+        background-color: rgba(0,0,0,0);
+        right: 0;
+        left: 255px;
+    }
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #2196F3;
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+</style>
+<div class="page-body">
+
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="page-header-left">
+                        <h3>Product List
+                            <small>Harvest Admin</small>
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <ol class="breadcrumb pull-right">
+                        <li class="breadcrumb-categories[i]"><a href="/shop"><i data-feather="home"></i></a></li>
+                        <!-- <li class="breadcrumb-categories[i]">Physical</li> -->
+                        <li class="breadcrumb-categories[i] active">Product</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid Ends-->
+
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Products</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="btn-popup pull-right">
+                           <!--  <button type="button" class="btn btn-primary" data-toggle="modal" data-original-title="test"
+                            data-target="#exampleModal">Add Products</button> -->
+                     <!--        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title f-w-600" id="exampleModalLabel">Add Product </h5>
+                                            <button class="close" type="button" data-dismiss="modal"
+                                                aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/shop/addproduct" method="POST">
+                                                <input type="hidden" name="category" value="">
+                                                <div class="form">
+                                                    <div class="form-group">
+                                                        <label for="validationCustom01" class="mb-1">Product Name
+                                                            :</label>
+                                                        <input class="form-control" name="product_name" type="text"
+                                                            required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="validationCustom01" class="mb-1">Product Description
+                                                            :</label>
+                                                        <input class="form-control" name="product_description"
+                                                            type="text" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="validationCustom01" class="mb-1">Quantity
+                                                            :</label>
+                                                        <input class="form-control" name="quantity" type="text"
+                                                            required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="validationCustom01" class="mb-1">Harvest Price
+                                                            :</label>
+                                                        <input class="form-control" name="product_price" type="text"
+                                                            required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="validationCustom01" class="mb-1">Original Price
+                                                            :</label>
+                                                        <input class="form-control" name="original_price" type="text"
+                                                            required>
+                                                    </div>
+                                                                                                        <div class="form-group">
+                                                        <label for="validationCustom01" class="mb-1">Image :</label>
+                                                        <input class="form-control" name="image" type="text">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="radio" name="isveg" value="true" checked="checked">
+                                                        <label for="male">Veg</label><br>
+                                                        <input type="radio" name="isveg" value="false">
+                                                        <label for="female">Non Veg</label><br>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-primary" type="submit">Save</button>
+                                                    <button class="btn btn-secondary" type="button"
+                                                        data-dismiss="modal">Close</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                        <%if(categories.length){%>
+                        <table class="table table-hover" >
+                            <thead>
+                                <tr>
+
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Product Description</th>
+                                    <th scope="col">Varients</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Stock</th>
+                                    <th scope="col">Harvest Price</th>
+                                    <th scope="col">Original Price</th>
+                                    <th scope="col">% Off</th>
+                                    <th scope="col">Savings</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="search">
+
+
+
+
+                            </tbody>
+                        </table>
+
+                        <%}%>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid Ends-->
+</div>
+
+
+<!-- footer start-->
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 footer-copyright">
+                <p class="mb-0">Copyright 2019 © Harvest Stores All rights reserved.</p>
+            </div>
+            <div class="col-md-6">
+                <p class="pull-right mb-0">Hand crafted & made with<i class="fa fa-heart"></i></p>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- footer end-->
+</div>
+
+</div>
+<script src="/assets/js/plugins/jquery/dist/jquery.min.js"></script>
+<script src="/assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!--   Optional JS   -->
+<!--   Argon JS   -->
+<script src="/assets/js/argon-dashboard.min.js?v=1.1.1"></script>
+<script src="/assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+
+<script>
+
+    function slider(params) {
+        console.log(params);
+
+        $.get(`/shop/update/${params}`);
+
+    }
+    function schedule(unit) {
+
+        if (unit == "gram") {
+            document.getElementById("pid").innerHTML = "500 grams"
+        } else if (unit == "kilo") {
+            document.getElementById("pid").innerHTML = "1 Kilo "
+        } else if (unit == "liter") {
+            document.getElementById("pid").innerHTML = "1 liter"
+        } else {
+            document.getElementById("pid").innerHTML = "1 dozen"
+        }
+
+    }
+
+
+</script>
+<script>
+    //alert("sdfsdf" + q);
+
+
+
+
+</script>
+<script>
+    var q = <%=categories.length%>;
+
+</script>
+<script>
+
+    jQuery(document).ready(function () {
+
+        for (var p = 1; p <= q; ++p) {
+            $("#newform" + p).submit(function (e) {
+
+                                        e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                                        var form = $(this);
+                                        var url = form.attr('action');
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: url,
+                                            data: form.serialize(), // serializes the form's elements.
+                                            success: function (data) {
+                                                //alert(data); // show response from the php script.
+                                            }
+                                        });
+
+
+                                    })
+            jQuery("#modalForm" + p).submit(function (oEvent) {
+                var form = $(this);
+                var iid = form.attr('id');
+                var id = iid.substr(9, iid.length);
+                                        //alert(id + ' form submitted');
+                                        oEvent.preventDefault();
+                                        var category = jQuery("#category" + id).val();
+                                        var product = jQuery("#product" + id).val();
+                                        var product_name = jQuery("#product_name" + id).val();
+                                        var product_description = jQuery("#product_description" + id).val();
+                                        var quantity = jQuery("#quantity" + id).val();
+                                        var isveg = jQuery("#isveg" + id).val();
+                                        var product_price = jQuery("#product_price" + id).val();
+                                        var image = jQuery("#image" + id).val();
+
+                                        var data = {
+                                            category: category,
+                                            product: product,
+                                            product_name: product_name,
+                                            product_description: product_description,
+                                            quantity: quantity,
+                                            isveg: isveg,
+                                            product_price: product_price,
+                                            image: image,
+                                        };
+                                        console.log(data);
+
+                                        $.ajax({
+                                            method: "POST",
+                                            data: data,
+                                            url: '/shop/addvarients',
+                                            success: function (res) {
+                                                // console.log(res);
+                                                if (res.Status == "success") {
+
+                                                    var a = '';
+
+                                                    var product
+                                                    for (var i = 0; i < res.data.varient.length; i++) {
+                                                        product = res.data.varient[i].product
+                                                        var checked = ""; if
+                                                        (res.data.varient[i].inStock) { checked = "checked" }; a = a
+                                                        + '<input type="hidden" name="data[' + i + '][id]" value="' + res.data.varient[i]._id
+                                                        + '"><div class="row"><div class="col-4"><input class="form-control" style="border: 0;" name="data['
+                                                        + i + '][quantity]" value=' + res.data.varient[i].quantity
+                                                        + ' type="text" required></div><div class="col-4"><input class="form-control" style="border: 0;" name="data['
+                                                        + i + '][product_price]" value=' + res.data.varient[i].product_price
+                                                        + ' type="text" required> </div><div class="col-4"><label class="switch"><input class="xs" type="checkbox" value="'
+                                                        + res.data.varient[i]._id.toString() + '" onclick="slider(this.value)"' + checked
+                                                        + '><span class="slider round"></span></label></div></div>';
+                                                    }
+                                                    //alert(product)
+                                                    document.getElementById("hide" + product).classList.add('d-none');
+                                                    document.getElementById(product).innerHTML = ""
+                                                    document.getElementById(product).innerHTML = '   <form action="/shop/updatevarient" id="newform" method="POST">'
+                                                    + a
+                                                    + ' <div class="modal-footer" style="margin-top: 15px;"><button class="btn btn-primary"type="submit">Save</button><button class="btn btn-secondary" type="button"data-dismiss="modal">Close</button></div></form>'
+                                                    document.getElementById("quantity" + id).value = '';
+                                                    document.getElementById("product_price" + id).value = '';
+                                                } else if (res.Status == "Error") { } //
+                                                else { // showNotifications('top','right'); // } }, error: function (err) {
+                                                    $('#loadingmessage').hide(); showNotifications('top', 'right', res.message);
+                                                }
+                                            }
+                                        });
+                                    });
+}
+});
+</script>
+<!-- latest jquery-->
+<script src="../assets/js/jquery-3.3.1.min.js"></script>
+
+<!-- Bootstrap js-->
+<script src="../assets/js/popper.min.js"></script>
+<script src="../assets/js/bootstrap.js"></script>
+
+<!-- feather icon js-->
+<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+
+<!-- Sidebar jquery-->
+<script src="../assets/js/sidebar-menu.js"></script>
+
+<!-- Jsgrid js-->
+<script src="../assets/js/jsgrid/jsgrid.min.js"></script>
+<script src="../assets/js/jsgrid/griddata-sub-product.js"></script>
+<script src="../assets/js/jsgrid/jsgrid-digital-sub.js"></script>
+
+<!-- lazyload js-->
+<script src="../assets/js/lazysizes.min.js"></script>
+
+<!--right sidebar js-->
+<script src="../assets/js/chat-menu.js"></script>
+
+<!--script admin-->
+<script src="../assets/js/admin-script.js"></script>
+<script>
+    function as(asa) {
+       var a = document.getElementById('query').value;
+       if(a.length>3){
+        $.ajax({
+            method: "GET",
+            url: '/shop/search/api?query='+a,
+            success: function (res) {
+                $("#search tr").remove(); 
+                if(res.length >30){                                                             
+                  for(var i=0;i<30;i++){
+                    console.log(res[i]);
+                    $('#search').append('<tr> <td><img class="rounded-circle" style="width: 70px;" src="'+res[i].image+'"> <input type="text" name="image" value="'+res[i].image+'"> </td> <td><input type="text" style="border: 0;" name="product_name"value="'+res[i].product_name+'"> </td> <td> <textarea name="product_description" style="border: 0; overflow: hidden;"class="form-control" value>'+res[i].product_description+'</textarea> <input type="text" style="border: 0;" class=""value="'+res[i].product_description+'">  </td> <td>'+res[i].quantity+'</td><td><button type="button" class="btn btn-xs btn-primary" data-toggle="modal"data-original-title="test" data-target="#'+res[i].product_description+''+i+'>   <td><button class="btn btn-sm btn-primary">show varients</button></td> <td>'+res[i].quantity+'</td> <%if('+res[i].inStock+'){%> <td> <label class="switch"> <input class="xs" type="checkbox" value="'+res[i].product_description+'"onclick="slider(this.value)" checked>  </label> </td> <%}else{%> <td> <label class="switch"> <input class="btn-xs" type="checkbox" value="'+res[i]._id+'"onclick="slider(this.value)">  </label> </td> <%}%> <td>₹<input type="text" style="border: 0; width: 35px;" name="product_price" value="'+res[i].product_price+'"> </td> <td>₹<input type="text" style="border: 0; width: 35px;" name="original_price" value="'+res[i].original_price+'"> </td> <td><span>'+res[i].percent_off+'%</span> </td> <td><span>'+res[i].you_save+'</span> </td> <td><input type="submit" class="btn btn-xs btn-info">&nbsp;&nbsp;<a href="/shop/deleteproduct/'+res[i]._id+'/'+res[i].category+'""><i class="fa fa-trash"></i></a> </td> </tr>');
+                }
+            }else{
+ for(var i=0;i<res.length;i++){
+                    console.log(res[i]);
+                    $('#search').append('<tr> <td><img class="rounded-circle" style="width: 70px;" src="'+res[i].image+'"> <input type="text" name="image" value="'+res[i].image+'"> </td> <td><input type="text" style="border: 0;" name="product_name"value="'+res[i].product_name+'"> </td> <td> <textarea name="product_description" style="border: 0; overflow: hidden;"class="form-control" value>'+res[i].product_description+'</textarea> <input type="text" style="border: 0;" class=""value="'+res[i].product_description+'">  </td> <td>'+res[i].quantity+'</td><td><button type="button" class="btn btn-xs btn-primary" data-toggle="modal"data-original-title="test" data-target="#'+res[i].product_description+''+i+'>   <td><button class="btn btn-sm btn-primary">show varients</button></td> <td>'+res[i].quantity+'</td> <%if('+res[i].inStock+'){%> <td> <label class="switch"> <input class="xs" type="checkbox" value="'+res[i].product_description+'"onclick="slider(this.value)" checked>  </label> </td> <%}else{%> <td> <label class="switch"> <input class="btn-xs" type="checkbox" value="'+res[i]._id+'"onclick="slider(this.value)">  </label> </td> <%}%> <td>₹<input type="text" style="border: 0; width: 35px;" name="product_price" value="'+res[i].product_price+'"> </td> <td>₹<input type="text" style="border: 0; width: 35px;" name="original_price" value="'+res[i].original_price+'"> </td> <td><span>'+res[i].percent_off+'%</span> </td> <td><span>'+res[i].you_save+'</span> </td> <td><input type="submit" class="btn btn-xs btn-info">&nbsp;&nbsp;<a href="/shop/deleteproduct/'+res[i]._id+'/'+res[i].category+'""><i class="fa fa-trash"></i></a> </td> </tr>');
+                }
+            }
+
+
+            }
+        });
+
+    }
+          // body...
+
+      }
+  </script>
+
+</body>
+
+</html>
