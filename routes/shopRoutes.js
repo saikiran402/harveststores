@@ -6,7 +6,7 @@ const {
   addCategories, createadmin, admin, deleteadmin,
   getProduct, getpending, setmytaken, getmytaken,
   addproduct, addvarients, updatevarient, delivered, validate,
-  update, Updateproduct, deleteproduct, updatevarientNew, getpendingforadmin, adminpacked,deliveredApp,showDues,searchProducts,searchProductss,searchAPI,searchProductsss
+  update, Updateproduct, deleteproduct, updatevarientNew, getpendingforadmin, adminpacked,deliveredApp,showDues,searchProducts,searchProductss,searchAPI,searchProductsss,getOutStock
 } = require("../controllers/shopController.js");
 
 
@@ -48,5 +48,6 @@ router.get('/searched',searchProducts)
 router.get('/search/api',searchAPI);
 router.get('/search/apidef',searchProductsss);
 
+router.get('/outofstock',getOutStock);
 
 module.exports = router;

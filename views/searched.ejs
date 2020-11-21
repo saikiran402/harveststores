@@ -179,7 +179,7 @@
                                     <th scope="col">Image</th>
                                     <th scope="col">Product Name</th>
                                     <th scope="col">Product Description</th>
-                                    <th scope="col">Varients</th>
+                          
                                     <th scope="col">Quantity</th>
                                     <th scope="col">Stock</th>
                                     <th scope="col">Harvest Price</th>
@@ -196,6 +196,8 @@
 
 
                             </tbody>
+                            <div id="asd">
+                            </div>
                         </table>
 
                         <%}%>
@@ -389,8 +391,8 @@
 <script src="../assets/js/admin-script.js"></script>
 <script>
     function as(asa) {
-       var a = document.getElementById('query').value;
-       if(a.length>3){
+     var a = document.getElementById('query').value;
+     if(a.length >3){
         $.ajax({
             method: "GET",
             url: '/shop/search/api?query='+a,
@@ -398,26 +400,26 @@
                 $("#search tr").remove(); 
                 if(res.length >30){                                                             
                   for(var i=0;i<30;i++){
-                    console.log(res[i]);
+                    console.log("1");
                     $('#search').append('<tr> <td><img class="rounded-circle" style="width: 70px;" src="'+res[i].image+'"> <input type="text" name="image" value="'+res[i].image+'"> </td> <td><input type="text" style="border: 0;" name="product_name"value="'+res[i].product_name+'"> </td> <td> <textarea name="product_description" style="border: 0; overflow: hidden;"class="form-control" value>'+res[i].product_description+'</textarea> <input type="text" style="border: 0;" class=""value="'+res[i].product_description+'">  </td> <td>'+res[i].quantity+'</td><td><button type="button" class="btn btn-xs btn-primary" data-toggle="modal"data-original-title="test" data-target="#'+res[i].product_description+''+i+'>   <td><button class="btn btn-sm btn-primary">show varients</button></td> <td>'+res[i].quantity+'</td> <%if('+res[i].inStock+'){%> <td> <label class="switch"> <input class="xs" type="checkbox" value="'+res[i].product_description+'"onclick="slider(this.value)" checked>  </label> </td> <%}else{%> <td> <label class="switch"> <input class="btn-xs" type="checkbox" value="'+res[i]._id+'"onclick="slider(this.value)">  </label> </td> <%}%> <td>₹<input type="text" style="border: 0; width: 35px;" name="product_price" value="'+res[i].product_price+'"> </td> <td>₹<input type="text" style="border: 0; width: 35px;" name="original_price" value="'+res[i].original_price+'"> </td> <td><span>'+res[i].percent_off+'%</span> </td> <td><span>'+res[i].you_save+'</span> </td> <td><input type="submit" class="btn btn-xs btn-info">&nbsp;&nbsp;<a href="/shop/deleteproduct/'+res[i]._id+'/'+res[i].category+'""><i class="fa fa-trash"></i></a> </td> </tr>');
                 }
             }else{
- for(var i=0;i<res.length;i++){
-                    console.log(res[i]);
-                    $('#search').append('<tr> <td><img class="rounded-circle" style="width: 70px;" src="'+res[i].image+'"> <input type="text" name="image" value="'+res[i].image+'"> </td> <td><input type="text" style="border: 0;" name="product_name"value="'+res[i].product_name+'"> </td> <td> <textarea name="product_description" style="border: 0; overflow: hidden;"class="form-control" value>'+res[i].product_description+'</textarea> <input type="text" style="border: 0;" class=""value="'+res[i].product_description+'">  </td> <td>'+res[i].quantity+'</td><td><button type="button" class="btn btn-xs btn-primary" data-toggle="modal"data-original-title="test" data-target="#'+res[i].product_description+''+i+'>   <td><button class="btn btn-sm btn-primary">show varients</button></td> <td>'+res[i].quantity+'</td> <%if('+res[i].inStock+'){%> <td> <label class="switch"> <input class="xs" type="checkbox" value="'+res[i].product_description+'"onclick="slider(this.value)" checked>  </label> </td> <%}else{%> <td> <label class="switch"> <input class="btn-xs" type="checkbox" value="'+res[i]._id+'"onclick="slider(this.value)">  </label> </td> <%}%> <td>₹<input type="text" style="border: 0; width: 35px;" name="product_price" value="'+res[i].product_price+'"> </td> <td>₹<input type="text" style="border: 0; width: 35px;" name="original_price" value="'+res[i].original_price+'"> </td> <td><span>'+res[i].percent_off+'%</span> </td> <td><span>'+res[i].you_save+'</span> </td> <td><input type="submit" class="btn btn-xs btn-info">&nbsp;&nbsp;<a href="/shop/deleteproduct/'+res[i]._id+'/'+res[i].category+'""><i class="fa fa-trash"></i></a> </td> </tr>');
+                for(var i=0;i<res.length;i++){
+                    $('#search').append('<tr> <td><img class="rounded-circle" style="width: 70px;" src="'+res[i].image+'"> <input type="text" name="image" value="'+res[i].image+'"> </td> <td><input type="text" style="border: 0;" name="product_name"value="'+res[i].product_name+'"> </td> <td> <textarea name="product_description" style="border: 0; overflow: hidden;"class="form-control" value>'+res[i].product_description+'</textarea></td>  <td>'+res[i].quantity+'</td> <td> <label class="switch"> <input class="xs" type="checkbox" value='+res[i]._id+' onclick="slider(this.value)" checked="false"> <span class="slider round"></span> </label> </td></td> <td>₹<input type="text" style="border: 0; width: 35px;" name="original_price" value="'+res[i].product_price+'"></td> <td>₹<input type="text" style="border: 0; width: 35px;" name="original_price" value="'+res[i].original_price+'"> </td> <td><span>'+res[i].percent_off+'%</span> </td> <td><span>'+res[i].you_save+'</span> </td> <td>&nbsp;&nbsp;<a href="/shop/deleteproduct/'+res[i]._id+'/'+res[i].category+'""><i class="fa fa-trash"></i></a> </td> </tr>'); 
                 }
-            }
-
-
-            }
-        });
-
+                } }
+            });
     }
+
           // body...
 
       }
-  </script>
 
+  </script>
+  <script>
+
+
+  </script>
 </body>
 
 </html>

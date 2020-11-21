@@ -44,17 +44,17 @@ exports.validate = async function (req, res) {
       });
       res.redirect('/shop/home')
     } else {
-      res.render('Login_v1/index', { msg: "This Incident will be reported" });
+      res.render('Login_v1/index', { msg: "This Incident will be reported",cansearch:false });
     }
   } else {
-    res.render('Login_v1/index', { msg: "invalid credentials" });
+    res.render('Login_v1/index', { msg: "invalid credentials",cansearch:false });
   }
 }
 
 
 exports.home = async function (req, res) {
   const cat = await db.Category.find({});
-  res.render("product-list", { categories: cat });
+  res.render("product-list", { categories: cat,cansearch:false });
 };
 
 exports.addCategories = async function (req, res) {
@@ -77,7 +77,7 @@ exports.getProduct = async function (req, res) {
 
     const cat = await db.Product.find({ category: req.query.cat, type: 'product' }).populate('varient');
     console.log(cat);
-    res.render("products", { categories: cat, categoryId: req.query.cat });
+    res.render("products", { categories: cat, categoryId: req.query.cat,cansearch:false });
   } catch (err) {
     res.status(500).json({ message: "error" });
   }
@@ -200,7 +200,7 @@ exports.createadmin = async function (req, res) {
 
   if (user.length) {
     const data = await db.User.find({ isAdmin: true })
-    res.render('addAdmin', { data: data, msg: "Phone number already exist" })
+    res.render('addAdmin', { data: data, msg: "Phone number already exist",cansearch:false })
   } else {
     const data = await db.User.create({ phone: req.body.phone, name: req.body.name, isAdmin: true, mycart: [], myorders: [], verified: true });
     // const data1 = await db.User.find({ isAdmin: true })
@@ -212,7 +212,7 @@ exports.createadmin = async function (req, res) {
 };
 exports.admin = async function (req, res) {
   const data = await db.User.find({ isAdmin: true })
-  res.render('addAdmin', { data: data, msg: "" })
+  res.render('addAdmin', { data: data, msg: "",cansearch:false })
 
 
 };
@@ -302,7 +302,7 @@ exports.delivered = async function (req, res) {
 exports.getpendingforadmin = async function (req, res) {
   const data = await db.Order.find({ status: { $ne: "Delivered" } }).populate('products.product').populate('delivery_location');
 
-  res.render('showOrders', { data: data, msg: "" })
+  res.render('showOrders', { data: data, msg: "",cansearch:false })
 };
 
 
@@ -343,7 +343,7 @@ exports.searchProducts = async function (req, res) {
   const regex = new RegExp(escapeRegex(search), 'gi');
   var newItem = {  name: search }
   var product = await db.Product.find({product_name: regex});
-  res.render("searched", {categories:product});
+  res.render("searched", {categories:product,cansearch:true});
 
 };
 
@@ -359,7 +359,7 @@ exports.searchAPI = async function (req, res) {
 exports.searchProductss = async function (req, res) {
   console.log("hh")
     var product = await db.Product.find({}).populate('varient').limit(50);
-  res.render("searched", {categories:product,res:product});
+  res.render("searched", {categories:product,res:product,cansearch:true});
 
   };
 
@@ -368,6 +368,17 @@ exports.searchProductss = async function (req, res) {
     var product = await db.Product.find({}).populate('varient').limit(50);
  return res.status(200).json(product);
 
+  };
+
+
+  exports.getOutStock = async function (req, res) {
+var product = await db.Product.find({inStock:false}).populate('varient');
+if(product.length>0){
+
+    res.render("outofstock", { categories: product, categoryId: product[0].category,cansearch:false });
+}else{
+    res.render("outofstock", { categories: product, categoryId: "product[0].category",cansearch:false });
+}
   };
 
 exports.showDues = async function (req, res) {

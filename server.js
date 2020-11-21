@@ -100,7 +100,7 @@ app.get("/demo", async(req, res) => {
 
 
 app.get('/adddata', async function(req,res){
-  let stream = fs.createReadStream("./final/breakfast/breakfast.csv");
+  let stream = fs.createReadStream("../house/house.csv");
   let csvData = [];
   
   let csvStream = fastcsv
@@ -134,7 +134,7 @@ app.get('/adddata', async function(req,res){
 });
 
 app.get('/generate', async function(req,res){
-  await db.Product.find({ category:'5f9d981b7c6f5cdacc565aa5' }).remove().exec();
+  await db.Product.find({ category:'5f96ef11b6627a0017e7882f' }).remove().exec();
  
   return res.status(200).json({message:"Done"});
 });
@@ -190,14 +190,11 @@ app.get('/calculatepercentage',async function(req,res){
 
 app.get('/remove',async function(req,res){
 
-  var a = await db.Product.find({});
-  a.forEach(list=>{
-    
-    list.count = 0;
-    list.save();
-    
-  })
-  return res.status(200).json({message:"Done"});
+  var a = await db.Product.find({category:"5f9d981b7c6f5cdacc565aa5"});
+  // for(var i=a.length;i>45;i--){
+  //  await db.Product.findByIdAndRemove(a[i]._id);
+  // }
+  return res.status(200).json({message:a.length});
 });
 
 

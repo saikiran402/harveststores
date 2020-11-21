@@ -69,7 +69,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="page-header-left">
-                        <h3>Product List
+                        <h3>Out Of Stock
                             <small>Harvest Admin</small>
                         </h3>
                     </div>
@@ -96,16 +96,14 @@
                     </div>
                     <div class="card-body">
                         <div class="btn-popup pull-right">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-original-title="test"
-                            data-target="#exampleModal">Add Products</button>
+                            
                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title f-w-600" id="exampleModalLabel">Add Product </h5>
-                                        <button class="close" type="button" data-dismiss="modal"
-                                        aria-label="Close"><span aria-hidden="true">×</span></button>
+                                     
+                          
                                     </div>
                                     <div class="modal-body">
                                         <form action="/shop/addproduct" method="POST">
@@ -185,7 +183,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-
+                                     
                                         <th scope="col">Image</th>
                                         <th scope="col">Product Name</th>
                                         <th scope="col">Product Description</th>
@@ -200,13 +198,13 @@
                                     </tr>
                                 </thead>
 
-                                <tbody id="search">
+                                <tbody>
                                     <%var i=1;for(var item of categories){%>
                                     <form action="/shop/updateproduct" method="POST">
                                         <input type="hidden" name="category" value="<%=item.category%>">
                                         <input type="hidden" name="id" value="<%=item._id%>">
                                         <tr>
-
+                                         
 
                                             <td><img class="rounded-circle" style="width: 70px;" src="<%=item.image%>">
                                                 <input type="text" name="image" value="<%=item.image%>">
@@ -242,7 +240,7 @@
                                                 </label>
                                             </td>
                                             <%}%>
-
+                                            
                                             <td>₹<input type="text" style="border: 0; width: 35px;" name="product_price" value="<%=item.product_price%>">
                                             </td>
                                             <td>₹<input type="text" style="border: 0; width: 35px;" name="original_price" value="<%=item.original_price%>">
@@ -372,7 +370,7 @@
 
 
                                                             </div>
-
+                                                            
 
                                                             <%j++;}%>
                                                             <div class="modal-footer" style="margin-top: 15px;">
@@ -414,7 +412,7 @@
         </div>
         <!-- Container-fluid Ends-->
     </div>
-
+    
     
     <!-- footer start-->
     <footer class="footer">
@@ -569,31 +567,6 @@
                                     });
 }
 });
-
-  function as(asa) {
-     var a = document.getElementById('query').value;
-     if(a.length >3){
-        $.ajax({
-            method: "GET",
-            url: '/shop/search/api?query='+a,
-            success: function (res) {
-                $("#search tr").remove(); 
-                if(res.length >30){                                                             
-                  for(var i=0;i<30;i++){
-                    console.log("1");
-                    $('#search').append('<tr> <td><img class="rounded-circle" style="width: 70px;" src="'+res[i].image+'"> <input type="text" name="image" value="'+res[i].image+'"> </td> <td><input type="text" style="border: 0;" name="product_name"value="'+res[i].product_name+'"> </td> <td> <textarea name="product_description" style="border: 0; overflow: hidden;"class="form-control" value>'+res[i].product_description+'</textarea> <input type="text" style="border: 0;" class=""value="'+res[i].product_description+'">  </td> <td>'+res[i].quantity+'</td><td><button type="button" class="btn btn-xs btn-primary" data-toggle="modal"data-original-title="test" data-target="#'+res[i].product_description+''+i+'>   <td><button class="btn btn-sm btn-primary">show varients</button></td> <td>'+res[i].quantity+'</td> <%if('+res[i].inStock+'){%> <td> <label class="switch"> <input class="xs" type="checkbox" value="'+res[i].product_description+'"onclick="slider(this.value)" checked>  </label> </td> <%}else{%> <td> <label class="switch"> <input class="btn-xs" type="checkbox" value="'+res[i]._id+'"onclick="slider(this.value)">  </label> </td> <%}%> <td>₹<input type="text" style="border: 0; width: 35px;" name="product_price" value="'+res[i].product_price+'"> </td> <td>₹<input type="text" style="border: 0; width: 35px;" name="original_price" value="'+res[i].original_price+'"> </td> <td><span>'+res[i].percent_off+'%</span> </td> <td><span>'+res[i].you_save+'</span> </td> <td><input type="submit" class="btn btn-xs btn-info">&nbsp;&nbsp;<a href="/shop/deleteproduct/'+res[i]._id+'/'+res[i].category+'""><i class="fa fa-trash"></i></a> </td> </tr>');
-                }
-            }else{
-                for(var i=0;i<res.length;i++){
-                    $('#search').append('<tr> <td><img class="rounded-circle" style="width: 70px;" src="'+res[i].image+'"> <input type="text" name="image" value="'+res[i].image+'"> </td> <td><input type="text" style="border: 0;" name="product_name"value="'+res[i].product_name+'"> </td> <td> <textarea name="product_description" style="border: 0; overflow: hidden;"class="form-control" value>'+res[i].product_description+'</textarea></td>  <td>'+res[i].quantity+'</td> <td> <label class="switch"> <input class="xs" type="checkbox" value='+res[i]._id+' onclick="slider(this.value)" checked="false"> <span class="slider round"></span> </label> </td></td> <td>₹<input type="text" style="border: 0; width: 35px;" name="original_price" value="'+res[i].product_price+'"></td> <td>₹<input type="text" style="border: 0; width: 35px;" name="original_price" value="'+res[i].original_price+'"> </td> <td><span>'+res[i].percent_off+'%</span> </td> <td><span>'+res[i].you_save+'</span> </td> <td>&nbsp;&nbsp;<a href="/shop/deleteproduct/'+res[i]._id+'/'+res[i].category+'""><i class="fa fa-trash"></i></a> </td> </tr>'); 
-                }
-                } }
-            });
-    }
-
-          // body...
-
-      }
 </script>
 <!-- latest jquery-->
 <script src="../assets/js/jquery-3.3.1.min.js"></script>

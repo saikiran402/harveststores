@@ -58,8 +58,10 @@
             <li>
               
                 <div class="form-group">
+                  <%if(cansearch){%>
                   <input class="form-control-plaintext" name="query" id="query" placeholder="Search.." onkeyup="as(this.value)"><span
                     class="d-sm-none mobile-search" ><i data-feather="search" ></i></span>
+                    <%}else{}%>
                 </div>
          
             </li>
@@ -79,7 +81,7 @@
       <!-- Page Sidebar Start-->
       <div class="page-sidebar">
         <div class="main-header-left d-none d-lg-block">
-          <div class="logo-wrapper"><a href="index.html"><img class="blur-up lazyloaded"
+          <div class="logo-wrapper"><a href="/shop/home"><img class="blur-up lazyloaded"
                 src="https://harveststores.in/images/home/logo.png" height="30px;" alt=""></a></div>
         </div>
         <div class="sidebar custom-scrollbar">
@@ -91,15 +93,14 @@
             <p style="color: green;">Online</p>
           </div>
           <ul class="sidebar-menu">
-            <li><a class="sidebar-header" href="/shop/home"><i data-feather="home"></i><span>Dashboard</span></a>
-            </li>
+          
             <li><a class="sidebar-header" href="/shop/home"><i data-feather="box"></i> <span>Products</span></a>
             </li>
             <li><a class="sidebar-header" href="/shop/admin"><i data-feather="box"></i> <span>Admins</span></a></li>
             <li><a class="sidebar-header" href="/shop/orders"><i data-feather="box"></i> <span>Orders</span></a></li>
             <li><a class="sidebar-header" href="/shop/dues"><i data-feather="box"></i> <span>Dues</span></a></li>
- <li><a class="sidebar-header" href="/shop/dues"><i data-feather="box"></i> <span>Out Of Stock</span></a></li>
- <li><a class="sidebar-header" href="/shop/search"><i data-feather="box"></i> <span>Search</span></a></li>
+ <li><a class="sidebar-header" href="/shop/outofstock"><i data-feather="box"></i> <span>Out Of Stock</span></a></li>
+ <li><a class="sidebar-header" href="/shop/search"><i data-feather="box"></i> <span>Mark out of Stock</span></a></li>
 
 
 
