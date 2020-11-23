@@ -517,7 +517,8 @@ exports.within = async function (req, res, next) {
     console.log(user);
     next()
   } else {
-    res.status(409).json({ message: "out of bounds" });
+    next()
+    //res.status(409).json({ message: "out of bounds" });
   }
 };
 exports.getAllcategories = async function (req, res) {
