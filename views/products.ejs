@@ -224,7 +224,9 @@
                                             <td><button type="button" class="btn btn-xs btn-primary" data-toggle="modal"
                                                 data-original-title="test" data-target="#<%=item._id%><%=i%>">Show
                                             Varients</button></td>
-                                            <td><%=item.quantity%></td>
+                                            <td>
+                                                <input type="text" style="border: 0; width: 35px;" name="quantity" value="<%=item.quantity%>">
+                                            </td>
                                             <%if(item.inStock){%>
                                             <td>
                                                 <label class="switch">

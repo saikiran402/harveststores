@@ -119,6 +119,7 @@ exports.Updateproduct = async function (req, res) {
   cat.product_name = req.body.product_name;
   cat.product_description= req.body.product_description;
   cat.product_price=req.body.product_price;
+  cat.quantity=req.body.quantity;
   cat.image=req.body.image;
   cat.original_price=req.body.original_price;
   cat.you_save=(req.body.original_price - req.body.product_price).toFixed(2);
