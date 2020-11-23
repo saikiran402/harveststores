@@ -802,6 +802,7 @@ exports.getproducts = async function (req, res, next) {
       }
       
     }
+        return res.status(200).json(data)
   }else{
     console.log("insss")
     const data = await db.Product.find({ type: "product" }).populate('varient').limit(10);
