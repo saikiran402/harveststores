@@ -785,7 +785,7 @@ exports.getproducts = async function (req, res, next) {
   //console.log(req.user.mycart);
     if(req.user.mycart.length > 0){
       console.log("ins")
-      const data = await db.Product.find({ type: "product" }).populate('varient').limit(20);
+      const data = await db.Product.find({ type: "product" }).populate('varient').limit(10);
       for(var cart of req.user.mycart){
         for(var list of data){
         if(list._id.toString() == cart.product._id.toString()){
@@ -804,7 +804,7 @@ exports.getproducts = async function (req, res, next) {
     }
   }else{
     console.log("insss")
-    const data = await db.Product.find({ type: "product" }).lean();
+    const data = await db.Product.find({ type: "product" }).populate('varient').limit(10);
     console.log("insss")
     return res.status(200).json(data)
   }
