@@ -178,7 +178,7 @@ exports.updatevarient = async function (req, res) {
   var product
   for (var item of req.body.data) {
     category = item.category
-    const data = await db.Product.findOneAndUpdate({ _id: item.id }, { quantity: item.quantity, price: item.price });
+    const data = await db.Product.findOneAndUpdate({ _id: item.id },{ quantity: item.quantity, product_price: item.product_price });
     product = data.product
   }
   if (!category) {

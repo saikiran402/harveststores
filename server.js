@@ -190,10 +190,22 @@ app.get('/calculatepercentage',async function(req,res){
 
 app.get('/remove',async function(req,res){
 
-  var a = await db.Product.find({category:"5f9d981b7c6f5cdacc565aa5"});
-  // for(var i=a.length;i>45;i--){
-  //  await db.Product.findByIdAndRemove(a[i]._id);
-  // }
+  var a = await db.Product.find({category:"5f7af4785b54032158c8442f"});
+
+a.forEach(async list=>{
+  list.varient = []
+  // list.varient.forEach(lust=>{
+  //   if(list._id == lust){
+
+  //   }else{
+  //     await db.Product.findByIdAndRemove(list);
+  //   }
+
+  // })
+list.save();
+})
+  
+
   return res.status(200).json({message:a.length});
 });
 
@@ -215,3 +227,15 @@ app.listen(port, function () {
   console.log(`Server is running at the ${port}`);
 });
 module.exports = app;
+
+
+
+
+
+
+
+
+
+
+
+
