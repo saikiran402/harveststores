@@ -3,14 +3,15 @@ const router = express.Router({ mergeParams: true });
 const { protect } = require("../middleware/auth.js");
 const {
   home,
-  addCategories, createadmin, admin, deleteadmin,
+  addCategories, createadmin, admin, deleteadmin,bannerUpdate,banner,
   getProduct, getpending, setmytaken, getmytaken,
   addproduct, addvarients, updatevarient, delivered, validate,
   update, Updateproduct, deleteproduct, updatevarientNew, getpendingforadmin, adminpacked,deliveredApp,showDues,searchProducts,searchProductss,searchAPI,searchProductsss,getOutStock
 } = require("../controllers/shopController.js");
 
 
-
+router.route("/banner").get(banner);
+router.route("/bannerupdate/:bid").post(bannerUpdate);
 router.route("/validate").post(validate);
 router.route("/home").get(home);
 router.route("/update/:id").get(protect, update);

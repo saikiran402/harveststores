@@ -386,3 +386,28 @@ exports.showDues = async function (req, res) {
   const dues = await db.Order.find({amountDue:{ $gt:0}}).populate('products.product').populate('delivery_location').populate('userId');
   res.render("dues", { dues:dues });
 };
+
+exports.banner = async function (req, res) {
+  const banner = await db.Banner.find({});
+  console.log(banner.length);
+  res.render("banner", { banner:banner,cansearch:false });
+};
+
+exports.bannerUpdate = async function (req, res) {
+  await db.Banner.findOneAndUpdate({_id:req.params.bid},{$set:{image:req.body.image}});
+  res.redirect("/shop/banner");
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
