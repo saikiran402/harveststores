@@ -129,7 +129,7 @@
                                                 <input type="text" style="border: 0;" name="products" data-placement="left" data-toggle="tooltip" data-html="true" title="
                                                 <%item.products.forEach(list=>{%>
                                                    
-                                                <%=list.product.product_name%> - <%=list.product.quantity%> X <%=list.count%><br>
+                                                <%=list.product_name%> - <%=list.quantity%> X <%=list.count%><br>
                                                 <%});%>
                                       
                                                 "
@@ -148,14 +148,9 @@
                                            
                                             <td><%=item.status%>
                                             </td>
-                                            <%if(item.delivery_location.location.coordinates){%>
-                                            <td>
-                                                <a href="https://www.google.com/maps/@<%=item.delivery_location.location.coordinates[1]%>,<%=item.delivery_location.location.coordinates[0]%>,19.01z" target="blank">show Location
-                                            </td></a>
-                                            <%}else{%>
+                                            
                                                 <td>Not Found
                                                 </td>
-                                                <%}%>
                                             <td><%=item.payment_method%>
                                             </td>
                                             <%if(item.status === "pending"){%>

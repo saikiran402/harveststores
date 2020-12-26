@@ -302,7 +302,7 @@ exports.delivered = async function (req, res) {
 
 exports.getpendingforadmin = async function (req, res) {
   const data = await db.Order.find({ status: { $ne: "Delivered" } }).populate('products.product').populate('delivery_location');
-
+console.log(data);
   res.render('showOrders', { data: data, msg: "",cansearch:false })
 };
 
@@ -384,7 +384,7 @@ if(product.length>0){
 
 exports.showDues = async function (req, res) {
   const dues = await db.Order.find({amountDue:{ $gt:0}}).populate('products.product').populate('delivery_location').populate('userId');
-  res.render("dues", { dues:dues });
+  res.render("dues", { dues:dues,cansearch:false });
 };
 
 exports.banner = async function (req, res) {
@@ -400,7 +400,45 @@ exports.bannerUpdate = async function (req, res) {
 
 
 
+exports.sendFCM = async function (req, res) {
+ var a =  await db.User.find({});
+  res.render("fcm", { fcm:a,cansearch:false });
+};
 
+
+
+
+exports.sendOnPost = async function (req, res) {
+
+
+  if(req.body.secretcode == '9051'){
+ var a =  await db.User.find({});
+var token = [];
+ a.forEach(list=>{
+    if(list.registrationToken){
+      token.push(list.registrationToken)
+    }
+ })
+// var token  = 'dF5SqNwaSr6ZpPGAxodNfe:APA91bGWJpAMjjG0KOX1sjbcUlRM7wv9a5Ej4eatVEP8kDSnNwOv4iFpEbOcvGBPwTuJOYkNrb7f82Jmg6HAHkFkApZrtnKRl__V0r1SefPX0ATatKrOR8oJYMEOcjtS4c529xNHbqxL';
+//  // var title = 'Get 50/- off on first order';
+//  // var body = 'Order Now on harvest and get 50 Rs off';
+  var title = req.body.title;
+ var body = req.body.body;
+ token.forEach(list=>{
+  sendFcm(list,title,body);
+})
+  sendFcm(token,title,body);
+console.log(token)
+console.log(token.length)
+
+}else{
+    return res.redirect("/shop/notify");
+}
+
+ 
+
+
+};
 
 
 
