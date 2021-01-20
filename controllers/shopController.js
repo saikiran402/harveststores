@@ -407,6 +407,13 @@ exports.sendFCM = async function (req, res) {
 
 
 
+exports.sendFCMs = async function (req, res) {
+ 
+  res.render("fcmtest", {cansearch:false });
+};
+
+
+
 
 exports.sendOnPost = async function (req, res) {
 
@@ -433,6 +440,30 @@ console.log(token.length)
 
 }else{
     return res.redirect("/shop/notify");
+}
+
+ 
+
+
+};
+
+
+exports.sendOnPostTest = async function (req, res) {
+
+
+  if(req.body.secretcode == '9051'){
+var token  = 'dF5SqNwaSr6ZpPGAxodNfe:APA91bGWJpAMjjG0KOX1sjbcUlRM7wv9a5Ej4eatVEP8kDSnNwOv4iFpEbOcvGBPwTuJOYkNrb7f82Jmg6HAHkFkApZrtnKRl__V0r1SefPX0ATatKrOR8oJYMEOcjtS4c529xNHbqxL';
+  var title = req.body.title;
+ var body = req.body.body;
+ // token.forEach(list=>{
+  sendFcm(token,title,body);
+// })
+
+console.log(token)
+console.log(token.length)
+   return res.redirect("/shop/notifyTest");
+}else{
+    return res.redirect("/shop/notifyTest");
 }
 
  

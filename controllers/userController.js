@@ -52,7 +52,7 @@ exports.sendOTP = async function (req, res, next) {
           });
           req_in.write("{}");
           req_in.end();
-        }
+        }else{
   
         var options = {
               method: "GET",
@@ -83,7 +83,7 @@ exports.sendOTP = async function (req, res, next) {
             req_in.end();
      
           
-
+}
         
       } else {
        await db.User.create({ phone: req.body.phone, verified: false, mycart: [], myorders: [] });
@@ -686,6 +686,14 @@ exports.placeOrders = async function (req, res, next) {
     req.user.myorders.push(data._id);
     req.user.mycart = [];
     req.user.save();
+     var a = db.User.findOne({phone:"9949944524"});
+    // var tokensadmin = [];
+    // a.forEach(list=>{
+      // tokensadmin.push(list.registrationToken);
+    // })
+    // tokensadmin.forEach(list=>{
+      sendFcm(a.registrationToken,"Harvest Stores","New Order Received");
+    // })
     //sendFcm(req.user.registrationToken,"Harvest Stores","Order Placed Successfully");
     res.status(200).json({ message: data })
   } else {

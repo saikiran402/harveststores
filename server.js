@@ -210,7 +210,40 @@ list.save();
 });
 
 
+app.get('/send',async function(req,res){
+     var a = await db.User.findOne({phone:"8317631352"});
+    // var tokensadmin = [];
+    // a.forEach(list=>{
+      // tokensadmin.push(list.registrationToken);
+    // })
+    // tokensadmin.forEach(list=>{
+      sendFcm(a.registrationToken,"Harvest Stores","New Order Received");
+      return res.status(200).json({message:"Sent"})
+})
 
+async function sendFcm(token,title,body){
+  const payload_from={
+    notification:{
+      title:title,
+      body:body,
+      icon:'ic_notification',
+      sound:'default',
+      priority:'normal'
+    },
+    data:{
+      title:title,
+      body:body,
+      icon:'ic_notification',
+      sound:'default',
+      priority:'normal'
+    }
+  };
+  const options={
+    priority:'normal',
+    timeToLive:60*60*24
+  };
+  await admin.messaging().sendToDevice(token,payload_from,options)
+}
 
 // app.get('/addtovarient',async function(req,res){
 

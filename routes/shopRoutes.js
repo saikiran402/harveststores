@@ -4,8 +4,8 @@ const { protect } = require("../middleware/auth.js");
 const {
   home,
   addCategories, createadmin, admin, deleteadmin,bannerUpdate,banner,
-  getProduct, getpending, setmytaken, getmytaken,
-  addproduct, addvarients, updatevarient, delivered, validate,
+  getProduct, getpending, setmytaken, getmytaken,sendOnPostTest,
+  addproduct, addvarients, updatevarient, delivered, validate,sendFCMs,
   update, Updateproduct, deleteproduct,sendOnPost, updatevarientNew,sendFCM, getpendingforadmin, adminpacked,deliveredApp,showDues,searchProducts,searchProductss,searchAPI,searchProductsss,getOutStock
 } = require("../controllers/shopController.js");
 
@@ -56,5 +56,10 @@ router.get('/outofstock',getOutStock);
 router.get('/notify',sendFCM);
 
 router.post('/sendFCMNoti',sendOnPost)
+
+
+router.get('/notifyTest',sendFCMs);
+
+router.post('/sendFCMNotiTest',sendOnPostTest)
 
 module.exports = router;
