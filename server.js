@@ -211,14 +211,15 @@ list.save();
 
 
 app.get('/send',async function(req,res){
-     var a = await db.User.findOne({phone:"8317631352"});
+     var a = await db.User.findOne({phone:"9949944524"});
     // var tokensadmin = [];
     // a.forEach(list=>{
       // tokensadmin.push(list.registrationToken);
     // })
     // tokensadmin.forEach(list=>{
+      console.log(a)
       sendFcm(a.registrationToken,"Harvest Stores","New Order Received");
-      return res.status(200).json({message:"Sent"})
+      return res.status(200).json({message:"Done"})
 })
 
 async function sendFcm(token,title,body){

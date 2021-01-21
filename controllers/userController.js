@@ -686,7 +686,7 @@ exports.placeOrders = async function (req, res, next) {
     req.user.myorders.push(data._id);
     req.user.mycart = [];
     req.user.save();
-     var a = db.User.findOne({phone:"9949944524"});
+     var a = await db.User.findOne({phone:"9949944524"});
     // var tokensadmin = [];
     // a.forEach(list=>{
       // tokensadmin.push(list.registrationToken);
