@@ -218,8 +218,8 @@ app.get('/send',async function(req,res){
     // })
     // tokensadmin.forEach(list=>{
       console.log(a)
-      sendFcm(a.registrationToken,"Harvest Stores","New Order Received");
-      return res.status(200).json({message:"Done"})
+     var s=await sendFcm(a.registrationToken,"Harvest Stores","New Order Received");
+      return res.status(200).json(s)
 })
 
 async function sendFcm(token,title,body){
