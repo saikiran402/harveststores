@@ -795,7 +795,8 @@ exports.getproducts = async function (req, res, next) {
     if(req.user.mycart.length > 0){
       console.log("ins")
       const data = await db.Product.find({ type: "product" }).populate('varient').limit(10);
-      for(var cart of req.user.mycart){
+      if(req.user.mycart.length){}
+    for(var cart of req.user.mycart){
         for(var list of data){
         if(list._id.toString() == cart.product._id.toString()){
             list.count = cart.count;       
@@ -811,6 +812,7 @@ exports.getproducts = async function (req, res, next) {
       }
       
     }
+  
         return res.status(200).json(data)
   }else{
     console.log("insss")
@@ -835,3 +837,6 @@ exports.banner = async function (req, res, next) {
   var b = await db.Banner.find({});
   return res.status(200).json(b)
 };
+
+
+

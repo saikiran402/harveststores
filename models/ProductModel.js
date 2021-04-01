@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const mongoosastic = require('mongoosastic');
 const productSchema = new mongoose.Schema({
   category: {
     type: mongoose.Schema.Types.ObjectId,
@@ -23,7 +23,15 @@ const productSchema = new mongoose.Schema({
     ref: "Product",
   }]
 });
+productSchema.plugin(mongoosastic, {
+    "host": "localhost",
+    "port": 9200
+});
 
 const Product = mongoose.model("Product", productSchema);
+
+Product.createMapping((err, mapping) => {
+    console.log('mapping created');
+});
 productSchema.index({ type: 1});
 module.exports = Product;
