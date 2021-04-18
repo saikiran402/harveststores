@@ -4,10 +4,12 @@ var validator = require("validator");
 var http = require('http')
 var uniqid = require('uniqid');
 var admin = require("firebase-admin");
-
+const https = require('https');
 var serviceAccount = require("../firebase.json");
 const { title } = require("process");
-
+const accountSid = 'ACed872c1bb3f451a2d2a5ccc116f25007'; 
+const authToken = '652b515da44e9a55d2d715c676759f84'; 
+const client = require('twilio')(accountSid, authToken); 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://harveststores-6e6a5.firebaseio.com"
@@ -692,7 +694,17 @@ exports.placeOrders = async function (req, res, next) {
       // tokensadmin.push(list.registrationToken);
     // })
     // tokensadmin.forEach(list=>{
+      // console.log(`https://2factor.in/API/R1/?module=TRANS_SMS&apikey=55706bfd-18b7-11ea-9fa5-0200cd936042&to=${order.uid.contact}&from=BUYMNO&templatename=SHIPPED&var1=${pname}&var2=${order.oid}&var3=${odate}&var4=${v4}`);
+    
       sendFcm(a.registrationToken,"Harvest Stores","New Order Received");
+      client.messages 
+      .create({ 
+         body: 'Haevest Stores \n New Order Received ', 
+         from: 'whatsapp:+14155238886',       
+         to: 'whatsapp:+919949944524' 
+       }) 
+      .then(message => console.log(message.sid)) 
+      .done();
     // })
     //sendFcm(req.user.registrationToken,"Harvest Stores","Order Placed Successfully");
     res.status(200).json({ message: data })

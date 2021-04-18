@@ -9,12 +9,17 @@ var admin = require("firebase-admin");
 const {ObjectId} = require('mongodb');
 var serviceAccount = require("./firebase.json");
 const Blob = require("cross-blob");
+const axios = require("axios");
 // admin.initializeApp({
 //   credential: admin.credential.cert(serviceAccount),
 //   databaseURL: "https://harveststores-6e6a5.firebaseio.com"
 // });
+const accountSid = 'ACed872c1bb3f451a2d2a5ccc116f25007'; 
+const authToken = '652b515da44e9a55d2d715c676759f84'; 
+const client = require('twilio')(accountSid, authToken); 
 
 
+const https = require('https');
 const Sentry = require("@sentry/node");
 // or use es6 import statements
 // import * as Sentry from '@sentry/node';
@@ -209,6 +214,43 @@ list.save();
   return res.status(200).json({message:a.length});
 });
 
+
+
+app.get('/sendmessage',async function(req,res){
+  // const options = {
+  //   hostname: '2factor.in',
+  //   path: `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=a3c8bcb1-0643-11eb-9fa5-0200cd936042&to=8008551266&from=HARVST&templatename=HARVST&var1=There`,
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'multipart/form-data'
+  //   }
+  // };
+
+  // await axios.post(`https://2factor.in/API/R1/?module=TRANS_SMS&apikey=a3c8bcb1-0643-11eb-9fa5-0200cd936042&to=8008551266&from=HARVST&templatename=HARVST&var1=There`,{
+  //   headers: {
+  //     'Content-Type': 'multipart/form-data'
+  //   }}).then((resp)=>{
+  //     console.log(resp)
+  //   });
+  // client.messages 
+  // .create({ 
+  //    body: 'Harvest Stores - New Order Received', 
+  //    from: '+12063171942', 
+  //    messagingServiceSid: 'MG39e7d22e1bacbd19602d743c7caf808e',      
+  //    to: '+919949944524' 
+  //  }) 
+  // .then(message => console.log(message.sid)) 
+  // .done();
+  client.messages 
+      .create({ 
+         body: 'Haevest Stores \n New Order Received ', 
+         from: 'whatsapp:+14155238886',       
+         to: 'whatsapp:+919949944524' 
+       }) 
+      .then(message => console.log(message.sid)) 
+      .done();
+  return res.status(200).json({message:"Done"})
+})
 
 app.get('/send',async function(req,res){
 
