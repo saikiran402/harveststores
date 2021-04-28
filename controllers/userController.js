@@ -701,7 +701,7 @@ exports.placeOrders = async function (req, res, next) {
         method: "GET",
         hostname: "2factor.in",
         port: null,
-        path: `/API/V1/${process.env.AUTH_KEY}/SMS/8008551266/AUTOGEN/ORDERRECEIVED`,
+        path: `/API/V1/${process.env.AUTH_KEY}/SMS/9949944524/AUTOGEN/ORDERRECEIVED`,
         headers: {},
       };
     
