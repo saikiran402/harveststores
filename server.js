@@ -11,6 +11,85 @@ var serviceAccount = require("./firebase.json");
 const Blob = require("cross-blob");
 const axios = require("axios");
 var http = require('http')
+var xmpp = require('simple-xmpp');
+var apn = require('apn');
+const { v4: uuidv4 } = require('uuid');
+let uuid = uuidv4();
+var options = {
+  token: {
+    key: "./AuthKey_W7N784P5DU.p8",
+    keyId: "W7N784P5DU",
+    teamId: "BKZH922A79"
+  },
+  production: false
+};
+
+var apnProvider = new apn.Provider(options);
+
+let deviceToken = "edabbfe41a9994397f46aa8b5a9c211312016bafd1831460bad397daf7bb616a"
+
+
+
+// note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
+// note.badge = 3;
+// note.title = 'Test';
+// note.sound = "ping.aiff";
+// note.action = 'Notifications';
+
+// note.titleLocKey = 'Test';
+// note.alert = {
+//   "title" : "Game Request",
+//   "subtitle" : "Five Card Draw",
+//   "body" : "Bob wants to play poker"
+// };
+// note.payload = {'messageFrom': 'John Appleseed'};
+// note.topic = "com.osos.spaarksapps";
+var note = new apn.Notification();
+// note.expiry = 0; // Expires 1 hour from now.
+// note.badge = 5;
+// note.sound = "ping.aiff";
+// note.payload = {"uuid":'678987678-65678909876-98765678-87656789',"handle":'Unknown',"callerName":'Unknown'};
+// note.topic = "com.osos.spaarksapps.voip";
+// note.pushType = 'background';
+// note.userInteraction = true;
+note.expiry = 0; // Expires 1 hour from now.
+note.badge = 1;
+note.sound = "ping.aiff";
+// note.alert = "You have a new incomming call";
+note.pushType = "voip";
+note.payload = {
+  "uuid":uuid,
+  "handle":"genric",
+  "callerName":"Saikiran",
+  "content-available":1
+};
+note.topic = "com.osos.spaarksapps.voip";
+// note.pushType = 'background';
+// note.contentAvailable = 1
+// note.action='userAction';
+// note.setAction('userAction')
+// note.expiry = 0; // Expires 1 hour from now.
+//             note.alert = {
+//               "title" : 'receiver.title',
+//               "body" : 'receiver.body'
+//             };
+//             note.payload = {
+//               postId:'receiver.postId.toString()',
+//               apnType:'PostSpecificScreen',
+//               featureName:'receiver.feature'
+//             };
+
+// note.topic = "net.conversely.app.background";
+
+// apnProvider.send(note, 'edabbfe41a9994397f46aa8b5a9c211312016bafd1831460bad397daf7bb616a').then( (result) => {
+//     // see documentation for an explanation of result
+//     console.log(JSON.stringify(result));
+// });
+
+
+
+// curl -v -d '{"aps":{"alert":"hello"}}' --http2 --cert Certificates.pem:Spaarksweb@2020 https://api.push.apple.com/3/device/229d6e97c88945244ad57dc6061a56f2a43c6ca90ccf432254b492bc5831dab7
+
 // admin.initializeApp({
 //   credential: admin.credential.cert(serviceAccount),
 //   databaseURL: "https://harveststores-6e6a5.firebaseio.com"
@@ -18,6 +97,46 @@ var http = require('http')
 const accountSid = 'ACed872c1bb3f451a2d2a5ccc116f25007'; 
 const authToken = '652b515da44e9a55d2d715c676759f84'; 
 const client = require('twilio')(accountSid, authToken); 
+
+
+
+// xmpp.on('online', function(data) {
+// 	console.log('Connected with JID: ' + data.jid.user);
+// 	console.log('Yes, I\'m connected!');
+// });
+
+// xmpp.on('chat', function(from, message) {
+// 	console.log(from,message)
+// });
+
+// xmpp.on('error', function(err) {
+// 	console.error(err);
+// });
+
+// xmpp.on('subscribe', function(from) {
+// console.log(from)
+// });
+
+// xmpp.setPresence('chat', 'Ready');
+
+// xmpp.connect({
+// 	jid: '6094e7b46e8d967dd5fc5fff@chat.spaarksweb.com',
+// 	password: 'rEJQ1QvDN1',
+// 	host: 'chat.spaarksweb.com',
+// 	port: 5222
+// });
+
+// xmpp.on('stanza', function(stanza) {
+//   console.log(stanza);
+// });
+
+// setTimeout(() => {
+//   xmpp.acceptSubscription('60a629153fb1b60e5931a75b@chat.spaarksweb.com');
+//   xmpp.subscribe('60a629153fb1b60e5931a75b@chat.spaarksweb.com');
+//   var a = xmpp.getRoster();
+//   console.log('Roster----------------------------------',a)
+// }, 2000);
+
 
 
 const https = require('https');
@@ -73,6 +192,19 @@ app.get("/", (req, res) => {
   //res.redirect("/shop");
 });
 
+app.get('/getallp',async function(req,res){
+  var prod = await db.Product.find({});
+  return res.status(200).json(prod)
+});
+
+app.get('/sendapn',async function(req,res){
+  apnProvider.send(note, deviceToken).then( (result) => {
+    // see documentation for an explanation of result
+    console.log(result)
+    return res.status(200).json({message:result})
+  });
+})
+
 app.get("/demo", async(req, res) => {
   // const data = await db.Product.find({type:'product'});
   // for(var i of data){
@@ -104,6 +236,11 @@ app.get("/demo", async(req, res) => {
   res.status(200).json({message:a});
 });
 
+
+app.get('/getorders',async function(req,res){
+  var data = await db.Order.find({});
+  return res.status(200).json({message:data})
+})
 
 // app.get('/adddata', async function(req,res){
 //   let stream = fs.createReadStream("oil.csv");

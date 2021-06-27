@@ -13,6 +13,7 @@
   "dependencies": {
     "@sentry/node": "^5.27.2",
     "@sentry/tracing": "^5.27.2",
+    "apn": "^2.2.0",
     "axios": "^0.20.0",
     "body-parser": "^1.19.0",
     "cloudinary": "^1.23.0",
@@ -31,9 +32,11 @@
     "mongoosastic": "^4.6.0",
     "mongoose": "^5.10.7",
     "morgan": "^1.10.0",
+    "simple-xmpp": "^2.3.1",
     "twilio": "^3.60.0",
     "uniqid": "^5.2.0",
     "util": "^0.12.3",
+    "uuid": "^8.3.2",
     "validator": "^13.1.17"
   }
 }
