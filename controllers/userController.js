@@ -776,7 +776,7 @@ exports.placeOrders = async function (req, res, next) {
     var orderId = uniqid();
     obj = {
       status: "pending",
-      payment_method: "Online",
+      payment_method: "ONLINE",
       paid: true,
       userId: req.user._id,
       orderId: orderId,
