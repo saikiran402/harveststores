@@ -740,7 +740,111 @@ exports.placeOrders = async function (req, res, next) {
     //sendFcm(req.user.registrationToken,"Harvest Stores","Order Placed Successfully");
     res.status(200).json({ message: data })
   } else {
-    res.status(200).json({ message: 'Order placed succesfuly' })
+    var total = 0
+    var cart = [];
+    for (var item of user.mycart) {
+      //console.log(item.product.inStock);
+
+      if (item.product.inStock) {
+        total = total + item.price;
+        cart.push(item);
+      }
+
+    }
+    total1 = total + req.user.amountDue;
+    if(req.user.credits > total1){
+      req.user.credits = req.user.credits - total1;
+      total1 = 0;
+      total=total1;
+      req.user.amountDue = 0;
+    }else{
+      total1 = total1 - req.user.credits;
+      req.user.credits = 0;
+      req.user.amountDue = 0;
+      total=total1;
+    }
+    // if(total1>=0){
+    //   total=total1;
+    //   req.user.credits=0
+      
+    // }else{
+    //   total=0;
+    //   req.user.credits=Number(total1);
+    // }
+    //console.log(cart, total);
+
+    var orderId = uniqid();
+    obj = {
+      status: "pending",
+      payment_method: "Online",
+      paid: true,
+      userId: req.user._id,
+      orderId: orderId,
+      products: cart,
+      order_total: total,
+      delivery_location: user.location,
+      order_created: Date.now(),
+    }
+    const data = await db.Order.create(obj);
+    //console.log(data);
+    // req.user.credits = 0;
+    // req.user.amountDue = 0;
+    req.user.name = req.body.name;
+    req.user.address = req.body.address;
+    req.user.myorders.push(data._id);
+    req.user.mycart = [];
+    req.user.save();
+     var a = await db.User.findOne({phone:"9949944524"});
+    // var tokensadmin = [];
+    // a.forEach(list=>{
+      // tokensadmin.push(list.registrationToken);
+    // })
+    // tokensadmin.forEach(list=>{
+      // console.log(`https://2factor.in/API/R1/?module=TRANS_SMS&apikey=55706bfd-18b7-11ea-9fa5-0200cd936042&to=${order.uid.contact}&from=BUYMNO&templatename=SHIPPED&var1=${pname}&var2=${order.oid}&var3=${odate}&var4=${v4}`);
+    
+      sendFcm(a.registrationToken,"Harvest Stores","New Order Received");
+      var options = {
+        method: "GET",
+        hostname: "2factor.in",
+        port: null,
+        path: `/API/V1/${process.env.AUTH_KEY}/SMS/9949944524/AUTOGEN/ORDERRECEIVED`,
+        headers: {},
+      };
+    
+      // path: `/API/V1/${process.env.AUTH_KEY}/SMS/${phone}/AUTOGEN/SPAARKS`,
+    
+      var req_in = http.request(options, function (res_in) {
+        var chunks = [];
+        res_in.on("data", function (chunk) {
+          chunks.push(chunk);
+        });
+    
+        res_in.on("end", function () {
+          var body = Buffer.concat(chunks);
+          const OTPresponse = JSON.parse(body.toString());
+          if (OTPresponse.Status === "Success") {
+            // res.status(200).json(OTPresponse);
+            return res.status(200).json({message:"Done"})
+          } else {
+            // res.status(400).json(OTPresponse.Details);
+            return res.status(200).json({message:"Done"})
+    
+          }
+        });
+      });
+      req_in.write("{}");
+      req_in.end();
+      // client.messages 
+      // .create({ 
+      //    body: 'New Order Received ', 
+      //    from: 'whatsapp:+14155238886',       
+      //    to: 'whatsapp:+919949944524' 
+      //  }) 
+      // .then(message => console.log(message.sid)) 
+      // .done();
+    // })
+    //sendFcm(req.user.registrationToken,"Harvest Stores","Order Placed Successfully");
+    res.status(200).json({ message: data })
   }
 };
 async function sendFcm(token,title,body){
