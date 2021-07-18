@@ -472,7 +472,7 @@ async function sendFcm(token,title,body){
 var port = process.env.PORT || 3200;
 
 app.listen(port, function () {
-  console.log(`Server is running at the ${port}`);
+  console.log(`Server is runnings at the ${port}`);
 });
 module.exports = app;
 
