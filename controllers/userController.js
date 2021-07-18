@@ -630,6 +630,7 @@ exports.getCartProducts = async function (req, res, next) {
 };
 
 exports.placeOrders = async function (req, res, next) {
+  try{
   const user = await db.User.findOne({ _id: req.user._id }).populate('mycart.product location');
   console.log(user.mycart);
 
@@ -832,8 +833,9 @@ exports.placeOrders = async function (req, res, next) {
           }
         });
       });
-      req_in.write("{}");
-      req_in.end();
+      // req_in.writeHead(200)
+      // req_in.write("{}");
+      // req_in.end();
       // client.messages 
       // .create({ 
       //    body: 'New Order Received ', 
@@ -845,6 +847,9 @@ exports.placeOrders = async function (req, res, next) {
     // })
     //sendFcm(req.user.registrationToken,"Harvest Stores","Order Placed Successfully");
     res.status(200).json({ message: data })
+  }
+  }catch(err){
+    console.log(err)
   }
 };
 async function sendFcm(token,title,body){
