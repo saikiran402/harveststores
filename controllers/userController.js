@@ -151,7 +151,9 @@ exports.sendOTP = async function (req, res, next) {
 };
 exports.verifyOTP = async function (req, res, next) {
   try {
+    console.log(req.body)
     if(req.body.cOtp == '123455'){
+      console.log('Inn')
       try {
         let user = await db.User.findOne({ phone: req.body.phone });
         if (user.isAdmin) {
@@ -168,7 +170,7 @@ exports.verifyOTP = async function (req, res, next) {
             user: user,
             token: token,
             isAdmin: true,
-            OTPresponse: OTPresponse,
+            OTPresponse: "Success",
           });
         } else {
           var id = user._id;
@@ -184,7 +186,7 @@ exports.verifyOTP = async function (req, res, next) {
             user: user,
             token: token,
             isAdmin: false,
-            OTPresponse: OTPresponse,
+            OTPresponse: "Success",
           });
         }
       } catch (error) {
