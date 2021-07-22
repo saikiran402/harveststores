@@ -181,12 +181,15 @@ exports.verifyOTP = async function (req, res, next) {
           user.token = token;
           user.registrationToken = req.body.registrationToken;
           user.save();
+          var OTPresponses={
+            status:"Success"
+          }
           return res.status(200).json({
 
             user: user,
             token: token,
             isAdmin: false,
-            OTPresponse: "Success",
+            OTPresponse: OTPresponses,
           });
         }
       } catch (error) {
