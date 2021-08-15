@@ -719,7 +719,7 @@ exports.placeOrders = async function (req, res, next) {
     //   total=0;
     //   req.user.credits=Number(total1);
     // }
-    //console.log(cart, total);
+    //console.log(cart, total);s
 
     var orderId = uniqid();
     obj = {
