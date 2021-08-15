@@ -302,7 +302,9 @@ exports.updateLocation = async function (req, res, next) {
       location:locations
     }
   
-    await db.Location.create(locc);
+    var loc = await db.Location.create(locc);
+    user.location = loc._id;
+    user.save()
     res.status(200).json({ message: "updated" })
   }
 
