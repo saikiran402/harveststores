@@ -294,7 +294,7 @@ exports.updateLocation = async function (req, res, next) {
   if(user){
     var lo = {type:"Point",coordinates:[req.body.longitude,req.body.latitude]}
   const location = await db.Location.findOneAndUpdate({userId:req.user._id}, { location: lo });
-  res.status(200).json({ message: "updated" })
+  res.status(200).json({ message: "updated existing" })
   }else{
     var locations = {type:"Point",coordinates:[req.body.longitude,req.body.latitude]}
     var locc = {
@@ -303,9 +303,9 @@ exports.updateLocation = async function (req, res, next) {
     }
   
     var loc = await db.Location.create(locc);
-    user.location = loc._id;
-    user.save()
-    res.status(200).json({ message: "updated" })
+    req.user.location = loc._id;
+    req.user.save()
+    res.status(200).json({ message: "updated newly" })
   }
 
   }
