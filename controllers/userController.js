@@ -780,8 +780,6 @@ exports.placeOrders = async function (req, res, next) {
           }
         });
       });
-      req_in.write("{}");
-      req_in.end();
       // client.messages 
       // .create({ 
       //    body: 'New Order Received ', 
