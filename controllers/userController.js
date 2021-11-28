@@ -688,7 +688,6 @@ exports.placeOrders = async function (req, res, next) {
   console.log(user.mycart);
 
   if (req.params.payment_method == 'false') {
-    return res.status(409).json({message:'Store Offline Please try later'})
     var total = 0
     var cart = [];
     for (var item of user.mycart) {
@@ -793,7 +792,7 @@ exports.placeOrders = async function (req, res, next) {
     //sendFcm(req.user.registrationToken,"Harvest Stores","Order Placed Successfully");
     res.status(200).json({ message: data })
   } else {
-    return res.status(409).json({message:'Store Offline Please try later'})
+    // return res.status(200).json({message:'Store Offline Please try later'})
     var total = 0
     var cart = [];
     for (var item of user.mycart) {
