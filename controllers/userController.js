@@ -577,7 +577,7 @@ exports.within = async function (req, res, next) {
   }
 };
 exports.getAllcategories = async function (req, res) {
-  const data = await db.Category.find({}).sort({_id: -1});
+  const data = await db.Category.find({}).sort({order: -1});
   res.status(200).json({ data: data });
 };
 

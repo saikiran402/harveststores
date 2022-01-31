@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 const { protect } = require("../middleware/auth.js");
 const {
-  home,
+  home,updateorder,
   addCategories, createadmin, admin, deleteadmin,bannerUpdate,banner,
   getProduct, getpending, setmytaken, getmytaken,sendOnPostTest,
   addproduct, addvarients, updatevarient, delivered, validate,sendFCMs,
@@ -14,6 +14,8 @@ router.route("/banner").get(banner);
 router.route("/bannerupdate/:bid").post(bannerUpdate);
 router.route("/validate").post(validate);
 router.route("/home").get(home);
+router.route("/updateorder").post(updateorder);
+
 router.route("/update/:id").get(protect, update);
 // Admin add Category
 router.route("/addcategories").post(protect, addCategories);

@@ -431,10 +431,11 @@ app.get('/send',async function(req,res){
     // })
     // tokensadmin.forEach(list=>{
      //  console.log(a)
-     var tok = "ba415ad341ad5800dc5d82737b698fe3b97e0e5a8eede8a970c409908fa612c4";
+     var tok = "dxjQcIBRR3yqY2SAvuuneE:APA91bFB7KVw9CvXjin5kpjV7H-TxpKlyFPDSuDltxLp0xznKp1VoYWmzQDDF_SAa8ilspxXlRhPRYJ_DZmPPuQ6NZRhSCVUmik-w_jM4CCluEDSh_x2Py7n6boRwdxDqNqUyysu1e93";
      var s=await sendFcm(tok,"Harvest Stores","New Order Received");
       return res.status(200).json(s)
 })
+
 
 async function sendFcm(token,title,body){
   const payload_from={
@@ -443,23 +444,25 @@ async function sendFcm(token,title,body){
       body:body,
       icon:'ic_notification',
       sound:'default',
-      priority:'normal'
+      priority:'normal',
+      image:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png'
     },
     data:{
       title:title,
       body:body,
       icon:'ic_notification',
       sound:'default',
-      priority:'normal'
+      priority:'normal',
+      image:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png'
     }
   };
   const options={
     priority:'normal',
     timeToLive:60*60*24
   };
-  await admin.messaging().sendToDevice(token,payload_from,options)
+ var a = await admin.messaging().sendToDevice(token,payload_from,options)
+ console.log(a)
 }
-
 // app.get('/addtovarient',async function(req,res){
 
 //   var a = await db.Product.find({type: "product"});

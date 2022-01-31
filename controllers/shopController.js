@@ -57,6 +57,19 @@ exports.home = async function (req, res) {
   res.render("product-list", { categories: cat,cansearch:false });
 };
 
+
+
+exports.updateorder = async function (req, res) {
+  try {
+ 
+    const cat = await db.Category.findOne({_id:req.body.catId});
+    cat.order = req.body.orderId;
+    cat.save()
+    res.redirect("/shop/home");
+  } catch (err) {
+    res.status(500).json({ message: "error" });
+  }
+};
 exports.addCategories = async function (req, res) {
   try {
     //const data = await cloudinary.uploader.upload(req.body.photo);
@@ -321,14 +334,16 @@ async function sendFcm(token,title,body){
       body:body,
       icon:'ic_notification',
       sound:'default',
-      priority:'normal'
+      priority:'normal',
+      image:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png'
     },
     data:{
       title:title,
       body:body,
       icon:'ic_notification',
       sound:'default',
-      priority:'normal'
+      priority:'normal',
+      image:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png'
     }
   };
   const options={

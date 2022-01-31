@@ -42,7 +42,12 @@
                     <div class="card-body product-box">
                         <div class="img-wrapper">
                             <div class="front">
-                               <input type="text" value="<%=cat.order%>" style="border: none;">
+                                <form action="/shop/updateorder" method="POST">
+                                    <input type="text"  name="orderId" value="<%=cat.order%>" style="border: none;">
+                                    <input type="hidden" name="catId" value="<%=cat._id%>">
+                                    <input type="submit" value="save">
+                                </form>
+                             
                                 <a href="/shop/getproduct?cat=<%=cat._id%>">
                                     <center><img src="<%=cat.image%>" height="150px;"></center>
                                     <!-- <h3><%=cat.image%></h3> -->

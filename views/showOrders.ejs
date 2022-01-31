@@ -116,7 +116,7 @@
                             <tbody>
                                 
                                 <%var i=1;for(var item of data){%>
-                                   
+                                   <%if(item.products && item.products.length){%>
                                        
                                         <tr>
                                             <th scope="row"><%=i%></th>
@@ -126,14 +126,13 @@
                                         </td>
     <%if(item.products.length){%>
                                             <td>
-                                                <input type="text" style="border: 0;" name="products" data-placement="left" data-toggle="tooltip" data-html="true" title="
-                                                <%item.products.forEach(list=>{%>
-                                                   
-                                                <%=list.product_name%> - <%=list.quantity%> X <%=list.count%><br>
-                                                <%});%>
-                                      
-                                                "
+                                                <%if(item.products[0].product != null){%>
+                                                <input type="text" style="border: 0;" name="products" data-placement="left" data-toggle="tooltip" data-html="true" title="<%=item.products[item.products.length-1].product.product_name%>"
                                                     value="<%=item.products.length%>">
+                                                <%}else{%>
+                                                    <input type="text" style="border: 0;" name="products" data-placement="left" data-toggle="tooltip" data-html="true" title=""
+                                                    value="">
+                                                    <%}%>
                                             </td>
                                            <%}else{%>
 
@@ -169,7 +168,7 @@
                                                 <%}%>
                                      
                                         </tr>
-                            
+                            <%}%>
                                 <%i++}%>
 
 
