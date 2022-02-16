@@ -205,6 +205,15 @@ app.get('/sendapn',async function(req,res){
   });
 })
 
+app.get('/clearcart',async function(req,res){
+  const data = await db.User.find({});
+   for(var i of data){
+     i.mycart = [];
+     i.save()
+   }
+  return res.status(200).json('updated succesfully');
+})
+
 app.get("/demo", async(req, res) => {
   // const data = await db.Product.find({type:'product'});
   // for(var i of data){
