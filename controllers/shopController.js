@@ -455,7 +455,7 @@ var token = [];
  token.forEach(list=>{
   sendFcm(list,title,body);
 })
-  sendFcm(token,title,body);
+  // sendFcm(token,title,body);
 console.log(token)
 console.log(token.length)
 
