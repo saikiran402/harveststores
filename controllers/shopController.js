@@ -64,6 +64,7 @@ exports.updateorder = async function (req, res) {
  
     const cat = await db.Category.findOne({_id:req.body.catId});
     cat.order = req.body.orderId;
+    cat.image = req.body.image;
     cat.save()
     res.redirect("/shop/home");
   } catch (err) {
@@ -91,6 +92,16 @@ exports.getProduct = async function (req, res) {
     const cat = await db.Product.find({ category: req.query.cat, type: 'product' }).populate('varient');
     console.log(cat);
     res.render("products", { categories: cat, categoryId: req.query.cat,cansearch:false });
+  } catch (err) {
+    res.status(500).json({ message: "error" });
+  }
+};
+
+exports.getProductEdits = async function (req, res) {
+  try {
+
+    const cat = await db.Product.find({ category: "61c4b8d875bc050018e77d6b", type: 'product' }).populate('varient');
+    res.render("products", { categories: cat, categoryId: "61c4b8d875bc050018e77d6b",cansearch:false });
   } catch (err) {
     res.status(500).json({ message: "error" });
   }

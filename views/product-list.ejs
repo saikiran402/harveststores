@@ -44,6 +44,7 @@
                             <div class="front">
                                 <form action="/shop/updateorder" method="POST">
                                     <input type="text"  name="orderId" value="<%=cat.order%>" style="border: none;">
+                                    <input type="text"  name="image" value="<%=cat.image%>" style="border: none;">
                                     <input type="hidden" name="catId" value="<%=cat._id%>">
                                     <input type="submit" value="save">
                                 </form>
