@@ -1045,7 +1045,7 @@ exports.banner = async function (req, res, next) {
 
 exports.privacyPolicy = async function(req,res,next){
 
-return res.render('policy');
+return res.render('voip.html');
 };
 
 
