@@ -17,11 +17,12 @@ const {
   addToCart,
   getCartProducts,
   banner,
+  privacyPolicy,
   updateCart, updateLocation,getproducts,removeCart,getmyOrders,ongoingOrderapp
 } = require("../controllers/userController.js");
 
 //Authentication
-
+router.route("/privacy-policy").get(privacyPolicy);
 router.route("/updateLocation").post(multipartMiddleware, protect, updateLocation);
 router.route("/sendOTP").post(multipartMiddleware, sendOTP);
 router.route("/resendOTP").post(sendOTP);
