@@ -472,6 +472,10 @@ async function sendFcm(token,title,body){
  var a = await admin.messaging().sendToDevice(token,payload_from,options)
  console.log(a)
 }
+
+app.get('/privacy-policy',async function(req,res){
+  return res.render('policy');
+});
 // app.get('/addtovarient',async function(req,res){
 
 //   var a = await db.Product.find({type: "product"});
