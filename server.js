@@ -12,7 +12,7 @@ const Blob = require("cross-blob");
 const axios = require("axios");
 var http = require('http')
 var xmpp = require('simple-xmpp');
-var apn = require('apn');
+
 const { v4: uuidv4 } = require('uuid');
 let uuid = uuidv4();
 var options = {
@@ -24,7 +24,7 @@ var options = {
   production: false
 };
 
-var apnProvider = new apn.Provider(options);
+// var apnProvider = new apn.Provider(options);
 
 let deviceToken = "edabbfe41a9994397f46aa8b5a9c211312016bafd1831460bad397daf7bb616a"
 
@@ -44,7 +44,7 @@ let deviceToken = "edabbfe41a9994397f46aa8b5a9c211312016bafd1831460bad397daf7bb6
 // };
 // note.payload = {'messageFrom': 'John Appleseed'};
 // note.topic = "com.osos.spaarksapps";
-var note = new apn.Notification();
+// var note = new apn.Notification();
 // note.expiry = 0; // Expires 1 hour from now.
 // note.badge = 5;
 // note.sound = "ping.aiff";
@@ -52,18 +52,18 @@ var note = new apn.Notification();
 // note.topic = "com.osos.spaarksapps.voip";
 // note.pushType = 'background';
 // note.userInteraction = true;
-note.expiry = 0; // Expires 1 hour from now.
-note.badge = 1;
-note.sound = "ping.aiff";
-// note.alert = "You have a new incomming call";
-note.pushType = "voip";
-note.payload = {
-  "uuid":uuid,
-  "handle":"genric",
-  "callerName":"Saikiran",
-  "content-available":1
-};
-note.topic = "com.osos.spaarksapps.voip";
+// note.expiry = 0; // Expires 1 hour from now.
+// note.badge = 1;
+// note.sound = "ping.aiff";
+// // note.alert = "You have a new incomming call";
+// note.pushType = "voip";
+// note.payload = {
+//   "uuid":uuid,
+//   "handle":"genric",
+//   "callerName":"Saikiran",
+//   "content-available":1
+// };
+// note.topic = "com.osos.spaarksapps.voip";
 // note.pushType = 'background';
 // note.contentAvailable = 1
 // note.action='userAction';
