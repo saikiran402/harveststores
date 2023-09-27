@@ -474,7 +474,7 @@ async function sendFcm(token,title,body){
 }
 
 app.get('/privacy-policy',async function(req,res){
-  return res.render('policy');
+  res.render('policy');
 });
 // app.get('/addtovarient',async function(req,res){
 
