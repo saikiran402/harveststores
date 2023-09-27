@@ -36,7 +36,7 @@ exports.validate = async function (req, res) {
 
 
       await res.cookie('jwt', token, {
-        expires: process.env.JWT_EXPIRES_IN,
+        // expires: process.env.JWT_EXPIRES_IN,
         httpOnly: true,
         secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
       });
