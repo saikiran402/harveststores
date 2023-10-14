@@ -473,6 +473,19 @@ async function sendFcm(token,title,body){
  console.log(a)
 }
 
+app.get('/delete-account', (req, res) => {
+    // Get the email ID from the query parameters
+    const emailId = 'https://mail.google.com/mail/u/0/#inbox?compose=new&to=harveststoresphaneendra@gmail.com';
+  
+    // Redirect to the mail app with the email ID
+    if (emailId) {
+      const mailAppUrl = `${emailId}`;
+      res.redirect(mailAppUrl);
+    } else {
+      res.status(400).send('Something went wrong');
+    }
+  });
+
 app.get('/privacy-policy',async function(req,res){
   res.render('policy');
 });
