@@ -3,26 +3,11 @@ const bodyParser = require("body-parser");
 var morgan = require("morgan");
 const app = express();
 moment = require("moment");
-const fs = require("fs");
-const fastcsv = require("fast-csv");
-var admin = require("firebase-admin");
-const {ObjectId} = require('mongodb');
-var serviceAccount = require("./firebase.json");
-const Blob = require("cross-blob");
-const axios = require("axios");
-var http = require('http')
-var xmpp = require('simple-xmpp');
 
-const { v4: uuidv4 } = require('uuid');
-let uuid = uuidv4();
-var options = {
-  token: {
-    key: "./AuthKey_W7N784P5DU.p8",
-    keyId: "W7N784P5DU",
-    teamId: "BKZH922A79"
-  },
-  production: false
-};
+var admin = require("firebase-admin");
+
+var http = require('http')
+
 
 // var apnProvider = new apn.Provider(options);
 
@@ -96,7 +81,6 @@ let deviceToken = "edabbfe41a9994397f46aa8b5a9c211312016bafd1831460bad397daf7bb6
 // });
 const accountSid = 'ACed872c1bb3f451a2d2a5ccc116f25007'; 
 const authToken = '652b515da44e9a55d2d715c676759f84'; 
-const client = require('twilio')(accountSid, authToken); 
 
 
 
@@ -139,13 +123,12 @@ const client = require('twilio')(accountSid, authToken);
 
 
 
-const https = require('https');
 
 
 //routes
 const shopRoutes = require("./routes/shopRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
-const { protect } = require("./middleware/auth.js");
+
 const cookieParser = require('cookie-parser');
 const db  = require("./models");
 app.use(cookieParser());
