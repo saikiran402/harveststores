@@ -140,11 +140,8 @@ const client = require('twilio')(accountSid, authToken);
 
 
 const https = require('https');
-const Sentry = require("@sentry/node");
-// or use es6 import statements
-// import * as Sentry from '@sentry/node';
 
-const Tracing = require("@sentry/tracing");
+
 //routes
 const shopRoutes = require("./routes/shopRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
@@ -160,31 +157,8 @@ app.use(morgan("dev"));
 app.locals.moment = moment;
 const version = "V1.0";
 
-// or use es6 import statements
-// import * as Tracing from '@sentry/tracing';
 
-// Sentry.init({
-//   dsn: "https://fb01474a091247e89364a9ea0ea80fe9@o471689.ingest.sentry.io/5504019",
 
-//   // We recommend adjusting this value in production, or using tracesSampler
-//   // for finer control
-//   tracesSampleRate: 1.0,
-// });
-
-// const transaction = Sentry.startTransaction({
-//   op: "test",
-//   name: "My First Test Transaction",
-// });
-
-// setTimeout(() => {
-//   try {
-//     foo();
-//   } catch (e) {
-//     Sentry.captureException(e);
-//   } finally {
-//     transaction.finish();
-//   }
-// }, 99);
 app.use(`/shop`, shopRoutes);
 app.use(`/user`, userRoutes);
 app.get("/", (req, res) => {
