@@ -446,6 +446,19 @@ app.get('/send',async function(req,res){
 })
 
 
+app.get('/delete-account', (req, res) => {
+    // Get the email ID from the query parameters
+    const emailId = 'https://mail.google.com/mail/u/0/#inbox?compose=new&to=harveststoresphaneendra@gmail.com';
+  
+    // Redirect to the mail app with the email ID
+    if (emailId) {
+      const mailAppUrl = `${emailId}`;
+      res.redirect(mailAppUrl);
+    } else {
+      res.status(400).send('Something went wrong');
+    }
+  });
+
 async function sendFcm(token,title,body){
   const payload_from={
     notification:{
@@ -491,7 +504,6 @@ app.listen(port, function () {
   console.log(`Server is running at the ${port}`);
 });
 module.exports = app;
-
 
 
 
