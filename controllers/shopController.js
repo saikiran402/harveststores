@@ -84,6 +84,35 @@ exports.addCategories = async function (req, res) {
   }
 };
 
+
+async function deleteCategoryById(categoryId) {
+  try {
+    // Use findByIdAndRemove to find and delete the category by its ID
+    const deletedCategory = await db.Category.findByIdAndRemove(categoryId);
+
+    if (!deletedCategory) {
+      // If the category with the specified ID doesn't exist
+      console.log("Category not found.");
+      return;
+    }
+
+    console.log("Category deleted:", deletedCategory);
+  } catch (error) {
+    console.error("Error deleting category:", error);
+  }
+}
+
+exports.deleteCategories = async function(req,res){
+  try{
+
+    // await db.Category.findOneAndRemove({ id:req.params.catId });
+deleteCategoryById(req.params.catId);
+    res.redirect("/shop/home");
+  }catch(err){
+    res.status(500).json({ message: "error" });
+  }
+}
+
 exports.getProduct = async function (req, res) {
   try {
 

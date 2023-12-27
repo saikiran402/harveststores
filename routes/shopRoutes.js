@@ -5,7 +5,7 @@ const {
   home,updateorder,
   addCategories, createadmin, admin, deleteadmin,bannerUpdate,banner,
   getProduct,getProductEdits, getpending, setmytaken, getmytaken,sendOnPostTest,
-  addproduct, addvarients, updatevarient, delivered, validate,sendFCMs,
+  addproduct, addvarients, updatevarient, delivered, validate,sendFCMs,deleteCategories,
   update, Updateproduct, deleteproduct,sendOnPost, updatevarientNew,sendFCM, getpendingforadmin, adminpacked,deliveredApp,showDues,searchProducts,searchProductss,searchAPI,searchProductsss,getOutStock
 } = require("../controllers/shopController.js");
 
@@ -20,6 +20,7 @@ router.route("/update/:id").get(protect, update);
 // Admin add Category
 router.route("/addcategories").post(protect, addCategories);
 router.route("/getproduct").get(protect, getProduct);
+router.route("/deletecategory/:catId").get(protect, deleteCategories);
 
 router.route("/editproducts").get(getProductEdits);
 
